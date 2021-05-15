@@ -15,6 +15,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 3px;
+  cursor: pointer;
+
+  width: 76px;
+  border: 0;
+  padding: 0;
 }
 
 .login__label:hover{

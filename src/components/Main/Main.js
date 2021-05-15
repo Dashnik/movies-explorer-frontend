@@ -1,13 +1,15 @@
 import React from "react";
 import './Main.css';
 import NavTab from './NavTab';
+import AboutProject from './AboutProject';
 
 function Main(props) {
 
   return (
     <>
       <main className="main">
-       <h1>Test</h1>
+        <NavTab/>
+        <AboutProject/>
       </main>
     </>
   );

@@ -2,4 +2,8 @@
     border:1px solid rgb(252, 248, 248) ;
     /* height: 500px;
     max-width: 1140px; */
+    grid-area: main;
+    /* display: grid; 
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr); */
 }

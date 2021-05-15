@@ -9,14 +9,14 @@
     font-size: 12px;
     line-height: 16px;
     color: #FFFFFF;
-    
+    cursor: pointer;
+
+    width: 76px;
+    border: 0;
+    padding: 0;
+    background-color:#202020;
 }
 
 .register__label:hover{
     opacity: 0.6;
-}
-
-.header__link:hover{
-
- 
 }

@@ -6,7 +6,8 @@
 
   display: grid; 
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(3, 1fr);
+  /* grid-template-rows: repeat(3, 1fr); */
+  grid-template-rows: 74px 1500px 172px;
   grid-template-areas:
   "header"
   "main"

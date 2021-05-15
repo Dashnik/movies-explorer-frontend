@@ -1,0 +1,47 @@
+.AboutProject {
+  border: 1px solid snow;
+  height: 608px;
+}
+
+.AboutProject__title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.AboutProject__subtitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
+}
+
+.AboutProject__text {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #ffffff;
+}
+
+
+.AboutProject__progress-backend{
+    width: 228px;
+    height: 36px;
+    background: #3DDC84;
+}
+
+.AboutProject__progress-frontend{
+    width: 912px;
+    height: 36px;
+    background: #303030;
+}
