@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Header from "./Header";
+import './Register.css';
+// import { Link } from "react-router-dom";
+// import Header from "./Header";
 
 function Register(props) {
 
@@ -28,15 +29,15 @@ function Register(props) {
 
   return (
     <>
-       <Header linkName='Войти' 
+       {/* <Header linkName='Войти' 
         link='/mesto-react/sign-in'
-        />
+        /> */}
       <form 
       className="login"
       onSubmit={handlesubmit}
       >
-        <h2 className="login__label">Регистрация</h2>
-        <input 
+        <h2 className="register__label">Регистрация</h2>
+        {/* <input 
         type='text'
         className="login__email" 
         placeholder="Email" 
@@ -59,7 +60,7 @@ function Register(props) {
         <Link to="/mesto-react/sign-in" className="register__text">
           {" "}
           Уже зарегистрированы? Войти
-        </Link>
+        </Link> */}
       </form>
     </>
   );

@@ -1,5 +1,6 @@
 import React from "react";
-import Header from "./Header";
+import './Login.css';
+// import Header from "./Header";
 
 function Login(props) {
 
@@ -27,10 +28,10 @@ function Login(props) {
 
   return (
     <>
-      <Header linkName="Регистрация" link="/sign-up" />
+      {/* <Header linkName="Регистрация" link="/sign-up" /> */}
       <form className="login" onSubmit={handlesubmit}>
-        <h2 className="login__label">Вход</h2>
-        <input
+        <h2 className="login__label">Войти</h2>
+        {/* <input
           className="login__email"
           placeholder="Email"
           onChange={handleChange}
@@ -45,7 +46,7 @@ function Login(props) {
         />
         <button type="submit" className="login__submit">
           Войти
-        </button>
+        </button> */}
       </form>
     </>
   );

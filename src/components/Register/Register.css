@@ -1,0 +1,22 @@
+.login{
+
+}
+
+.register__label{
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    
+}
+
+.register__label:hover{
+    opacity: 0.6;
+}
+
+.header__link:hover{
+
+ 
+}

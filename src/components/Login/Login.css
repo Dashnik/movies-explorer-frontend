@@ -1,0 +1,22 @@
+.login {
+}
+.login__label {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+
+  height: 32px;
+  background-color: #3ddc84;
+  color: #000000;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.login__label:hover{
+    opacity: 0.6;
+}
