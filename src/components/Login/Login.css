@@ -1,27 +1,104 @@
 .login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.login__label {
+
+.login__title {
   font-family: Inter;
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 24px;
+  line-height: 29px;
+  color: #ffffff;
+}
 
-  height: 32px;
-  background-color: #3ddc84;
-  color: #000000;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.login__subtitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8b8b8b;
+  text-align: left;
+}
+
+.login__email {
+  background: #2f2f2f;
+  border-radius: 8px;
+  width: 396px;
+  height: 46px;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  background-color: #2f2f2f;
+  border: #cccccc;
+}
+
+.login__password {
+  background: #2f2f2f;
+  border-radius: 8px;
+  width: 396px;
+  height: 46px;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  background-color: #2f2f2f;
+  border: #cccccc;
+}
+
+.login__submit {
+  width: 396px;
+  height: 45px;
+  background: #4285f4;
   border-radius: 3px;
   cursor: pointer;
 
-  width: 76px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #ffffff;
   border: 0;
-  padding: 0;
 }
 
-.login__label:hover{
-    opacity: 0.6;
+.login__submit:hover {
+  opacity: 0.6;
+}
+
+.link {
+  text-decoration: none;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+
+  text-align: center;
+  color: #4285F4;
+}
+
+.login__text{
+  text-decoration: none;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #8b8b8b;
 }

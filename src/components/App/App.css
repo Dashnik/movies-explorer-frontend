@@ -1,4 +1,4 @@
-.page {
+/* .page {
   text-align: center;
   max-width: 1280px;
   margin-left: auto;
@@ -6,7 +6,7 @@
 
   display: grid; 
   grid-template-columns: 1fr;
-  /* grid-template-rows: repeat(3, 1fr); */
+
   grid-template-rows: 74px 1500px 172px;
   grid-template-areas:
   "header"
@@ -14,4 +14,4 @@
   "footer";
 
   border:springgreen 1px solid;
-}
+} */

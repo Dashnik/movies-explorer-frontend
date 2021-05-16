@@ -1,7 +1,6 @@
-.footer {
+/* .footer {
   border: 1px solid khaki;
   grid-area: footer;
-  /* height: 74px; */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -52,10 +51,8 @@
   line-height: 16px;
   text-align: right;
   color: #ffffff;
-  /* border: violet 1px solid; */
-
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 3;
   grid-row-end: 4;
-}
+} */
