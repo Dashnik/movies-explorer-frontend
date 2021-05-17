@@ -2,16 +2,20 @@ import React from "react";
 import './Main.css';
 import NavTab from './NavTab';
 import AboutProject from './AboutProject';
-import Header from '../Header/Header';
+import Techs from './Techs';
+import AboutMe from './AboutMe';
+import Portfolio from "./Portfolio";
 
 function Main(props) {
 
   return (
     <>
       <main className="main">
-        {/* <Header/>
         <NavTab/>
-        <AboutProject/> */}
+        <AboutProject/>
+        <Techs/>
+        <AboutMe/>
+        <Portfolio/>
       </main>
     </>
   );

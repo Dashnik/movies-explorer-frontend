@@ -1,17 +1,7 @@
-/* .page {
-  text-align: center;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-
-  display: grid; 
-  grid-template-columns: 1fr;
-
-  grid-template-rows: 74px 1500px 172px;
-  grid-template-areas:
-  "header"
-  "main"
-  "footer";
+ .page {
+  background-color: #202020;
+  font-family: Inter, Arial, sans-serif;
+  font-style: normal;
 
   border:springgreen 1px solid;
-} */
+} 

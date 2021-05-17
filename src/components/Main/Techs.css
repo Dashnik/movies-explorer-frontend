@@ -1,0 +1,61 @@
+.techs {
+  display: flex;
+  flex-direction: column;
+  background:  #272727;
+
+}
+
+.techs__title {
+  height: 40px;
+  border-bottom: 1px solid #dadada;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.techs__topic {
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 58px;
+  text-align: center;
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
+}
+
+.techs__subtopic {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.techs__container {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.techs__link {
+  width: 90px;
+  height: 60px;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
+  background: #303030;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}

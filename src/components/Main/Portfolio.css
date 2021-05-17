@@ -1,0 +1,20 @@
+.portfolio {
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.portfolio__title {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  color: #8b8b8b;
+  mix-blend-mode: normal;
+}
+
+.portfolio__subtitle {
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 50px;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}

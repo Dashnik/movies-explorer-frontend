@@ -1,14 +1,23 @@
 import React from 'react';
 import './Header.css';
 import logo from '../../images/header__logo.svg';
+import { Link } from "react-router-dom";
 
 function Header(props) {
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="логотип дипломной работы" />
-      <h2 className="header__logo" >{props.title}</h2>
+      <Link to="/sign-up" className="header__signup">
+          {/* {" "} */}
+          {props.signup} 
+        </Link>
+        <Link to="/sign-in" className="header__signin">
+          {/* {" "} */}
+           {props.login}
+        </Link>
     </header>
   );
 }
+
 
 export default Header;
