@@ -3,10 +3,11 @@
   border-radius: 10px;
   height: 493px;
   margin-left: 40px;
-  margin-right: 40px;
+  margin-right: 40px; 
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 1200px;
 }
 
 .NavTab__title {

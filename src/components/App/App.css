@@ -4,4 +4,7 @@
   font-style: normal;
 
   border:springgreen 1px solid;
-} 
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
