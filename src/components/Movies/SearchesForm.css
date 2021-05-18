@@ -1,0 +1,50 @@
+.searches {
+  display: grid;
+  grid-template-columns: 70px 34px 340px 320px 147px 140px 62px 61px 70px;
+  grid-template-rows: 70px 49px 30px 20px 48px;
+}
+
+.search__movies {
+  grid-row: 3;
+  grid-column: 4/5;
+
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  color: #ffffff;
+}
+
+.searches__logo {
+  width: 34px;
+  height: 34px;
+}
+
+.searches__logo1 {
+  grid-row: 2;
+  grid-column: 2/3;
+}
+
+.searches__logo2 {
+  grid-row: 2;
+  grid-column: 8/9;
+}
+
+.searches__line {
+  grid-row: 2;
+  grid-column: 2/9;
+  border-bottom: 1px solid #dadada;
+}
+
+.searches__input {
+  grid-row: 2;
+  grid-column: 3/8;
+
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 34px;
+  /* identical to box height */
+  background-color: #202020;
+  text-align: center;
+  border: 0;
+  color: #8b8b8b;
+}

@@ -1,13 +1,15 @@
 import React from 'react';
 import './Movies.css';
+import SearchesForm from './SearchesForm';
+import MoviesCard from './MoviesCard';
+import PreLoader from './Preloader';
 
 function Movies () {
   return (
     <div className="movies">
-      <h2>Emoji Critic — всё об эмодзи</h2>
-      <p>
-        #1 среди авторов обзоров на эмодзи в этом году!
-      </p>
+      <SearchesForm></SearchesForm>
+      <MoviesCard></MoviesCard>
+      <PreLoader></PreLoader>
     </div>
   )
 }
