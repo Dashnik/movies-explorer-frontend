@@ -4,6 +4,9 @@ import logo from '../../images/header__logo.svg';
 import { Link } from "react-router-dom";
 
 function Header(props) {
+
+  const isLogin = false;
+
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="логотип дипломной работы" />

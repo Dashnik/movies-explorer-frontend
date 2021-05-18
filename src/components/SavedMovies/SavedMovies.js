@@ -1,13 +1,13 @@
 import React from 'react';
 import './SavedMovies.css';
+import SearchesForm from '../Movies/SearchesForm';
+import MoviesCard from './MoviesCard';
 
 function SavedMovies () {
   return (
     <div className="savedMovies">
-      <h2>Emoji Critic — всё об эмодзи</h2>
-      <p>
-        #1 среди авторов обзоров на эмодзи в этом году!
-      </p>
+    <SearchesForm></SearchesForm>
+    <MoviesCard></MoviesCard>
     </div>
   )
 }
