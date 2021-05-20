@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function Header(props) {
 
-  const isLogin = true;
+  const isLogin = false;
   if (isLogin){
     return (
       <header className="header">
@@ -22,19 +22,20 @@ function Header(props) {
   } else {
     return (
       <header className="header header-movies">
-          <Link to="/" >
+          <Link to="/" className="header__logo">
             <img className="header__logo" src={logo} alt="логотип дипломной работы" />
           </Link>
         <div className='header__container'>
           <Link to="/movies" >
-            <div className='header__title'>Фильмы</div>
+            <button className='header__title'>Фильмы</button>
           </Link>
-          <Link to="/saved-movies" >
-            <div className='header__title'>Сохраненные фильмы</div>
+          <Link to="/saved-movies"  >
+            <button className='header__title'>Сохраненные фильмы</button>
           </Link>
         </div>
         <Link to="/profile" className="header__account">
-         <img className="header__account" src={account} alt="логотип аккаунта" />       
+         {/* <img className="header__account" src={account} alt="логотип аккаунта" />        */}
+         <div className="header__account"/>       
         </Link>
       </header>
     );
