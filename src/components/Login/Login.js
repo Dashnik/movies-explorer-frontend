@@ -40,7 +40,7 @@ function Login(props) {
         <h2 className="login__title">Рады видеть!</h2>
         <form className="login__form">
           <p className="login__subtitle">E-mail</p>
-          <input className="login__email" name="login__email" />
+          <input type='text' className="login__email" name="login__email" />
           <p className="login__subtitle">Пароль</p>
           <input
             type="password"

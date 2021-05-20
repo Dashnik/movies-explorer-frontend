@@ -56,9 +56,7 @@
   text-decoration: none;
   cursor: pointer;
 }
-.test{
-  text-decoration: none;
-}
+
 .header__container {
   grid-column: 2/3;
   display: flex;
