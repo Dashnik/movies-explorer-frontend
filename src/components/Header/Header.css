@@ -1,23 +1,22 @@
- .header {
+.header {
   display: grid;
-  grid-template-columns:  1fr 107px 77px 70px;
-  /* grid-template-columns:  70px 107px 77px 70px; */
-  align-content: center; 
+  grid-template-columns: 1fr 107px 77px 70px;
+  align-content: center;
   margin: 0;
   margin-top: 18px;
-  margin-bottom: 18px; 
+  margin-bottom: 18px;
   border: tomato 1px solid;
 }
 
+.header-movies {
+  display: grid;
+  grid-template-columns: 1fr 212px 364px 100px 70px;
+}
+
 .header__logo {
-
-  /* grid-row: 1;
-  grid-column: 2/3;
-  margin: 0; */
-
   width: 38px;
   height: 38px;
-  margin-left: 70px; 
+  margin-left: 70px;
 }
 
 .header__signup {
@@ -45,7 +44,36 @@
   justify-content: center;
   text-decoration: none;
   color: #000000;
-  /* margin-right: 70px; */
+}
+
+.header__title {
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: right;
+
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.test{
+  text-decoration: none;
+}
+.header__container {
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.header__account {
+  grid-column: 4/5;
+}
+
+.header__account:hover {
+  opacity: 0.6;
 }
 
 .header__signin:hover {
@@ -54,4 +82,8 @@
 
 .header__signup:hover {
   opacity: 0.6;
-} 
+}
+
+.header__title:hover {
+  opacity: 0.6;
+}

@@ -9,6 +9,7 @@ import Header from "../Header/Header";
 import Movies from "../Movies/Movies";
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile';
+import PageNotFound from '../PageNotFound';
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
           <Register />
         </Route>
         <Route path="/movies">
-          <Header login="Войти" signup="Регистрация" />
+          <Header />
           <Movies />
           <Footer />
         </Route>
@@ -34,6 +35,9 @@ function App() {
         <Route path="/profile">
           <Header login="Войти" signup="Регистрация" />
           <Profile/>
+        </Route>
+        <Route path="/error">
+       <PageNotFound></PageNotFound>
         </Route>
         <Route path="/">
           <Header login="Войти" signup="Регистрация" />

@@ -5,7 +5,7 @@ import './PreLoader.css';
 function PreLoader () {
   return (
     <div className="preLoader">
-   <button className='preLoader__submit'>Ещё</button>
+   <button type="submit" className='preLoader__submit'>Ещё</button>
     </div>
   )
 }

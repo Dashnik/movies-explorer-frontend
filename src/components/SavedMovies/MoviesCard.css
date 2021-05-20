@@ -42,13 +42,27 @@
     color: #8b8b8b;
   }
   
-  .card__bookmark {
-  
+  .card__submit{
     grid-row: 2;
     grid-column: 3/4;
+  
     margin: 0;
+    padding: 0;
+    cursor: pointer;
+    z-index: 100;
+    border: 0;
+    width: 30px;
+    height: 30px;
+    background: #313131;
+    border-radius: 36px;
   }
-  .card__bookmark:hover {
+  
+  .card__submit:hover{
     opacity: 0.6;
   }
   
+
+  .card__close{
+    width: 10px;
+    height: 10px;
+  }

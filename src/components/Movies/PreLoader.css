@@ -21,4 +21,9 @@
     border-radius: 8px;
     
     color: #FFFFFF;
+    cursor: pointer;
+}
+
+.preLoader__submit:hover{
+    opacity: 0.6;
 }

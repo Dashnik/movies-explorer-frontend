@@ -1,6 +1,6 @@
 .profile {
   display: grid;
-  grid-template-columns: 435px 360px 50px 140px;
+  grid-template-columns: 435px 360px 50px 140px 295px;
   grid-template-rows: 74px 29px 123px 30px 17px 14px 220px 32px 16px 70px;
 }
 
@@ -11,10 +11,7 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
-  /* identical to box height */
-
   text-align: center;
-
   color: #ffffff;
 }
 
@@ -57,6 +54,8 @@
   margin: 0;
   border: 0;
   background-color: #202020;
+  z-index: 100;
+  border-bottom: 1px solid white;
 }
 
 .profile__edit {

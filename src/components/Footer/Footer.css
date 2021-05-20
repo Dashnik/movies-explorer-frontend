@@ -11,18 +11,11 @@
   grid-row: 4;
   grid-column: 2/3;
   margin: 0;
-
-  /* font-family: Inter;
-  font-style: normal; */
   font-weight: normal;
   font-size: 13px;
   line-height: 16px;
   color: #FFFFFF;
-  /* display: flex;
-  flex-direction: row;
-  justify-content: left; */
   align-content: center;
-  /* margin-right: 600px; */
 }
 
 .footer__title {
@@ -30,17 +23,11 @@
   grid-row: 2;
   grid-column: 4/5;
   margin: 0;
-
-  /* font-family: Inter;
-  font-style: normal; */
   font-weight: normal;
   font-size: 13px;
   line-height: 16px;
   text-align: center;
   color: #8b8b8b;
-  /* margin-top: 79px; */
-  /* height: 40px; */
-  /* border-bottom: 1px solid #dadada; */
 }
 
 .footer__line{
@@ -50,8 +37,6 @@
 }
 
 .footer__link {
-  /* font-family: Inter;
-  font-style: normal; */
   margin: 0;
   font-weight: normal;
   font-size: 13px;
