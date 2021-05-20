@@ -17,14 +17,14 @@ function Register(props) {
         </Link>
         <h2 className="register__title">Добро пожаловать!</h2>
         <form className="register__form">
-          <span className="register__subtitleName">Имя</span>
-          <input type='text' className="register__name"/>
-          <span className="register__subtitleEmail">E-mail</span>
-          <input type='text' className="register__email"/>
-          <span className="register__subtitlePWD">Пароль</span>
+          <span className="register__subtitle register__subtitle-name">Имя</span>
+          <input type='text' className="register__input register__input-name"/>
+          <span className="register__subtitle register__subtitle-email">E-mail</span>
+          <input type='text' className="register__input register__input-email"/>
+          <span className="register__subtitle register__subtitle-pwd">Пароль</span>
           <input
             type="password"
-            className="register__password"
+            className="register__input register__input-pwd"
           />
           <button type="submit" className="register__submit">
             Зарегистрироваться

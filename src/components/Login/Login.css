@@ -44,8 +44,7 @@
   grid-row: 3;
 }
 
-.login__email {
-  grid-row: 2;
+.login__input{
   margin: 0;
   background: #2f2f2f;
   border-radius: 8px;
@@ -57,20 +56,12 @@
   background-color: #2f2f2f;
   border: 0;
 }
+.login__input-email {
+  grid-row: 2;
+}
 
-.login__password {
+.login__input-pwd {
   grid-row: 4;
-  margin: 0;
-  background: #2f2f2f;
-  border-radius: 8px;
-  /* width: 396px; */
-  height: 46px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 16px;
-  color: #ffffff;
-  background-color: #2f2f2f;
-  border: #cccccc;
 }
 
 .login__submit {

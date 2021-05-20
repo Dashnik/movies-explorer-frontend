@@ -40,11 +40,11 @@ function Login(props) {
         <h2 className="login__title">Рады видеть!</h2>
         <form className="login__form">
           <p className="login__subtitle">E-mail</p>
-          <input type='text' className="login__email" name="login__email" />
+          <input type='text' className="login__input login__input-email"/>
           <p className="login__subtitle">Пароль</p>
           <input
             type="password"
-            className="login__password"
+            className="login__input login__input-pwd"
             name="login__password"
           />
           <button type="submit" className="login__submit">
