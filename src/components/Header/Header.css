@@ -5,12 +5,11 @@
   margin: 0;
   margin-top: 18px;
   margin-bottom: 18px;
-  border: tomato 1px solid;
 }
 
 .header-movies {
   display: grid;
-  grid-template-columns: minmax(30px, 70px) 38px 1fr 212px 1fr 100px minmax(30px,70px);
+  grid-template-columns: minmax(14px, 70px) 38px 1fr 212px 1fr 100px minmax(14px,70px);
 }
 
 .header__logo {
@@ -102,6 +101,21 @@
     width: 44px;
     height: 44px;
     justify-self: right;
+  }
+
+  .header__container{
+    display: none;
+  }
+  
+}
+
+@media screen and (max-width: 400px) {
+
+  .header-movies{
+    grid-template-columns: 14px 204px 14px;
+  }
+  .header__account{
+    justify-self: center;
   }
 
 }

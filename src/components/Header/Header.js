@@ -34,7 +34,6 @@ function Header(props) {
           </Link>
         </div>
         <Link to="/profile" className="header__account">
-         {/* <img className="header__account" src={account} alt="логотип аккаунта" />        */}
          <div className="header__account"/>       
         </Link>
       </header>
