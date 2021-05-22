@@ -39,7 +39,8 @@
 
   margin-right: 10px;
   margin-top: 151px;
-  
+  text-decoration: none;
+  text-align: center;
 }
 
 .NavTab__link:hover{
@@ -49,4 +50,5 @@
 .NavTab__container{
  display: flex;
  flex-direction: row; 
+ list-style-type: none;
 }

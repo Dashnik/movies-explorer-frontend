@@ -1,5 +1,6 @@
 import React from "react";
 import './NavTab.css';
+import { Link } from "react-router-dom";
 
 function NavTab(props) {
 
@@ -7,11 +8,11 @@ function NavTab(props) {
     <>
       <div className="NavTab">
        <h1 className='NavTab__title'>Учебный проект студента факультета Веб-разработки.</h1>
-         <div className='NavTab__container' >
-         <button className='NavTab__link'>О проекте</button>
-         <button className='NavTab__link'>Технологии</button>
-         <button className='NavTab__link'>Студент</button>
-        </div>
+         <ul className='NavTab__container' >
+          <li className='NavTab__link'>О проекте</li>
+          <li className='NavTab__link'>Технологии</li>
+          <li className='NavTab__link'>Студент</li>
+        </ul>
       </div>
     </>
   );

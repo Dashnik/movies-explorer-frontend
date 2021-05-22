@@ -1,29 +1,40 @@
 .searches {
+  grid-area: 1/2/2/3 ;
   display: grid;
-  grid-template-columns: 70px 34px 340px 320px 147px 140px 62px 97px 70px;
-  grid-template-rows: 70px 49px 30px 20px 48px;
+  grid-template-columns: minmax(292px,1140px);
+  grid-template-rows: 70px 98px 48px;
+}
+
+.searches-form{
+  grid-area: 2/1/2/2;
+  display: grid;
+  grid-template-columns: 1fr 174px 1fr;
+  grid-template-rows: 55px 48px;
 }
 
 .search__movies {
-  grid-row: 3;
-  grid-column: 4/5;
-
+  grid-row: 2;
+  grid-column: 2/3;
+  margin: 0;
   font-weight: normal;
   font-size: 14px;
   line-height: 18px;
   color: #ffffff;
+  align-self: center;
+  justify-self: right;
 }
 
 .searches__logo {
   width: 34px;
   height: 34px;
-  grid-row: 2;
-  grid-column: 2/3;
+  grid-row: 1;
+  grid-column: 1/2;
+  z-index: 100;
 }
 
 .searches__submit {
-  grid-row: 2;
-  grid-column: 8/9;
+  grid-row: 1;
+  grid-column: 2/4;
   width: 34px;
   height: 34px;
   background: #4285f4;
@@ -31,6 +42,7 @@
   border: 0;
   cursor: pointer;
   justify-self: right;
+  z-index: 100;
 }
 
 .searches__submit:hover {
@@ -51,37 +63,39 @@
 }
 
 .searches__input {
-  grid-row: 2;
-  grid-column: 3/8;
+  grid-row: 1;
+  grid-column: 1/4;
 
   font-weight: 500;
   font-size: 28px;
-  line-height: 34px;
+  line-height: 34px; 
   background-color: #202020;
   text-align: center;
   border: 0;
   color: #8b8b8b;
-  z-index: 1000;
   border-bottom: 1px solid #dadada;
 }
-
+/* Переключатель - коробка вокруг ползунка */
 .switch {
-  grid-row: 3;
-  grid-column: 4/5;
-
+  grid-row: 2;
+  grid-column: 2/3;
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 36px; 
+  height: 20px;
+  align-self: center;
 }
 
+/* Скрыть флажок HTML по умолчанию */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
+/* Ползунок */
 .slider {
+
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -89,42 +103,42 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 16px;
+  width: 16px; 
+  left: 2px;
+  bottom: 2px;
   background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 input:checked + .slider {
-  background: #3ddc84;
-  border-radius: 20px;
+  background-color: #3DDC84;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #3ddc84;
+  box-shadow: 0 0 1px #2196F3;
 }
 
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  transform: translateX(12px);
 }
 
-/* Rounded sliders */
+/* Закругленные ползунки */
 .slider.round {
-  border-radius: 34px;
+ border-radius: 34px; 
 }
 
 .slider.round:before {
   border-radius: 50%;
 }
+

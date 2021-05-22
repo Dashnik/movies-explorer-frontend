@@ -7,7 +7,7 @@ import closeIcon from '../../images/icon_close.svg';
 function MoviesCard () {
 
   return (
-    <div className="moviesCard">
+    <>
       <div className='card'>
           <div className='card__container'>
             <h2 className='card__title'>33 слова о дизайне</h2>
@@ -28,7 +28,7 @@ function MoviesCard () {
           </div>
           <img className='card__image' src={image}/>   
       </div>
-    </div>
+    </>
   )
 }
 
