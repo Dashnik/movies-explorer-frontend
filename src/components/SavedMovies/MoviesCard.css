@@ -1,14 +1,3 @@
-/* .moviesCard {
-  display: grid;
-  max-width: 1140px;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fill, 364px);
-  column-gap: 24px;
-  row-gap: 18px;
-  margin-bottom: 140px;
-  justify-content: center;
-} */
-
 .card__container {
   display: grid;
   grid-template-columns: 14px 294px 56px;

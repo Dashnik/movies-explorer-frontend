@@ -3,10 +3,20 @@ import './Header.css';
 import logo from '../../images/header__logo.svg';
 import account from '../../images/Account.svg';
 import { Link } from "react-router-dom";
+import SideBar from './SideBar/SideBar';
 
 function Header(props) {
 
+  const [isSideBarOpen, setSideBar] = React.useState(false)
+  // const [isLittleExtension, setIsLittleExtension] = React.useState(false);
+
+  function handleMenuButtonClick(){
+    setSideBar(!isSideBarOpen);
+  }
+
   const isLogin = false;
+  const isLittleExtension = false;
+
   if (isLogin){
     return (
       <header className="header">
@@ -21,6 +31,7 @@ function Header(props) {
     );
   } else {
     return (
+      <>
       <header className="header header-movies">
           <Link to="/" className="header__logo">
             <img className="header__logo" src={logo} alt="логотип дипломной работы" />
@@ -33,10 +44,14 @@ function Header(props) {
             <button className='header__title'>Сохраненные фильмы</button>
           </Link>
         </div>
-        <Link to="/profile" className="header__account">
-         <div className="header__account"/>       
-        </Link>
+          <button className="menu__button" onClick={handleMenuButtonClick}>
+          <div className="menu__button"/>
+        </button>
+          <Link to="/profile"  >
+          </Link>
       </header>
+      {/* <SideBar  isOpen={isSideBarOpen}></SideBar> */}
+    </>
     );
   }
 

@@ -2,4 +2,16 @@
     margin-top: 38px; 
     border:1px solid rgb(252, 248, 248) ;
     max-width: 1280px ;
+
+    
+    display: grid;
+    grid-template-columns: 70px 1140px 70px;
+    grid-template-rows: 493px 608px 625px 554px 525px;
 }
+
+@media screen and (max-width: 800){
+    .main{
+    grid-template-columns: 50px 1140px 50px;
+    }
+}
+    

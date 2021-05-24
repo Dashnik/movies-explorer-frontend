@@ -69,15 +69,16 @@
 
 }
 
-.header__account {
+.menu__button {
   grid-column: 6/7;
   background-image: url('../../images/Account.svg');
   background-repeat: no-repeat;
-
+  background-color: #202020;
+  border: 0;
 }
 
 
-.header__account:hover {
+.menu__button:hover {
   opacity: 0.6;
 }
 
@@ -95,7 +96,7 @@
 
 
 @media screen and (max-width: 800px) {
-  .header__account {
+  .menu__button {
     background-image: url('../../images/burger.svg');
     background-repeat: no-repeat;
     width: 44px;
@@ -114,7 +115,7 @@
   .header-movies{
     grid-template-columns: 14px 204px 14px;
   }
-  .header__account{
+  .menu__button{
     justify-self: center;
   }
 

@@ -1,16 +1,16 @@
 .portfolio {
-  /* margin-left: 70px;
-  margin-right: 70px; */
+
+  grid-area: 5/2/6/3;
   display: grid;
-  grid-template-columns: minmax(18px, 70px) 880px 230px 30px minmax(18px, 70px);
+  grid-template-columns: 880px 230px 30px;
   grid-template-rows: 70px 90px 90px 50px 125px ;
-  height: 425px;
+  /* height: 425px; */
 }
 
 .portfolio__title {
 
   grid-row: 1;
-  grid-column: 2/3;
+  grid-column: 1/2;
   margin: 0;
 
   font-weight: normal;
@@ -23,7 +23,7 @@
 .portfolio__subtitle {
 
   /* grid-row: 2;
-  grid-column: 2/4; */
+  grid-column: 1/3; */
 
   font-weight: normal;
   font-size: 30px;
