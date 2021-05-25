@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import SideBar from "./SideBar/SideBar";
 
 function Header(props) {
-  const [isSideBarOpen, setSideBar] = React.useState(false);
+  const [isSideBarOpen, setSideBar] = React.useState(true);
   // const [isLittleExtension, setIsLittleExtension] = React.useState(false);
 
   function handleMenuButtonClick() {
@@ -61,12 +61,11 @@ function Header(props) {
               </Link>
             </li>
           </ul>
-          <button className="menu__button" onClick={handleMenuButtonClick}>
+          <button type='button' className="menu__button" onClick={handleMenuButtonClick}>
             <div className="menu__button" />
           </button>
           <Link to="/profile"></Link>
         </header>
-        {/* <SideBar  isOpen={isSideBarOpen}></SideBar> */}
       </>
     );
   }

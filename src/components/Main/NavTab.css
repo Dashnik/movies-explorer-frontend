@@ -10,7 +10,7 @@
 }
 
 .NavTab__title {
-  grid-area:1/1/2/2 ;
+  grid-area: 1/1/2/2;
   width: 730px;
   justify-self: center;
   align-self: center;
@@ -22,7 +22,6 @@
 
   color: #ffffff;
   margin: 0;
-
 }
 
 .NavTab__links {
@@ -46,30 +45,29 @@
   align-content: center;
 }
 
-.NavTab__link{
+.NavTab__link {
   color: #ffffff;
   text-decoration: none;
 }
 
-.NavTab__link:hover{
+.NavTab__link:hover {
   opacity: 0.6;
 }
 
-.NavTab__container{
- grid-area: 2/1/3/2;
- display: flex;
- flex-direction: row; 
- list-style-type: none;
- justify-content: center;
- margin: 0;
+.NavTab__container {
+  grid-area: 2/1/3/2;
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  justify-content: center;
+  margin: 0;
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 800px) {
   .NavTab {
     margin-left: 20px;
     margin-right: 20px;
-  border: chartreuse 1px solid;
-  grid-template-rows: 454px 314px 66px;
+    grid-template-rows: 454px 314px 66px;
   }
 
   .NavTab__title {
@@ -79,12 +77,12 @@
     align-self: flex-end;
   }
 
-  .NavTab__container{
+  .NavTab__container {
     grid-area: 3/1/3/2;
-   }
+  }
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 500px) {
   .NavTab {
     margin-left: 14px;
     margin-right: 14px;
@@ -99,8 +97,7 @@
     align-self: flex-end;
   }
 
-  .NavTab__container{
-   padding: 0;
+  .NavTab__container {
+    padding: 0;
   }
 }
-  

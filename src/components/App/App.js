@@ -10,8 +10,14 @@ import Movies from "../Movies/Movies";
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile';
 import PageNotFound from '../PageNotFound';
+import SideBar from "../Header/SideBar/SideBar";
+
+
 
 function App() {
+
+  const [isSideBarOpen, setSideBar] = React.useState(true);
+
 
   return (
     <div className="page">
@@ -45,6 +51,7 @@ function App() {
           <Footer />
         </Route>
       </Switch>
+      <SideBar  isOpen={isSideBarOpen}></SideBar> 
     </div>
   );
 }
