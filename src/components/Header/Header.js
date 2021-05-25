@@ -14,7 +14,7 @@ function Header(props) {
     setSideBar(!isSideBarOpen);
   }
 
-  const isLogin = false;
+  const isLogin = true;
   const isLittleExtension = false;
 
   if (isLogin){
