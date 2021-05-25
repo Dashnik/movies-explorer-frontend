@@ -1,6 +1,5 @@
 import React from "react";
 import './AboutMe.css';
-import { Link } from "react-router-dom";
 import Vital from '../../images/Vital.jpg';
 
 function AboutMe(props) {
@@ -16,14 +15,18 @@ function AboutMe(props) {
        <p className='aboutMe__description'>Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
 и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
         <ul className='aboutMe__container-links'>
-          <Link name="aboutMe" to="https://www.facebook.com/" className="aboutMe__link">
+          <li>
+          <a href="https://www.facebook.com/" name="aboutMe" to="https://www.facebook.com/" className="aboutMe__link" target="_blank" rel="noopener noreferrer">
             {" "}
             Facebook
-          </Link>
-          <Link to="https://github.com/" className="aboutMe__link">
+          </a>
+          </li>
+          <li>
+          <a href="https://github.com/Dashnik" to="https://github.com/" className="aboutMe__link" target="_blank" rel="noopener noreferrer">
             {" "}
             Github
-          </Link>
+          </a>
+          </li>
         </ul>
       </div>
     </>

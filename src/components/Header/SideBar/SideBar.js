@@ -28,7 +28,7 @@ function SideBar(props) {
         </li>
         <li>
           <Link to="/profile" className='sideBar__nav'>
-            <img src={account}/>
+            <img src={account} alt=''/>
           </Link>
         </li>
       </ul>

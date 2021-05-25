@@ -24,6 +24,7 @@
   margin: 0;
   display:flex;
   flex-direction: column;
+  list-style-type: none;
 }
 
 .portfolio__link{
@@ -43,10 +44,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  text-decoration: none;
 }
 
 .portfolio__link:last-of-type{
   border:0;
+}
+
+.portfolio__link:hover{
+  opacity: 0.6;
 }
 
 .portfolio__logo{

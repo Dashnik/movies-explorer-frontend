@@ -16,7 +16,7 @@ function MoviesCard () {
               <img className='card__close' src={closeIcon} alt='кнопка удаления карточки'/>
             </button>
           </div>
-          <img className='card__image' src={image}/>   
+          <img className='card__image' src={image} alt=''/>   
       </div>
       <div className='card'>
           <div className='card__container'>
@@ -26,7 +26,7 @@ function MoviesCard () {
               <img className='card__close' src={closeIcon} alt='кнопка удаления карточки'/>
             </button>
           </div>
-          <img className='card__image' src={image}/>   
+          <img className='card__image' src={image} alt=''/>   
       </div>
     </>
   )
