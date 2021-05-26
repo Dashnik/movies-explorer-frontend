@@ -1,8 +1,8 @@
 import React from 'react';
 import './Movies.css';
 import SearchesForm from './SearchesForm';
-// import PreLoader from './Preloader';
 import MovedCardList from './MoviesCardList';
+// import Preloader from './Preloader'
 
 function Movies () {
   return (

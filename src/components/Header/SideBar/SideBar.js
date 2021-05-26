@@ -1,7 +1,6 @@
 import React from "react";
 import "./SideBar.css";
 import { Link } from "react-router-dom";
-import closeLink from '../../../images/closeLink.svg';
 import account from '../../../images/Account.svg';
 
 function SideBar(props) {

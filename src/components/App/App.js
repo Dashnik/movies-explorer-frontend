@@ -16,7 +16,7 @@ import SideBar from "../Header/SideBar/SideBar";
 
 function App() {
 
-  const [isSideBarOpen, setSideBar] = React.useState(true);
+  const [isSideBarOpen, setSideBar] = React.useState(false);
 
 
   return (

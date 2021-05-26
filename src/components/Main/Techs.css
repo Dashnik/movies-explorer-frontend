@@ -59,7 +59,7 @@
   display: flex;
   flex-direction: row;
   justify-self: center;
-
+  padding: 0;
 }
 
 .techs__link {
@@ -103,7 +103,6 @@
   .techs {
     grid-template-columns:18px 284px 18px;
     grid-template-rows: 70px 50px 80px 58px 22px 36px 83px 57px 90px;
-  
   }
 
   .techs__topic {
@@ -123,5 +122,13 @@
     display: grid;
     grid-template-columns: 94px 84px;
     row-gap: 8px;
+  }
+
+  .techs__title {
+    border-bottom: 1px solid #000000;
+  }
+
+  .techs {
+    background:  #202020;;
   }
 }

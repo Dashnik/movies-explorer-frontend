@@ -3,18 +3,16 @@ import "./Header.css";
 import logo from "../../images/header__logo.svg";
 import account from "../../images/Account.svg";
 import { Link } from "react-router-dom";
-import SideBar from "./SideBar/SideBar";
+// import SideBar from "./SideBar/SideBar";
 
 function Header(props) {
   const [isSideBarOpen, setSideBar] = React.useState(true);
-  // const [isLittleExtension, setIsLittleExtension] = React.useState(false);
 
   function handleMenuButtonClick() {
     setSideBar(!isSideBarOpen);
   }
 
-  const isLogin = false;
-  const isLittleExtension = false;
+  const isLogin = true;
 
   if (isLogin) {
     return (
