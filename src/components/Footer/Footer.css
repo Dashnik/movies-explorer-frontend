@@ -69,6 +69,7 @@ grid-area: 1/1/2/5;
    display: grid;
    grid-template-columns: 10px 300px 10px ;
    grid-template-rows: 94px 21px 30px 69px 45px;
+   justify-content: center;
   }
 
   .footer__logo{  

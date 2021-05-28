@@ -1,10 +1,10 @@
 import React from 'react';
-import './MoviesCard.css';
+import './SavedMoviesCard.css';
 import image from '../../images/pic.png'
 import closeIcon from '../../images/icon_close.svg';
 
 
-function MoviesCard () {
+function SavedMoviesCard () {
 
   return (
     <>
@@ -32,4 +32,4 @@ function MoviesCard () {
   )
 }
 
-export default MoviesCard;
+export default SavedMoviesCard;

@@ -64,6 +64,11 @@
   grid-row: 4;
 }
 
+.login__input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(175, 116, 243, 0.4);
+}
+
 .login__submit {
   grid-row: 5;
   margin: 0;

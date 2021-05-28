@@ -17,7 +17,7 @@ import SideBar from "../Header/SideBar/SideBar";
 function App() {
 
   const [isSideBarOpen, setSideBar] = React.useState(false);
-
+  const [isLogin, setIsLogin ] = React.useState(false);
 
   return (
     <div className="page">
@@ -29,24 +29,24 @@ function App() {
           <Register />
         </Route>
         <Route path="/movies">
-          <Header />
+          <Header isLogin={false}  />
           <Movies />
           <Footer />
         </Route>
         <Route path="/saved-movies">
-          <Header login="Войти" signup="Регистрация" />
+          <Header isLogin={false} />
           <SavedMovies/>
           <Footer />
         </Route>
         <Route path="/profile">
-          <Header login="Войти" signup="Регистрация" />
+          <Header isLogin={false} />
           <Profile/>
         </Route>
         <Route path="/error">
        <PageNotFound></PageNotFound>
         </Route>
         <Route path="/">
-          <Header login="Войти" signup="Регистрация" />
+          <Header login="Войти" signup="Регистрация" isLogin={true} />
           <Main />
           <Footer />
         </Route>

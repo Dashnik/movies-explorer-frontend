@@ -50,17 +50,22 @@
   grid-row: 1;
 }
 
-.register__input{
-    margin: 0;
-    background: #2f2f2f;
-    border-radius: 8px;
-    height: 46px;
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 16px;
-    color: #ffffff;
-    background-color: #2f2f2f;
-    border: 0;
+.register__input {
+  margin: 0;
+  background: #2f2f2f;
+  border-radius: 8px;
+  height: 46px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  background-color: #2f2f2f;
+  border: 0;
+}
+
+.register__input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(175, 116, 243, 0.4);
 }
 
 .register__input-email {
@@ -72,8 +77,8 @@
 }
 
 .register__input-name {
-    grid-row: 2;
-  }
+  grid-row: 2;
+}
 
 .register__submit {
   grid-row: 7;

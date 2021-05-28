@@ -14,6 +14,7 @@ function SearchesForm () {
           <input className='searches__input'
             type="text"
             placeholder={'Фильмы'}
+            required
           />
          
         <p className="search__movies">Короткометражки</p> 

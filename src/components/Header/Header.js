@@ -12,9 +12,7 @@ function Header(props) {
     setSideBar(!isSideBarOpen);
   }
 
-  const isLogin = true;
-
-  if (isLogin) {
+  if (props.isLogin) {
     return (
       <header className="header">
         <img

@@ -11,7 +11,7 @@
 
 .NavTab__title {
   grid-area: 1/1/2/2;
-  width: 730px;
+  max-width: 730px;
   justify-self: center;
   align-self: center;
   font-weight: normal;
@@ -71,7 +71,7 @@
   }
 
   .NavTab__title {
-    width: 680px;
+    max-width: 680px;
     font-size: 40px;
     line-height: 52px;
     align-self: flex-end;

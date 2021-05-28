@@ -60,23 +60,21 @@
   .moviesCard {
     grid-template-columns: repeat(auto-fill, 339px);
   }
-.card__image{
-  width: 339px;
-}
-
+  .card__image {
+    width: 339px;
+  }
 }
 
 @media screen and (max-width: 400px) {
   .moviesCard {
     grid-template-columns: repeat(auto-fill, 300px);
   }
-.card__image{
-  width: 300px;
-}
 
-.card__container {
+  .card__image {
+    max-width: 290px;
+  }
 
-  grid-template-columns: 14px 210px 76px;
-}
-
+  .card__container {
+    grid-template-columns: 14px 210px 76px;
+  }
 }

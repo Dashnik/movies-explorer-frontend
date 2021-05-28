@@ -46,6 +46,8 @@
   }
 
   .movies {
-    grid-template-columns: 10px minmax(292px, 1140px) 10px;
+    /* width: 100%; */
+  /* grid-template-columns: 10px minmax(292px, 1140px) 10px;  */
+  grid-template-columns: 10px minmax(300px, 1140px) 10px; 
 }
 }
