@@ -8,7 +8,7 @@ function Portfolio(props) {
       <div className="portfolio">
         <h3 className="portfolio__title">Портфолио</h3>
         <ul className="portfolio__container">
-          <li>
+          <li className="portfolio__links">
           <a href="https://github.com/Dashnik/how-to-learn" className="portfolio__link" target="_blank" rel="noopener noreferrer">
             Статичный сайт
             <img
@@ -18,7 +18,7 @@ function Portfolio(props) {
             />
           </a>
           </li>
-          <li>
+          <li className="portfolio__links">
           <a href="https://dashnik.github.io/russian-travel/" className="portfolio__link" target="_blank" rel="noopener noreferrer">
             Адаптивный сайт
             <img

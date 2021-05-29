@@ -97,12 +97,13 @@
   grid-row: 3/7;
   grid-column: 2/3;
   align-self: flex-end;
+  justify-self: right;
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 800px){
   .aboutMe {
     grid-template-columns: 1fr 255px;
-    /* grid-template-rows: 117px 23px 106px 34px 128px 104px 91px; */
     grid-template-rows: 117px 23px 106px 54px minmax(195px, 285px) 17px minmax(1px, 91px);
   }
 
@@ -160,7 +161,7 @@
     grid-area: 3/1/4/2;
     width: 292px;
     height: 352px;
-    width: 100%;
+    justify-self: left;
   }
 
   .aboutMe__container-links{
