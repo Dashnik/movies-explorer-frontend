@@ -7,10 +7,10 @@
 
 }
 
-.techs__title {
+.techs__topic {
 
   grid-row: 2;
-  grid-column: 2/3;
+  grid-column: 2/3; 
   margin: 0;
 
   height: 50px;
@@ -22,7 +22,7 @@
   color: #ffffff;
 }
 
-.techs__topic {
+.techs__title {
 
   grid-row: 4;
   grid-column: 2/3;
@@ -37,7 +37,7 @@
   color: #ffffff;
 }
 
-.techs__subtopic {
+.techs__subtitle {
 
   grid-row: 6;
   grid-column: 2/3;
@@ -60,6 +60,7 @@
   flex-direction: row;
   justify-self: center;
   padding: 0;
+  margin: 0;
 }
 
 .techs__link {
@@ -83,16 +84,13 @@
 
 @media screen and (max-width:800px) {
   .techs {
-    /* grid-template-columns:minmax(18px,60px) 1fr minmax(18px,60px);  */
-    grid-template-columns:1fr; 
+    grid-template-columns:minmax(18px,50px) 1fr minmax(18px,50px);
     grid-template-rows: 90px 50px 80px 58px 22px 36px 83px 57px 90px; 
-    justify-self: center;
   }
-
   
 .techs__container{
-  width: 100%;
   justify-content: center;
+  grid-column: 1/4;
 }
 
 .techs__link {
@@ -100,33 +98,31 @@
   line-height: 15px;
 }
 
-  .techs__subtopic {
+  .techs__subtitle {
     font-size: 12px;
     line-height: 18px;
   }
 
   .techs__link {
-    /* width: 84px; 
-    height: 57px;*/
     width: 62px;
     height: 58px;
   }
 
 }
 
-@media screen and (max-width:550px) {
+@media screen and (max-width:500px) {
   .techs {
-    /* grid-template-columns:18px 284px 18px; */
-    grid-template-columns:1fr;
+    grid-template-columns:1px 280px 1px;
+    grid-area: 3/2/4/3;
     grid-template-rows: 70px 50px 80px 58px 22px 36px 83px 57px 90px;
   }
 
-  .techs__topic {
+  .techs__title {
     font-size: 30px;
     line-height: 36px;
   }
 
-  .techs__subtopic {
+  .techs__subtitle {
     font-size: 11px;
     line-height: 16px;
     max-width: 292px;
@@ -134,7 +130,6 @@
 
   .techs__container{
     grid-row: 8;
-    grid-column: 2/3;
     display: grid;
     grid-template-columns: 94px 84px;
     row-gap: 8px;
@@ -145,8 +140,9 @@
     height: 57px;
   }
 
-  .techs__title {
+  .techs__topic {
     border-bottom: 1px solid #000000;
+    width: 100%;
   }
 
   .techs {

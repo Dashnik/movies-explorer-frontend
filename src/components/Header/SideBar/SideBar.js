@@ -6,7 +6,7 @@ import account from '../../../images/Account.svg';
 function SideBar(props) {
   return (
     <form className={`sideBar ${props.isOpen ? "sideBar_opened" : ""}`}>
-      <button type='button' className='sideBar__close'></button>   
+      <button type='button' className='sideBar__close' onClick={props.onClose}></button>   
      <ul className='sideBar__container'>
         <li className='sideBard-main'>
           <Link to="/"className='sideBar__nav' >

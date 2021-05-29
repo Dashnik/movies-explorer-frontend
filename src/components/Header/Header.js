@@ -1,15 +1,20 @@
 import React from "react";
 import "./Header.css";
 import logo from "../../images/header__logo.svg";
-import account from "../../images/Account.svg";
+import menu__account from "../../images/Account.svg";
+import menu__burger from '../../images/burger.svg';
 import { Link } from "react-router-dom";
-// import SideBar from "./SideBar/SideBar";
+import SideBar from "./SideBar/SideBar";
 
 function Header(props) {
-  const [isSideBarOpen, setSideBar] = React.useState(true);
+  const [isSideBarOpen, setSideBar] = React.useState(false);
 
   function handleMenuButtonClick() {
     setSideBar(!isSideBarOpen);
+  }
+
+  function closeSideBar(){
+    setSideBar(false);
   }
 
   if (props.isLogin) {
@@ -57,10 +62,17 @@ function Header(props) {
               </Link>
             </li>
           </ul>
-          <button type='button' className="menu__button" onClick={handleMenuButtonClick}>
-            <div className="menu__button" />
-          </button>
-          <Link to="/profile"></Link>
+          <div  className="menu__button" >
+            <Link to='/profile' className='menu__icon-menu'>
+              <img className='menu__icon-menu' src={menu__account} alt='alt'/>
+              </Link>
+            <button type='button' className='menu__icon-cross' onClick={handleMenuButtonClick}>
+            <img className='menu__icon-cross' src={menu__burger} alt='alt'/>
+            </button>
+          </div>
+          <SideBar 
+           isOpen={isSideBarOpen}
+           onClose={closeSideBar}></SideBar> 
         </header>
       </>
     );

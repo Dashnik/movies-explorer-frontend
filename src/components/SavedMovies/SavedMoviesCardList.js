@@ -4,7 +4,7 @@ import SavedMoviesCard from './SavedMoviesCard';
 
 function SavedMoviesCardList () {
   return (
-    <div className="moviesCardList">
+    <div className="savedMoviesCardList">
           <SavedMoviesCard></SavedMoviesCard>
     </div>
   )

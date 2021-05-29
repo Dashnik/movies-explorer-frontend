@@ -13,7 +13,7 @@ function MoviesCard() {
         <div className="card__container">
           <h2 className="card__title">33 слова о дизайне</h2>
           <p className="card__time">1ч 47м</p>
-          <button type="submit" className="card__submit">
+          <button type="button" className="card__submit">
             <img
               className="card__bookmark"
               src={isBookmarkSelected ? bookmarkSelected : bookmarkUnselected}
@@ -27,7 +27,7 @@ function MoviesCard() {
        <div className="card__container">
          <h2 className="card__title">33 слова о дизайне</h2>
          <p className="card__time">1ч 47м</p>
-         <button type="submit" className="card__submit">
+         <button type="button" className="card__submit">
            <img
              className="card__bookmark"
              src={isBookmarkSelected ? bookmarkSelected : bookmarkUnselected}

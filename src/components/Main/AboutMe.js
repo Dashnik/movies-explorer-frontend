@@ -13,7 +13,7 @@ function AboutMe(props) {
        <p className='aboutMe__name'>Василий</p>
        <p className='aboutMe__shortDescription'>Фронтенд-разработчик, 30 лет</p>
        <p className='aboutMe__description'>Я родился и живу в Нью йорке, закончил факультет экономики MIT. У меня есть жена 
-и жена. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «Рога и копыта». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
+и жена. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «Рога и копыта». </p>
         <ul className='aboutMe__container-links'>
           <li>
           <a href="https://www.facebook.com/" name="aboutMe" to="https://www.facebook.com/" className="aboutMe__link" target="_blank" rel="noopener noreferrer">

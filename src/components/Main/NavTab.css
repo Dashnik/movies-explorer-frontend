@@ -68,6 +68,7 @@
     margin-left: 20px;
     margin-right: 20px;
     grid-template-rows: 454px 314px 66px;
+
   }
 
   .NavTab__title {
@@ -86,18 +87,29 @@
   .NavTab {
     margin-left: 14px;
     margin-right: 14px;
-    grid-template-columns: 292px;
+    /* grid-template-columns: minmax(292px, 400px); 
+    grid-template-columns: 292px;*/
     grid-template-rows: 331px 212px 43px;
   }
 
   .NavTab__title {
-    width: 292px;
+    max-width: 292px;
     font-size: 29px;
     line-height: 37px;
-    align-self: flex-end;
   }
 
   .NavTab__container {
     padding: 0;
+  }
+
+  .NavTab__links {
+    width: 82px;
+    height: 26px;
+    margin-right: 6px;
+  }
+
+  .NavTab__link {
+    font-size: 10px;
+    line-height: 16px;
   }
 }

@@ -1,21 +1,23 @@
-.moviesCardList {
+.savedMoviesCardList {
   grid-area: 2/2/3/3;
   display: grid;
   max-width: 1140px;
   grid-template-columns: repeat(auto-fill, 364px);
   column-gap: 24px;
   row-gap: 18px;
+  justify-content: center;
 }
 
 @media screen and (max-width:850px) {
-  .moviesCardList {
+  .savedMoviesCardList {
     grid-template-columns: repeat(auto-fill, 339px);
+ 
   }
   
 }
 
 @media screen and (max-width:400px) {
-  .moviesCardList {
+  .savedMoviesCardList {
     grid-template-columns:repeat(auto-fill, 300px);
   }
   

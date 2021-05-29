@@ -9,17 +9,17 @@
 
 @media screen and (max-width: 800px){
     .main{
-        /* grid-template-columns: 50px 668px 50px; */
-        grid-template-columns: 50px 1fr 50px;
+        /* grid-template-columns: 50px 1fr 50px; */
+        grid-template-columns: minmax(18px, 50px) 1fr minmax(18px, 50px);
         grid-template-rows: 834px 585px 567px 604px 390px;
     }
 }
 
 @media screen and (max-width: 500px){
     .main{
-        grid-template-columns: 18px 284px 18px;
+        grid-template-columns: 18px 1fr 18px;
         grid-template-rows: 586px 641px 651px 904px 294px;
-        justify-content: center;
+        /* justify-content: center; */
     }
 }
     

@@ -1,11 +1,14 @@
 .card {
   object-fit: contain;
   position: relative;
+  background: #222222;
+  max-width: 364px;
 }
 
 .card__container {
   display: grid;
-  grid-template-columns: 14px 294px 56px;
+  /* grid-template-columns: 14px 294px 56px; */
+  grid-template-columns: 14px 1fr 56px;
   grid-template-rows: 14px 18px 9px 13px 14px;
 }
 
@@ -59,13 +62,20 @@
   height: 30px;
 }
 
+.card__image{
+ width: 100%;
+}
+
 @media screen and (max-width: 500px) {
   .card__container {
     grid-template-columns: 14px 210px;
   }
 
   .card {
-    object-fit: contain;
-    position: relative;
+   max-width: 300px;
+  }
+
+  .card__image{
+    max-width: 300px;
   }
 }

@@ -8,25 +8,25 @@ function SavedMoviesCard () {
 
   return (
     <>
-      <div className='card'>
-          <div className='card__container'>
-            <h2 className='card__title'>33 слова о дизайне</h2>
-            <p className='card__time'>1ч 47м</p>
-            <button type='submit' className='card__submit'>
-              <img className='card__close' src={closeIcon} alt='кнопка удаления карточки'/>
+      <div className='savedCard'>
+          <div className='savedCard__container'>
+            <h2 className='savedCard__title'>33 слова о дизайне</h2>
+            <p className='savedCard__time'>1ч 47м</p>
+            <button type='button' className='savedCard__submit'>
+              <img className='savedCard__close' src={closeIcon} alt='кнопка удаления карточки'/>
             </button>
           </div>
-          <img className='card__image' src={image} alt=''/>   
+          <img className='savedCard__image' src={image} alt=''/>   
       </div>
-      <div className='card'>
-          <div className='card__container'>
-            <h2 className='card__title'>33 слова о дизайне</h2>
-            <p className='card__time'>1ч 47м</p>
-            <button type='submit' className='card__submit'>
-              <img className='card__close' src={closeIcon} alt='кнопка удаления карточки'/>
+      <div className='savedCard'>
+          <div className='savedCard__container'>
+            <h2 className='savedCard__title'>33 слова о дизайне</h2>
+            <p className='savedCard__time'>1ч 47м</p>
+            <button type='button' className='savedCard__submit'>
+              <img className='savedCard__close' src={closeIcon} alt='кнопка удаления карточки'/>
             </button>
           </div>
-          <img className='card__image' src={image} alt=''/>   
+          <img className='savedCard__image' src={image} alt=''/>   
       </div>
     </>
   )
