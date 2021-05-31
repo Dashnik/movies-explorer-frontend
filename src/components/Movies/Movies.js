@@ -4,10 +4,14 @@ import SearchesForm from './SearchesForm';
 import MovedCardList from './MoviesCardList';
 // import Preloader from './Preloader'
 
-function Movies () {
+function Movies (props) {
+
+
+
   return (
     <div className="movies">
-      <SearchesForm></SearchesForm>
+      <SearchesForm
+             onSearchMovie={props.handleSearchMovies}></SearchesForm>
       <MovedCardList/>
       <button type="submit" className="movies__submit">
         Ещё

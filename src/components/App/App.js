@@ -7,15 +7,44 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Header from "../Header/Header";
 import Movies from "../Movies/Movies";
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Profile from '../Profile';
-import PageNotFound from '../PageNotFound';
+import SavedMovies from "../SavedMovies/SavedMovies";
+import Profile from "../Profile";
+import PageNotFound from "../PageNotFound";
+import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
+import {
+  CurrentMoviesContext
+} from "../contexts/CurrentContext";
 
 function App() {
+  const [isLogin, setIsLogin] = React.useState(false);
+  const [allMovies, setAllMovies] = React.useState([]);
+  const [moviesAfterSearch, setMoviesAfterSearch] = React.useState([]);
 
-  const [isLogin, setIsLogin ] = React.useState(false);
+  React.useEffect(() => {
+    BeatfilmMoviesApi.getAllMovies()
+      .then((data) => {
+        console.log(data);
+        setAllMovies(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const handleSearchMovies = (name) => {
+
+     const  currentMovies = allMovies.filter(
+      // movie => movie.nameRU === "«Роллинг Стоунз» в изгнании"
+      movie => movie.nameRU === "Постеры, сошедшие со стен"
+      
+    );
+    setMoviesAfterSearch(currentMovies);
+ 
+  };
+
 
   return (
+    <CurrentMoviesContext.Provider value={moviesAfterSearch}>
     <div className="page">
       <Switch>
         <Route path="/sign-in">
@@ -25,21 +54,21 @@ function App() {
           <Register />
         </Route>
         <Route path="/movies">
-          <Header isLogin={false}  />
-          <Movies />
+          <Header isLogin={false} />
+          <Movies handleSearchMovies={handleSearchMovies} />
           <Footer />
         </Route>
         <Route path="/saved-movies">
           <Header isLogin={false} />
-          <SavedMovies/>
+          <SavedMovies />
           <Footer />
         </Route>
         <Route path="/profile">
           <Header isLogin={false} />
-          <Profile/>
+          <Profile />
         </Route>
         <Route path="/error">
-       <PageNotFound></PageNotFound>
+          <PageNotFound></PageNotFound>
         </Route>
         <Route path="/">
           <Header login="Войти" signup="Регистрация" isLogin={true} />
@@ -48,6 +77,7 @@ function App() {
         </Route>
       </Switch>
     </div>
+</CurrentMoviesContext.Provider>
   );
 }
 
