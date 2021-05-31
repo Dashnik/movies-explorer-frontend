@@ -1,0 +1,17 @@
+.savedMovies {
+  display: grid;
+  grid-template-columns: 70px minmax(292px, 1140px) 70px;
+  grid-template-rows: 217px 1fr;
+}
+
+@media screen and (max-width: 950px) {
+  .savedMovies {
+    grid-template-columns: 30px minmax(292px, 1140px) 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .savedMovies {
+    grid-template-columns: 10px minmax(292px, 1140px) 10px;
+  }
+}

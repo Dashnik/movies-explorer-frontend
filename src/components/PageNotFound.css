@@ -1,0 +1,72 @@
+.pageNotFound {
+  display: grid;
+  grid-template-columns: 1fr minmax(300px, 400px) 1fr;
+  grid-template-rows: 246px 169px 5px 19px 184px 17px 60px;
+}
+
+.pageNotFound__title {
+  grid-row: 2;
+  grid-column: 2/3;
+  margin: 0;
+
+  font-weight: normal;
+  font-size: 140px;
+  line-height: 169px;
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.pageNotFound__subtitle {
+  grid-row: 4;
+  grid-column: 2/3;
+  margin: 0;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.pageNotFound__submit {
+  grid-row: 6;
+  grid-column: 2/3;
+  margin: 0;
+
+  background-color: #202020;
+  border: 0;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  cursor: pointer;
+  color: #4285f4;
+}
+
+.pageNotFound__submit:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 400px) {
+
+  .pageNotFound {
+    grid-template-rows: 329px 97px 10px 15px 284px 15px 30px;
+  }
+
+  .pageNotFound__subtitle {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .pageNotFound__title {
+    font-size: 80px;
+    line-height: 97px;
+  }
+
+  .pageNotFound__submit {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
