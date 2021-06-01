@@ -5,6 +5,17 @@
   max-width: 364px;
 }
 
+.card__link{
+  z-index: 100;
+  cursor: pointer;
+  border: 1px red solid;
+  width: 100%;
+}
+
+.card__link:hover{
+  opacity: 0.6;
+}
+
 .card__container {
   display: grid;
   /* grid-template-columns: 14px 294px 56px; */

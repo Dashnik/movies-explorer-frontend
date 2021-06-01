@@ -3,17 +3,24 @@ import './MoviesCardList.css';
 import MoviesCard from './MoviesCard';
 import { CurrentMoviesContext } from "../contexts/CurrentContext";
 
-function MoviesCardList () {
+function MoviesCardList (props) {
 
   const currentCardsAfterSearch = React.useContext(CurrentMoviesContext);
+  
+  const [isBookmarkSelected, setIsBookmarkSelected] = React.useState(false);
+ //  const isBookmarkSelected = false;
+//   const cardLikeButtonClassName = `card__like ${isLiked ? "card__like_active" : ""
+// }`;
 
-  console.log('currentCardsAfterSearch', currentCardsAfterSearch);
+
   return (
     <div className="moviesCardList">
       {currentCardsAfterSearch.map((movie)=>(
         <MoviesCard 
         key={movie.id}
-        movie={movie}/>
+        movie={movie}
+        onBookmarkClick={props.onBookmarkClick}
+        />
       ))}
     </div>
   )

@@ -6,16 +6,16 @@ import MovedCardList from './MoviesCardList';
 
 function Movies (props) {
 
-
+  const isOpenYet = true;
 
   return (
     <div className="movies">
       <SearchesForm
              onSearchMovie={props.handleSearchMovies}></SearchesForm>
-      <MovedCardList/>
-      <button type="submit" className="movies__submit">
-        Ещё
-     </button>
+      <MovedCardList onBookmarkClick={props.onBookmarkClick} />
+      {isOpenYet ? <button type="button" className="movies__submit">Ещё</button>
+ :       <p className="movies__submit">Ничего не найдено</p>
+}
     </div>
   )
 }

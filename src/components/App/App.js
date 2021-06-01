@@ -11,9 +11,7 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile";
 import PageNotFound from "../PageNotFound";
 import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
-import {
-  CurrentMoviesContext
-} from "../contexts/CurrentContext";
+import { CurrentMoviesContext } from "../contexts/CurrentContext";
 
 function App() {
   const [isLogin, setIsLogin] = React.useState(false);
@@ -30,54 +28,60 @@ function App() {
         console.log(error);
       });
   }, []);
+  
 
   const handleSearchMovies = (name) => {
-
-     const  currentMovies = allMovies.filter(
-      // movie => movie.nameRU === "«Роллинг Стоунз» в изгнании"
-      movie => movie.nameRU === "Постеры, сошедшие со стен"
-      
+    const valueFromInput = name.toLowerCase().split(" ").join('');
+    const currentMovies = [];
+    allMovies.forEach(
+      (movie) => {
+        const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
+        if (stringDividedOnWord.includes(valueFromInput) === true) {
+          currentMovies.push(movie);
+        }
+      }
     );
     setMoviesAfterSearch(currentMovies);
- 
   };
 
 
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
-    <div className="page">
-      <Switch>
-        <Route path="/sign-in">
-          <Login />
-        </Route>
-        <Route path="/sign-up">
-          <Register />
-        </Route>
-        <Route path="/movies">
-          <Header isLogin={false} />
-          <Movies handleSearchMovies={handleSearchMovies} />
-          <Footer />
-        </Route>
-        <Route path="/saved-movies">
-          <Header isLogin={false} />
-          <SavedMovies />
-          <Footer />
-        </Route>
-        <Route path="/profile">
-          <Header isLogin={false} />
-          <Profile />
-        </Route>
-        <Route path="/error">
-          <PageNotFound></PageNotFound>
-        </Route>
-        <Route path="/">
-          <Header login="Войти" signup="Регистрация" isLogin={true} />
-          <Main />
-          <Footer />
-        </Route>
-      </Switch>
-    </div>
-</CurrentMoviesContext.Provider>
+      <div className="page">
+        <Switch>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/movies">
+            <Header isLogin={false} />
+            <Movies
+              handleSearchMovies={handleSearchMovies}
+            />
+            <Footer />
+          </Route>
+          <Route path="/saved-movies">
+            <Header isLogin={false} />
+            <SavedMovies />
+            <Footer />
+          </Route>
+          <Route path="/profile">
+            <Header isLogin={false} />
+            <Profile />
+          </Route>
+          <Route path="/error">
+            <PageNotFound></PageNotFound>
+          </Route>
+          <Route path="/">
+            <Header login="Войти" signup="Регистрация" isLogin={true} />
+            <Main />
+            <Footer />
+          </Route>
+        </Switch>
+      </div>
+    </CurrentMoviesContext.Provider>
   );
 }
 
