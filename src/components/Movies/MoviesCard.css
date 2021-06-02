@@ -75,6 +75,11 @@
 
 .card__image{
  width: 100%;
+ cursor: pointer;
+}
+
+.card__image:hover{
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 500px) {

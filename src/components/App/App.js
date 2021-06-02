@@ -11,12 +11,19 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile";
 import PageNotFound from "../PageNotFound";
 import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
-import { CurrentMoviesContext } from "../contexts/CurrentContext";
+import { CurrentMoviesContext, CurrentPreloaderContext } from "../contexts/CurrentContext";
 
 function App() {
   const [isLogin, setIsLogin] = React.useState(false);
+  const [addMoviesYet, setAddMoviesYet] = React.useState(false);
+  const [isItShort, setIsItShort] = React.useState(true);
   const [allMovies, setAllMovies] = React.useState([]);
   const [moviesAfterSearch, setMoviesAfterSearch] = React.useState([]);
+  const [isPreloaderWork, setIsPreloaderWork] = React.useState(false);
+  
+const handlePreloader = () => {
+  setIsPreloaderWork(!isPreloaderWork);
+}
 
   React.useEffect(() => {
     BeatfilmMoviesApi.getAllMovies()
@@ -30,23 +37,43 @@ function App() {
   }, []);
   
 
-  const handleSearchMovies = (name) => {
+  const handleSearchMovies = (name, isItShort) => {
+    handlePreloader();
     const valueFromInput = name.toLowerCase().split(" ").join('');
     const currentMovies = [];
+
+    if (isItShort){
+      allMovies.forEach(
+        (movie) => {
+          const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
+          if (stringDividedOnWord.includes(valueFromInput) === true) {
+            if(movie.duration <= 40){
+              currentMovies.push(movie);
+            }
+            
+          }
+        }
+      );
+    }else{
     allMovies.forEach(
       (movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
         if (stringDividedOnWord.includes(valueFromInput) === true) {
-          currentMovies.push(movie);
+          if(movie.duration > 41){
+            currentMovies.push(movie);
+          }
+          
         }
       }
-    );
+    )}
+    handlePreloader();
     setMoviesAfterSearch(currentMovies);
   };
 
 
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
+      <CurrentPreloaderContext.Provider value={isPreloaderWork}>
       <div className="page">
         <Switch>
           <Route path="/sign-in">
@@ -59,6 +86,8 @@ function App() {
             <Header isLogin={false} />
             <Movies
               handleSearchMovies={handleSearchMovies}
+              addMoviesYet={addMoviesYet}
+              // handlePreloader={isPreloaderWork}
             />
             <Footer />
           </Route>
@@ -81,6 +110,7 @@ function App() {
           </Route>
         </Switch>
       </div>
+      </CurrentPreloaderContext.Provider>
     </CurrentMoviesContext.Provider>
   );
 }

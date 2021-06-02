@@ -13,11 +13,15 @@ function SearchesForm (props) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
-    props.onSearchMovie(nameMovie);
+    props.onSearchMovie(nameMovie,isShortMovie);
   }
 
   function handleChange(e){
    setNameMovie(e.target.value);
+  }
+
+  function handleToggleChange(){
+    setIsShortMovie(!isShortMovie);
   }
 
   return (
@@ -36,7 +40,7 @@ function SearchesForm (props) {
           />
          
         <p className="search__movies">Короткометражки</p> 
-          <label className="switch">
+          <label className="switch" onChange={handleToggleChange}>
             <input type="checkbox"/>
             <span className="slider round"></span>
           </label>
