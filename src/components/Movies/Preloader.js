@@ -5,7 +5,7 @@ import { CurrentPreloaderContext } from "../contexts/CurrentContext";
 const Preloader = () => {
 
     const conditionOfPreloader = React.useContext(CurrentPreloaderContext);
-    console.log(conditionOfPreloader);
+ 
     return (
         <div className={`preloader ${conditionOfPreloader ? 'preloader_opened' : ''}`}>
             <div className="preloader__container">

@@ -23,11 +23,44 @@ class Auth {
       });
     } 
 
-    register(email, password) {
+    addingMovies(newMovie, isLiked, jwt) {
+      if (isLiked) {
+          return fetch(`${this.baseUrl}/movies`, {
+          method: "POST",
+          headers: {
+            'Content-Type': "application/json",
+             Authorization: `Bearer ${jwt}`,
+          },
+          body:JSON.stringify(newMovie)
+        })
+          .then((res) => {
+            return this._getResponseData(res);
+          })
+          .then((data) => {
+            return data;
+          });
+      } else {
+        return fetch(`${this.baseUrl}/movies/${newMovie.id}`, {
+          method: "DELETE",
+          headers: {
+            'Content-Type': "application/json",
+             Authorization: `Bearer ${jwt}`,
+          },
+        })
+          .then((res) => {
+            return this._getResponseData(res);
+          })
+          .then((data) => {
+            return data;
+          });
+      }
+    }
+
+    register(name, email, password) {
       return fetch(`${this.baseUrl}/signup`, {
         method: "POST",
         headers: this.headers,
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({name, email, password }),
       }).then((response) => {
         return this._getResponseData(response);
       });
@@ -35,28 +68,25 @@ class Auth {
   
     authorize(email, password) {
       return fetch(`${this.baseUrl}/signin`, {
-        method: "POST",
-        credentials: 'include',
-        headers: this.headers,
-        body: JSON.stringify({ email, password }),
-        
-      }).then((response) => {
-       // return response.json();
-        return this._getResponseData(response);
-      })
-    }
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify({ email, password }),
+    }).then((response) => {
+      return this._getResponseData(response);
+    });
+  }
   
-    // getContent(jwt) {
-    //   return fetch(`${this.baseUrl}/users/me`, {
-    //     method: "GET",
-    //     headers: {
-    //       Accept: "application/json",
-    //       Authorization: `Bearer ${jwt}`,
-    //     },
-    //   }).then((response) => {
-    //     return this._getResponseData(response);
-    //   });
-    // }
+    getContent(jwt) {
+      return fetch(`${this.baseUrl}/users/me`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+      }).then((response) => {
+        return this._getResponseData(response);
+      });
+    }
   }
   
   export const apiAuth = new Auth({
@@ -65,5 +95,6 @@ class Auth {
     headers: {
       "Content-Type": "application/json",
     },
+    
   });
   

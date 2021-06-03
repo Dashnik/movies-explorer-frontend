@@ -24,6 +24,15 @@
   justify-self: right;
 }
 
+.searches__error{
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  
+  color: #EE3465;
+}
+
+
 .searches__logo {
   width: 34px;
   height: 34px;

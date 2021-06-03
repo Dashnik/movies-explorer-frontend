@@ -9,6 +9,16 @@
   justify-content: center;
 }
 
+.moviesCardList__error{
+  margin: 0;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  color: khaki;
+  align-self: center;
+  justify-self: right;
+}
+
 @media screen and (max-width:850px) {
   .moviesCardList {
     grid-template-columns: repeat(auto-fill, 339px);

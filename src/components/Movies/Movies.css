@@ -1,7 +1,8 @@
 .movies {
   display: grid;
   grid-template-columns: 70px minmax(292px, 1140px) 70px;
-  grid-template-rows: 217px 1fr 1fr;
+  /* grid-template-rows: 217px 1fr 1fr; */
+  grid-template-rows: 217px 1fr;
 }
 
 .movies__submit {
