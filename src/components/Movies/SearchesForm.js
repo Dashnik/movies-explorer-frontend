@@ -31,12 +31,12 @@ function SearchesForm(props) {
       {({
         values,
         errors,
-        touched,
+        // touched,
         handleChange,
         handleBlur,
-        isValid,
+        // isValid,
         handleSubmit,
-        dirty,
+        // dirty,
       }) => (
         <div className="searches">
           <form className="searches-form" onSubmit={handleSubmit} noValidate>

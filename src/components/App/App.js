@@ -12,7 +12,7 @@ import Profile from "../Profile";
 import PageNotFound from "../PageNotFound";
 import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
 import { apiAuth } from "../../utils/MainApi.js";
-import { CurrentMoviesContext, CurrentPreloaderContext } from "../contexts/CurrentContext";
+import { CurrentMoviesContext, CurrentPreloaderContext, CurrentBookmarkContext } from "../contexts/CurrentContext";
 import Preloader from '../Movies/Preloader.js'; 
 
 function App() {
@@ -23,17 +23,15 @@ function App() {
   const [isPreloaderWork, setIsPreloaderWork] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState("");
-  const [emptyCurrentMovie, setEmptyCurrentMovie] =React.useState(false);
+  const [isBookmarkSelected, setIsBookmarkSelected] = React.useState(false);
+  // const [emptyCurrentMovie, setEmptyCurrentMovie] =React.useState(false);
   
   const history = useHistory();
 
-// const handlePreloader = () => {
+
+// function handlePreloader(){
 //   setIsPreloaderWork(!isPreloaderWork);
 // }
-
-function handlePreloader(){
-  setIsPreloaderWork(!isPreloaderWork);
-}
 
   React.useEffect(() => {
     BeatfilmMoviesApi.getAllMovies()
@@ -49,20 +47,17 @@ function handlePreloader(){
 
   const handleSearchMovies = (name, isItShort) => {
    
-    setIsPreloaderWork(handlePreloader);
+    setIsPreloaderWork(true);
     const valueFromInput = name.name.toLowerCase().split(" ").join('');
     const currentMovies = [];
-  
-    console.log(allMovies);
+
+     // console.log(allMovies);
     if (isItShort){
       allMovies.forEach(
         (movie) => {
           const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-          if (stringDividedOnWord.includes(valueFromInput) === true) {
-            if(movie.duration <= 40){
-              currentMovies.push(movie);
-            }
-            
+          if (stringDividedOnWord.includes(valueFromInput) === true && movie.duration <= 40 ) {
+              currentMovies.push(movie);    
           }
         }
       );
@@ -70,16 +65,28 @@ function handlePreloader(){
     allMovies.forEach(
       (movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-        if (stringDividedOnWord.includes(valueFromInput) === true) {
-          if(movie.duration > 41){
-            currentMovies.push(movie);
-          }
-          
+        if (stringDividedOnWord.includes(valueFromInput) === true && movie.duration > 41) {
+
+       
+          const newMovie = {
+            country: String(movie.country),
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: `https://api.nomoreparties.co${movie.image.url}`,
+            trailer: movie.trailerLink,
+            thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+            movieId: movie.id,
+            nameRU: movie.nameRU,
+            nameEN: movie.nameEN,
+          };
+           currentMovies.push(newMovie);          
         }
       }
     )}
-    setIsPreloaderWork(handlePreloader);
-    setMoviesAfterSearch(currentMovies);    
+     setIsPreloaderWork(false);
+    setMoviesAfterSearch(currentMovies);
   };
 
   const handleAuth = ( email, password ) => {
@@ -129,9 +136,43 @@ function handlePreloader(){
       });
   };
 
+  function handleBookmarkClick(newMovie, isLiked) {
+    const jwt = localStorage.getItem("token");
+    
+    if (isLiked) {
+      console.log('newMovie',newMovie);
+      console.log('newMovie',newMovie._id);
+      apiAuth
+        .deleteMovies(newMovie, jwt)
+        .then((data) => {
+           console.log('dataRemoving:', data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      apiAuth
+        .addingMovies(newMovie, jwt)
+        .then((newCard) => {
+          // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+          const newListOfMovies = moviesAfterSearch.map((card) => (card.movieId === newCard.movieId ? newCard : card));
+        
+          // Обновляем стейт
+          setMoviesAfterSearch(newListOfMovies);
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
+
+  
+  
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
+      <CurrentBookmarkContext.Provider value={isBookmarkSelected}>
       <div className="page">
         <Switch>
           <Route path="/sign-in">
@@ -145,8 +186,8 @@ function handlePreloader(){
             <Movies
               handleSearchMovies={handleSearchMovies}
               addMoviesYet={addMoviesYet}
-              // handlePreloader={isPreloaderWork}
-            />
+              onBookmarkClick={handleBookmarkClick}
+/>
              <Preloader/> 
             <Footer />
           </Route>
@@ -169,6 +210,7 @@ function handlePreloader(){
           </Route>
         </Switch>
       </div>
+      </CurrentBookmarkContext.Provider>
       </CurrentPreloaderContext.Provider>
     </CurrentMoviesContext.Provider>
   );

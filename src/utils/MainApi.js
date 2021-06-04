@@ -13,18 +13,7 @@ class Auth {
       }
     }
   
-    addMovieToFavourite( country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRu, nameEN ){
-      return fetch(`${this.baseUrl}/movies`, {
-        method: "POST",
-        headers: this.headers,
-        body: JSON.stringify({ country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRu, nameEN}),
-      }).then((response) => {
-        return this._getResponseData(response);
-      });
-    } 
-
-    addingMovies(newMovie, isLiked, jwt) {
-      if (isLiked) {
+    addingMovies(newMovie, jwt) {
           return fetch(`${this.baseUrl}/movies`, {
           method: "POST",
           headers: {
@@ -39,8 +28,10 @@ class Auth {
           .then((data) => {
             return data;
           });
-      } else {
-        return fetch(`${this.baseUrl}/movies/${newMovie.id}`, {
+      } 
+
+      deleteMovies(newMovie, jwt){
+        return fetch(`${this.baseUrl}/movies/${newMovie._id}`, {
           method: "DELETE",
           headers: {
             'Content-Type': "application/json",
@@ -54,7 +45,9 @@ class Auth {
             return data;
           });
       }
-    }
+    
+
+  
 
     register(name, email, password) {
       return fetch(`${this.baseUrl}/signup`, {
@@ -97,4 +90,35 @@ class Auth {
     },
     
   });
-  
+    // addingMovies(newMovie, isLiked, jwt) {
+    //   if (isLiked) {
+    //       return fetch(`${this.baseUrl}/movies`, {
+    //       method: "POST",
+    //       headers: {
+    //         'Content-Type': "application/json",
+    //          Authorization: `Bearer ${jwt}`,
+    //       },
+    //       body:JSON.stringify(newMovie)
+    //     })
+    //       .then((res) => {
+    //         return this._getResponseData(res);
+    //       })
+    //       .then((data) => {
+    //         return data;
+    //       });
+    //   } else {
+    //     return fetch(`${this.baseUrl}/movies/${newMovie.id}`, {
+    //       method: "DELETE",
+    //       headers: {
+    //         'Content-Type': "application/json",
+    //          Authorization: `Bearer ${jwt}`,
+    //       },
+    //     })
+    //       .then((res) => {
+    //         return this._getResponseData(res);
+    //       })
+    //       .then((data) => {
+    //         return data;
+    //       });
+    //   }
+    // }

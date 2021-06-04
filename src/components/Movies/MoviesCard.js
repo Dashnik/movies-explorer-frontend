@@ -1,38 +1,19 @@
 import React from "react";
 import "./MoviesCard.css";
-import bookmarkUnselected from "../../images/bookmarkUnselected.svg";
-import bookmarkSelected from "../../images/bookmarkSelected.svg";
-// import apiAuth from "../../utils/MainApi.js";
-import { apiAuth } from "../../utils/MainApi.js";
 
-function MoviesCard({ props, movie }) {
-  const [isBookmarkSelected, setIsBookmarkSelected] = React.useState(false);
+function MoviesCard({ onAddMovieToBookmark, movie }) {
+  
+  const [isLiked, setIsLiked] = React.useState(false);
 
-  const newMovie = { 
-    country: String(movie.country),
-   director: movie.director,
-   duration: movie.duration,
-   year: movie.year,
-   description: movie.description,
-   image: `https://api.nomoreparties.co${movie.image.url}`,
-   trailer: movie.trailerLink,
-   thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
-   movieId: movie.id,
-   nameRU: movie.nameRU,
-   nameEN: movie.nameEN
-   }
-
-  const handleLikeClick = () => {
-    const jwt = localStorage.getItem("token");  
-console.log('newMovie', newMovie);
-
-    apiAuth
-     .addingMovies(newMovie, true, jwt)
-     .then((data) => {
-       console.log('hi');
-      console.log('data',data);
-      })
-  };
+  function handleBookMarkClick() {
+    if (!isLiked) {
+      onAddMovieToBookmark(movie, isLiked);
+      setIsLiked(!isLiked);
+    } else {
+      onAddMovieToBookmark(movie, isLiked);
+      setIsLiked(!isLiked);
+    }
+  }
 
   function handleImageClick() {
     window.open(movie.trailerLink, "_blank");
@@ -48,20 +29,18 @@ console.log('newMovie', newMovie);
           }м`}</p>
           <button
             type="button"
-            className="card__submit"
-            onClick={handleLikeClick}
-          >
-            <img
-              className="card__bookmark"
-              src={isBookmarkSelected ? bookmarkSelected : bookmarkUnselected}
-              alt="закладка для фильма"
-            />
-          </button>
+            className={`card__bookmark ${
+              // currentBookmarkStatus ? "card__bookmark-active" : ""
+              isLiked ? "card__bookmark-active" : ""
+            }`}
+            onClick={handleBookMarkClick}
+          ></button>
         </div>
         <img
           className="card__image"
-          src={`https://api.nomoreparties.co${movie.image.url}`}
-          alt="alt"
+          // src={`https://api.nomoreparties.co${movie.image.url}`}
+          src={movie.image}
+          alt={movie.nameRU}
           onClick={handleImageClick}
         />
       </div>

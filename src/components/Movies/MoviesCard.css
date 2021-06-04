@@ -47,7 +47,7 @@
   color: #8b8b8b;
 }
 
-.card__submit {
+.card__bookmark {
   grid-row: 2;
   grid-column: 3/4;
   margin: 0;
@@ -59,18 +59,15 @@
   height: 30px;
   background: #313131;
   border-radius: 36px;
+  background-image: url('../../images/bookmarkUnselected.svg');
 }
 
-.card__submit:hover {
+.card__bookmark:hover {
   opacity: 0.6;
 }
 
-.card__bookmark {
-  grid-row: 2;
-  grid-column: 3/4;
-  margin: 0;
-  width: 30px;
-  height: 30px;
+.card__bookmark-active{
+  background-image: url('../../images/bookmarkSelected.svg');
 }
 
 .card__image{
