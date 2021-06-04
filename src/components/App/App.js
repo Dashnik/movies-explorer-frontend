@@ -12,7 +12,7 @@ import Profile from "../Profile";
 import PageNotFound from "../PageNotFound";
 import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
 import { apiAuth } from "../../utils/MainApi.js";
-import { CurrentMoviesContext, CurrentPreloaderContext, CurrentBookmarkContext } from "../contexts/CurrentContext";
+import { CurrentMoviesContext, CurrentPreloaderContext, CurrentSavedMoviesContext } from "../contexts/CurrentContext";
 import Preloader from '../Movies/Preloader.js'; 
 
 function App() {
@@ -24,14 +24,10 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState("");
   const [isBookmarkSelected, setIsBookmarkSelected] = React.useState(false);
-  // const [emptyCurrentMovie, setEmptyCurrentMovie] =React.useState(false);
+  const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
+  const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
   
   const history = useHistory();
-
-
-// function handlePreloader(){
-//   setIsPreloaderWork(!isPreloaderWork);
-// }
 
   React.useEffect(() => {
     BeatfilmMoviesApi.getAllMovies()
@@ -44,6 +40,13 @@ function App() {
       });
   }, []);
   
+  
+  // React.useEffect(() => {
+  //   const searchName = localStorage.getItem(JSON.parse("searchName"));
+  //   const isItShort = localStorage.getItem(JSON.parse("isItShort"));
+
+  //   handleSearchMovies(searchName, isItShort);
+  // }, []);
 
   const handleSearchMovies = (name, isItShort) => {
    
@@ -82,11 +85,16 @@ function App() {
             nameEN: movie.nameEN,
           };
            currentMovies.push(newMovie);          
+          
         }
       }
     )}
-     setIsPreloaderWork(false);
+    setIsPreloaderWork(false);
     setMoviesAfterSearch(currentMovies);
+    setDidYouDoSearch(true);
+
+    localStorage.setItem("name", JSON.stringify(name));
+    localStorage.setItem("isItShort", JSON.stringify(isItShort));
   };
 
   const handleAuth = ( email, password ) => {
@@ -140,8 +148,6 @@ function App() {
     const jwt = localStorage.getItem("token");
     
     if (isLiked) {
-      console.log('newMovie',newMovie);
-      console.log('newMovie',newMovie._id);
       apiAuth
         .deleteMovies(newMovie, jwt)
         .then((data) => {
@@ -159,7 +165,8 @@ function App() {
         
           // Обновляем стейт
           setMoviesAfterSearch(newListOfMovies);
-
+          // setListOfSavedMovies(newCard);
+          // console.log('listOfSavedMovies',listOfSavedMovies);
         })
         .catch((error) => {
           console.log(error);
@@ -172,7 +179,7 @@ function App() {
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
-      <CurrentBookmarkContext.Provider value={isBookmarkSelected}>
+      <CurrentSavedMoviesContext.Provider value={listOfSavedMovies}>
       <div className="page">
         <Switch>
           <Route path="/sign-in">
@@ -186,9 +193,9 @@ function App() {
             <Movies
               handleSearchMovies={handleSearchMovies}
               addMoviesYet={addMoviesYet}
-              onBookmarkClick={handleBookmarkClick}
-/>
+              onBookmarkClick={handleBookmarkClick}/>
              <Preloader/> 
+             {(didYouDoSearch && moviesAfterSearch.length === 0 ? <p className='searches__error searches__error-empty'>Ничего не найдено</p> : <p></p>)}
             <Footer />
           </Route>
           <Route path="/saved-movies">
@@ -210,7 +217,7 @@ function App() {
           </Route>
         </Switch>
       </div>
-      </CurrentBookmarkContext.Provider>
+      </CurrentSavedMoviesContext.Provider>
       </CurrentPreloaderContext.Provider>
     </CurrentMoviesContext.Provider>
   );

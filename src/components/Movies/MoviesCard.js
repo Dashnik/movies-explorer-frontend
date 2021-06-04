@@ -30,7 +30,6 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
           <button
             type="button"
             className={`card__bookmark ${
-              // currentBookmarkStatus ? "card__bookmark-active" : ""
               isLiked ? "card__bookmark-active" : ""
             }`}
             onClick={handleBookMarkClick}
@@ -38,7 +37,6 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
         </div>
         <img
           className="card__image"
-          // src={`https://api.nomoreparties.co${movie.image.url}`}
           src={movie.image}
           alt={movie.nameRU}
           onClick={handleImageClick}

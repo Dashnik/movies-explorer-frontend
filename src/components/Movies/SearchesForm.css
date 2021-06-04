@@ -32,6 +32,12 @@
   color: #EE3465;
 }
 
+.searches__error-empty{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 
 .searches__logo {
   width: 34px;
