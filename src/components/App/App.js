@@ -196,6 +196,7 @@ function App() {
         .getUser(jwt)
         .then((res) => {
           if (res) {
+
             setLoggedIn(true);
             history.push("/movies");
             setCurrentUser(res);
@@ -214,7 +215,9 @@ function App() {
     api
       .register(name, email, password)
       .then(() => {
-        history.push("/movies");
+        console.log('email:', email, 'password:',password);
+        handleAuth(email, password); 
+       // history.push("/movies");
       })
       .catch((error) => {
         console.log(error);
