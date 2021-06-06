@@ -4,11 +4,12 @@ import SearchesForm from '../Movies/SearchesForm';
 import SavedMoviesCardList from './SavedMoviesCardList';
 
 
-function SavedMovies () {
+function SavedMovies (props) {
   return (
     <div className="savedMovies">
       <SearchesForm></SearchesForm>
-      <SavedMoviesCardList/>    
+      <SavedMoviesCardList
+      onDeleteMovieClick={props.onDeleteMovieClick}/>    
     </div>
   )
 }

@@ -11,21 +11,20 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile";
 import PageNotFound from "../PageNotFound";
 import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
-import { apiAuth } from "../../utils/MainApi.js";
+import { api } from "../../utils/MainApi.js";
 import { CurrentMoviesContext, CurrentPreloaderContext, CurrentSavedMoviesContext } from "../contexts/CurrentContext";
 import Preloader from '../Movies/Preloader.js'; 
 
 function App() {
   const [addMoviesYet, setAddMoviesYet] = React.useState(false);
-  // const [isItShort, setIsItShort] = React.useState(true);
   const [allMovies, setAllMovies] = React.useState([]);
   const [moviesAfterSearch, setMoviesAfterSearch] = React.useState([]);
   const [isPreloaderWork, setIsPreloaderWork] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState("");
-  const [isBookmarkSelected, setIsBookmarkSelected] = React.useState(false);
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
+
   
   const history = useHistory();
 
@@ -39,14 +38,29 @@ function App() {
         console.log(error);
       });
   }, []);
-  
-  
-  // React.useEffect(() => {
-  //   const searchName = localStorage.getItem(JSON.parse("searchName"));
-  //   const isItShort = localStorage.getItem(JSON.parse("isItShort"));
 
-  //   handleSearchMovies(searchName, isItShort);
-  // }, []);
+  React.useEffect(() => {
+    getSavedMovies();
+  }, []);
+
+  function getSavedMovies(){
+    const jwt = localStorage.getItem("token");
+    
+    api.getSavedMovies(jwt)
+      .then((savedMovies) => {
+      
+      setListOfSavedMovies(savedMovies);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }
+
+  React.useEffect(() => {
+    handleAddButton();
+  }, [moviesAfterSearch]);
+  
 
   const handleSearchMovies = (name, isItShort) => {
    
@@ -93,12 +107,48 @@ function App() {
     setMoviesAfterSearch(currentMovies);
     setDidYouDoSearch(true);
 
-    localStorage.setItem("name", JSON.stringify(name));
-    localStorage.setItem("isItShort", JSON.stringify(isItShort));
+    // localStorage.setItem("name", JSON.stringify(name));
+    // localStorage.setItem("isItShort", JSON.stringify(isItShort));
   };
 
+  function handleAddButton(){
+     //получаю ширину экрана
+      /** магия */
+      const width = document.body.getBoundingClientRect().width;
+      console.log('width',width);
+
+      console.log('moviesAfterSearch', moviesAfterSearch);
+
+    // получаю число карточек в moviesAfterSearch
+    const countOfCards = moviesAfterSearch.length;
+  console.log('countOfCards',countOfCards);
+
+    if (width>769 && width<1280){
+      console.log('1 iteration');
+      if (countOfCards > 2){
+        console.log('I am in');
+        setAddMoviesYet(true);
+      }
+      console.log('I am out');
+    } 
+
+    if (width<=768 && width > 480){
+      console.log('2 iteration');
+      if (countOfCards > 9){
+        setAddMoviesYet(true);
+      }
+    }
+
+    if(width<479){
+      console.log('3 iteration');
+      if (countOfCards > 5){
+        setAddMoviesYet(true);
+      }
+    }
+  }
+
   const handleAuth = ( email, password ) => {
-    apiAuth
+    api
       .authorize(email, password)
       .then((data) => {
         localStorage.setItem("token", data.token);
@@ -116,7 +166,7 @@ function App() {
     const jwt = localStorage.getItem("token");
     // проверим токен
     if (jwt) {
-      apiAuth.getContent(jwt).then((res) => {
+      api.getContent(jwt).then((res) => {
         if (res) {
           setLoggedIn(true);
           history.push("/movies");
@@ -134,7 +184,7 @@ function App() {
 
   const handleRegisterUser = ( name, email, password ) => {
 
-    apiAuth
+    api
       .register(name,email, password)
       .then(() => {
         history.push("/movies");
@@ -148,7 +198,7 @@ function App() {
     const jwt = localStorage.getItem("token");
     
     if (isLiked) {
-      apiAuth
+      api
         .deleteMovies(newMovie, jwt)
         .then((data) => {
            console.log('dataRemoving:', data);
@@ -157,7 +207,7 @@ function App() {
           console.log(error);
         });
     } else {
-      apiAuth
+      api
         .addingMovies(newMovie, jwt)
         .then((newCard) => {
           // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
@@ -165,6 +215,9 @@ function App() {
         
           // Обновляем стейт
           setMoviesAfterSearch(newListOfMovies);
+            
+          getSavedMovies();
+          
           // setListOfSavedMovies(newCard);
           // console.log('listOfSavedMovies',listOfSavedMovies);
         })
@@ -174,7 +227,19 @@ function App() {
     }
   }
 
-  
+  function handleDeleteMovieClick(movie) {
+    const jwt = localStorage.getItem("token");
+
+    api
+      .deleteMovies(movie, jwt)
+      .then(() => {
+        const newListOfMovies = listOfSavedMovies.filter((r)=>(r._id === movie._id ? '' : r));
+        setListOfSavedMovies(newListOfMovies);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
@@ -192,15 +257,17 @@ function App() {
             <Header loggedIn={false} />
             <Movies
               handleSearchMovies={handleSearchMovies}
-              addMoviesYet={addMoviesYet}
+              // addMoviesYet={addMoviesYet}
               onBookmarkClick={handleBookmarkClick}/>
              <Preloader/> 
-             {(didYouDoSearch && moviesAfterSearch.length === 0 ? <p className='searches__error searches__error-empty'>Ничего не найдено</p> : <p></p>)}
+             {(didYouDoSearch && moviesAfterSearch.length === 0 ? <p className='searches__error searches__error-empty'>Ничего не найдено</p> : '')}
+           { addMoviesYet ? <button type='button' className='moviesCardList__add_button'><p className='moviesCardList__container'>Ещё</p></button> : '' }
             <Footer />
           </Route>
           <Route path="/saved-movies">
             <Header loggedIn={false} />
-            <SavedMovies />
+            <SavedMovies 
+            onDeleteMovieClick={handleDeleteMovieClick}/>
             <Footer />
           </Route>
           <Route path="/profile">

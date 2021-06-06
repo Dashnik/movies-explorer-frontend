@@ -7,13 +7,14 @@ function SavedMoviesCardList (props) {
 
   const currentSavedCards = React.useContext(CurrentSavedMoviesContext);
 
-  console.log('currentSavedCards',currentSavedCards);
+//  console.log('currentSavedCards',currentSavedCards);
   return (
     <div className="savedMoviesCardList">
         {currentSavedCards.map((savedMovie) => (
           <SavedMoviesCard 
           key={savedMovie.movieId}
           movie={savedMovie}
+          onDeleteMovie={props.onDeleteMovieClick}
        //   onAddMovieToBookmark={props.onBookmarkClick}
        />
         ))}

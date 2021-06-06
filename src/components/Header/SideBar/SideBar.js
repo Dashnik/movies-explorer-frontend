@@ -9,22 +9,22 @@ function SideBar(props) {
       <button type='button' className='sideBar__close' onClick={props.onClose}></button>   
      <ul className='sideBar__container'>
         <li className='sideBard-main'>
-          <Link to="/"className='sideBar__nav' >
+          <Link to="/"className='sideBar__nav'  onClick={props.onClose} >
             Главная
           </Link>
         </li>
         <li className='sideBard-movies'>
-          <Link to="/movies" className='sideBar__nav'>
+          <Link to="/movies" className='sideBar__nav'  onClick={props.onClose}>
             Фильмы
           </Link>
         </li>
         <li className='sideBard-saved-movies'>
-          <Link to="/saved-movies" className='sideBar__nav'>
+          <Link to="/saved-movies" className='sideBar__nav' onClick={props.onClose}>
             Сохраненные фильмы
           </Link>
         </li>
         <li className='sideBard-account'>
-          <Link to="/profile" className='sideBar__nav'>
+          <Link to="/profile" className='sideBar__nav' onClick={props.onClose}>
             <img src={account} alt=''/>
           </Link>
         </li>

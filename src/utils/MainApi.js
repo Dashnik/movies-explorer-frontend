@@ -12,6 +12,17 @@ class Auth {
         return Promise.reject(`Ошибка: ${value.status}`);
       }
     }
+
+    getSavedMovies(jwt) {
+      return fetch(`${this.baseUrl}/movies`, {
+        headers: {
+          'Content-Type': "application/json",
+           Authorization: `Bearer ${jwt}`,
+        },
+      }).then((res) => {
+        return this._getResponseData(res);
+      });
+    }
   
     addingMovies(newMovie, jwt) {
           return fetch(`${this.baseUrl}/movies`, {
@@ -82,7 +93,7 @@ class Auth {
     }
   }
   
-  export const apiAuth = new Auth({
+  export const api = new Auth({
      baseUrl: "http://api.findmovie.nomoredomains.icu",
    //  baseUrl: "http://localhost:3000",
     headers: {
@@ -90,35 +101,3 @@ class Auth {
     },
     
   });
-    // addingMovies(newMovie, isLiked, jwt) {
-    //   if (isLiked) {
-    //       return fetch(`${this.baseUrl}/movies`, {
-    //       method: "POST",
-    //       headers: {
-    //         'Content-Type': "application/json",
-    //          Authorization: `Bearer ${jwt}`,
-    //       },
-    //       body:JSON.stringify(newMovie)
-    //     })
-    //       .then((res) => {
-    //         return this._getResponseData(res);
-    //       })
-    //       .then((data) => {
-    //         return data;
-    //       });
-    //   } else {
-    //     return fetch(`${this.baseUrl}/movies/${newMovie.id}`, {
-    //       method: "DELETE",
-    //       headers: {
-    //         'Content-Type': "application/json",
-    //          Authorization: `Bearer ${jwt}`,
-    //       },
-    //     })
-    //       .then((res) => {
-    //         return this._getResponseData(res);
-    //       })
-    //       .then((data) => {
-    //         return data;
-    //       });
-    //   }
-    // }
