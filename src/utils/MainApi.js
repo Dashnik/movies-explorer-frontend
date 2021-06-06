@@ -89,7 +89,7 @@ class Auth {
     });
   }
 
-  setNewProfile({name, email}, jwt) {
+    setNewProfile(name, email, jwt) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: "PATCH",
       headers: {

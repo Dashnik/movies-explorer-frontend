@@ -10,7 +10,7 @@ function SearchesForm(props) {
     .object()
     .shape({ name: yup.string().required("Нужно ввести ключевое слово") });
 
-  const [nameMovie, setNameMovie] = React.useState("");
+ // const [nameMovie, setNameMovie] = React.useState("");
   const [isShortMovie, setIsShortMovie] = React.useState(false);
 
   function handleToggleChange() {
@@ -43,7 +43,7 @@ function SearchesForm(props) {
             <img
               className="searches__logo"
               src={blackSearch}
-              alt="не активная иконка лупы черного цвета"
+              alt="иконка лупы"
             />
             <button type="submit" className="searches__submit">
               <img
@@ -57,7 +57,7 @@ function SearchesForm(props) {
               type="text"
               placeholder={"Фильмы"}
               required
-              value={nameMovie}
+              value={values.name}
               name={`name`}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -77,15 +77,3 @@ function SearchesForm(props) {
 }
 
 export default SearchesForm;
-
-// function handleSubmit(e) {
-//   // Запрещаем браузеру переходить по адресу формы
-//   e.preventDefault();
-
-//   // Передаём значения управляемых компонентов во внешний обработчик
-//   // props.onSearchMovie(nameMovie,isShortMovie);
-// }
-
-// function handleChange(e){
-//  setNameMovie(e.target.value);
-// }

@@ -217,18 +217,17 @@ function App() {
       .then(() => {
         console.log('email:', email, 'password:',password);
         handleAuth(email, password); 
-       // history.push("/movies");
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const handleUpdateUser = ({ name, email }) => {
+    const handleUpdateUser = (values) => {
+    
     const jwt = localStorage.getItem("token");
- 
     api
-     .setNewProfile({name, email}, jwt)
+     .setNewProfile(values.name, values.email, jwt)
       .then((newUserData) => {
         setCurrentUser(newUserData);
       })

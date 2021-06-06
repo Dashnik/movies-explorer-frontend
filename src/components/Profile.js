@@ -9,9 +9,10 @@ import * as yup from "yup";
 function Profile(props) {
   const history = useHistory();
   const currentUser = React.useContext(CurrentUserContext);
+
   const validationSchema = yup.object().shape({
     name:yup.string().required('Обязательное поле'),
-    email:yup.string().email('Введен невалидный email').required('Введите верный email')
+    email:yup.string().email('Введен невалидный email').required('Поле не может быть пустым')
   })
 
   const [name, setName] = React.useState('');
@@ -19,7 +20,7 @@ function Profile(props) {
 
   React.useEffect(() => {
     setName(currentUser.name);
-    setEmail(currentUser.about);
+    setEmail(currentUser.email);
   }, [currentUser]);
 
   const signOut = () => {
@@ -34,13 +35,14 @@ function Profile(props) {
       <h3 className="profile__title"> Привет, {currentUser.name}!</h3>
       <Formik
       initialValues={{
-        name:'',
-        email:'',
+        name:currentUser.name,
+        email:currentUser.email,
       }}
       validateOnBlur
       onSubmit={(values)=>{
-        console.log(values);
-        props.onUpdateUser(values.name, values.email);
+      
+        // props.onUpdateUser(values.name, values.email);
+        props.onUpdateUser(values);
       }}
       validationSchema={validationSchema}
       >
@@ -49,7 +51,7 @@ function Profile(props) {
             <input
               type="text"
               className="profile__input"
-              name={'name'}
+              name='name'
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.name}
