@@ -2,25 +2,34 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/header__logo.svg";
 import "./Register.css";
+import { Formik } from "formik";
+import * as yup from "yup";
 
 function Register(props) {
-  const [values, setValues] = React.useState({});
+  // const [values, setValues] = React.useState({});
 
-  function handlesubmit(e) {
-    // Запрещаем браузеру переходить по адресу формы
-    e.preventDefault();
+  const validationSchema = yup.object().shape({
+    name:yup.string().required('Обязательное поле'),
+    email:yup.string().email('Введен невалидный email').required('Введите верный email'),
+    password:yup.string().min(6, 'Пароль должен быть больше 6 символов').required('Обязательное поле')
+  })
 
-    // Передаём значения управляемых компонентов во внешний обработчик
-   props.onRegister(values.register__name, values.register__email, values.register__pwd);
-  }
 
-  const handleChange = (e) => {
-    const target = e.target;
-    const name = target.name;
-    const value = target.value;
+  // function handlesubmit(e) {
+  //   // Запрещаем браузеру переходить по адресу формы
+  //   e.preventDefault();
 
-    setValues({ ...values, [name]: value });
-  };
+  //   // Передаём значения управляемых компонентов во внешний обработчик
+  //  props.onRegister(values.register__name, values.register__email, values.register__pwd);
+  // }
+
+  // const handleChange = (e) => {
+  //   const target = e.target;
+  //   const name = target.name;
+  //   const value = target.value;
+
+  //   setValues({ ...values, [name]: value });
+  // };
 
   return (
     <>
@@ -33,8 +42,21 @@ function Register(props) {
           />
         </Link>
         <h2 className="register__title">Добро пожаловать!</h2>
+        <Formik
+      initialValues={{
+        name:'',
+        email:'',
+        password:''
+      }}
+      validateOnBlur
+      onSubmit={(values)=>{
+        props.onRegister(values.name, values.email, values.password);
+      }}
+      validationSchema={validationSchema}
+      >
+        {({values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) =>(
         <form className="register__form"
-         onSubmit={handlesubmit}>
+         >
           <span className="register__subtitle register__subtitle-name">
             Имя
           </span>
@@ -42,9 +64,11 @@ function Register(props) {
             type="text"
             className="register__input register__input-name"
             onChange={handleChange}
-            name='register__name'
-            required
+            name='name'
+            value={values.name}
+            onBlur={handleBlur}
           />
+           { touched.name && errors.name && <p className="register__error">{errors.name}</p>} 
           <span className="register__subtitle register__subtitle-email">
             E-mail
           </span>
@@ -52,9 +76,11 @@ function Register(props) {
             type="email"
             className="register__input register__input-email"
             onChange={handleChange}
-            name='register__email'
-            required
+            name='email'
+            value={values.email}
+            onBlur={handleBlur}
           />
+            { touched.email && errors.email && <p className="register__error register__error-email">{errors.email}</p>} 
           <span className="register__subtitle register__subtitle-pwd">
             Пароль
           </span>
@@ -62,13 +88,17 @@ function Register(props) {
             type="password"
             className="register__input register__input-pwd"
             onChange={handleChange}
-            name='register__pwd'
-            required
+            onBlur={handleBlur}
+            name='password'
+            value={values.password}
           />
-          <button type="submit" className="register__submit">
+           { touched.password && errors.password && <p className="register__error register__error-password">{errors.password}</p>} 
+          <button type="submit" className="register__submit" onClick={handleSubmit}>
             Зарегистрироваться
           </button>
         </form>
+          )}
+           </Formik>
         <div className="register__container">
           <span className="register__text">Уже зарегистрированы?</span>
           <Link to="/sign-in" className="link">

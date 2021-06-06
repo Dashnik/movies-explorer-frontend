@@ -17,6 +17,18 @@
   align-self: flex-end;
 }
 
+.profile__error{
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 0;
+  color: #EE3465;
+  grid-area: 2/2/3/3;
+}
+.profile__error:last-of-type{
+  grid-area: 4/2/5/3;
+}
+
 .profile__form {
   grid-area: 3/2/4/3;
   display: grid;
@@ -39,6 +51,11 @@
 
   color: #ffffff;
 }
+
+.profile__input:last-of-type{
+border: none;
+}
+
 .profile__name {
   grid-row: 1;
 

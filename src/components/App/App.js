@@ -12,8 +12,14 @@ import Profile from "../Profile";
 import PageNotFound from "../PageNotFound";
 import BeatfilmMoviesApi from "../../utils/MoviesApi.js";
 import { api } from "../../utils/MainApi.js";
-import { CurrentMoviesContext, CurrentPreloaderContext, CurrentSavedMoviesContext } from "../contexts/CurrentContext";
-import Preloader from '../Movies/Preloader.js'; 
+import {
+  CurrentMoviesContext,
+  CurrentPreloaderContext,
+  CurrentSavedMoviesContext,
+  CurrentUserContext,
+} from "../contexts/CurrentContext";
+import Preloader from "../Movies/Preloader.js";
+import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
 
 function App() {
   const [addMoviesYet, setAddMoviesYet] = React.useState(false);
@@ -25,13 +31,11 @@ function App() {
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
 
-  
   const history = useHistory();
 
   React.useEffect(() => {
     BeatfilmMoviesApi.getAllMovies()
       .then((data) => {
-        // console.log(data);
         setAllMovies(data);
       })
       .catch((error) => {
@@ -43,48 +47,46 @@ function App() {
     getSavedMovies();
   }, []);
 
-  function getSavedMovies(){
+  function getSavedMovies() {
     const jwt = localStorage.getItem("token");
-    
-    api.getSavedMovies(jwt)
+
+    api
+      .getSavedMovies(jwt)
       .then((savedMovies) => {
-      
-      setListOfSavedMovies(savedMovies);
+        setListOfSavedMovies(savedMovies);
       })
       .catch((error) => {
         console.log(error);
       });
-
   }
 
   React.useEffect(() => {
     handleAddButton();
   }, [moviesAfterSearch]);
-  
 
   const handleSearchMovies = (name, isItShort) => {
-   
     setIsPreloaderWork(true);
-    const valueFromInput = name.name.toLowerCase().split(" ").join('');
+    const valueFromInput = name.name.toLowerCase().split(" ").join("");
     const currentMovies = [];
 
-     // console.log(allMovies);
-    if (isItShort){
-      allMovies.forEach(
-        (movie) => {
-          const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-          if (stringDividedOnWord.includes(valueFromInput) === true && movie.duration <= 40 ) {
-              currentMovies.push(movie);    
-          }
-        }
-      );
-    }else{
-    allMovies.forEach(
-      (movie) => {
+    // console.log(allMovies);
+    if (isItShort) {
+      allMovies.forEach((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-        if (stringDividedOnWord.includes(valueFromInput) === true && movie.duration > 41) {
-
-       
+        if (
+          stringDividedOnWord.includes(valueFromInput) === true &&
+          movie.duration <= 40
+        ) {
+          currentMovies.push(movie);
+        }
+      });
+    } else {
+      allMovies.forEach((movie) => {
+        const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
+        if (
+          stringDividedOnWord.includes(valueFromInput) === true &&
+          movie.duration > 41
+        ) {
           const newMovie = {
             country: String(movie.country),
             director: movie.director,
@@ -98,56 +100,79 @@ function App() {
             nameRU: movie.nameRU,
             nameEN: movie.nameEN,
           };
-           currentMovies.push(newMovie);          
-          
+          currentMovies.push(newMovie);
         }
-      }
-    )}
+      });
+    }
     setIsPreloaderWork(false);
     setMoviesAfterSearch(currentMovies);
     setDidYouDoSearch(true);
+    
 
-    // localStorage.setItem("name", JSON.stringify(name));
-    // localStorage.setItem("isItShort", JSON.stringify(isItShort));
+    localStorage.setItem("moviesAfterSearch", JSON.stringify(currentMovies));
   };
 
-  function handleAddButton(){
-     //получаю ширину экрана
-      /** магия */
-      const width = document.body.getBoundingClientRect().width;
-      console.log('width',width);
+  function handleDataFromLocalStorage() {
+    const moviesAfterSearchInLS = JSON.parse(
+      localStorage.getItem("moviesAfterSearch")
+    );
+     setMoviesAfterSearch(moviesAfterSearchInLS);
+  }
 
-      console.log('moviesAfterSearch', moviesAfterSearch);
+  // React.useEffect(() => {
+  //   const moviesAfterSearchInLS = JSON.parse(
+  //     localStorage.getItem("moviesAfterSearch")
+  //   );
+  //   console.log('moviesAfterSearchInLS',moviesAfterSearchInLS.length);
+  //   if (loggedIn &&  ) {
+  //     handleDataFromLocalStorage();
+  //   }
+  // }, [moviesAfterSearch]);
 
-    // получаю число карточек в moviesAfterSearch
-    const countOfCards = moviesAfterSearch.length;
-  console.log('countOfCards',countOfCards);
+  function handleAddButton() {
+    //получаю ширину экрана
+    /** магия */
+    const width = document.body.getBoundingClientRect().width;
+    //   console.log('width',width);
 
-    if (width>769 && width<1280){
-      console.log('1 iteration');
-      if (countOfCards > 2){
-        console.log('I am in');
+    //  console.log('moviesAfterSearch', moviesAfterSearch);
+
+    // получаю число карточек из moviesAfterSearch
+    let countOfCards;
+
+    if (moviesAfterSearch.length === 0) {
+      countOfCards = 0;
+    } else {
+      countOfCards = moviesAfterSearch.length;
+    }
+
+    // console.log('countOfCards',countOfCards);
+
+    if (width > 769 && width < 1280) {
+      console.log("1 iteration");
+      if (countOfCards > 2) {
+        //   console.log('I am in');
         setAddMoviesYet(true);
       }
-      console.log('I am out');
-    } 
+      //  console.log('I am out');
+    }
 
-    if (width<=768 && width > 480){
-      console.log('2 iteration');
-      if (countOfCards > 9){
+    if (width <= 768 && width > 480) {
+      console.log("2 iteration");
+      if (countOfCards > 9) {
         setAddMoviesYet(true);
       }
     }
 
-    if(width<479){
-      console.log('3 iteration');
-      if (countOfCards > 5){
+    if (width < 479) {
+      console.log("3 iteration");
+      if (countOfCards > 5) {
         setAddMoviesYet(true);
       }
     }
   }
 
-  const handleAuth = ( email, password ) => {
+  const handleAuth = (email, password) => {
     api
       .authorize(email, password)
       .then((data) => {
@@ -156,6 +181,7 @@ function App() {
         localStorage.setItem("email", email);
 
         tokenCheck();
+        localStorage.setItem("moviesAfterSearch", "");
       })
       .catch((error) => console.log(error));
   };
@@ -166,26 +192,27 @@ function App() {
     const jwt = localStorage.getItem("token");
     // проверим токен
     if (jwt) {
-      api.getContent(jwt).then((res) => {
-        if (res) {
-          setLoggedIn(true);
-          history.push("/movies");
-          setCurrentUser(res);
-        }
-        
-      })
-      .catch(error => console.log(error));
+      api
+        .getUser(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            history.push("/movies");
+            setCurrentUser(res);
+          }
+        })
+        .catch((error) => console.log(error));
     }
   };
 
-  React.useEffect(() =>{
+
+  React.useEffect(() => {
     tokenCheck();
-  }, [])
+  }, []);
 
-  const handleRegisterUser = ( name, email, password ) => {
-
+  const handleRegisterUser = (name, email, password) => {
     api
-      .register(name,email, password)
+      .register(name, email, password)
       .then(() => {
         history.push("/movies");
       })
@@ -194,14 +221,27 @@ function App() {
       });
   };
 
+  const handleUpdateUser = ({ name, email }) => {
+    const jwt = localStorage.getItem("token");
+ 
+    api
+     .setNewProfile({name, email}, jwt)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   function handleBookmarkClick(newMovie, isLiked) {
     const jwt = localStorage.getItem("token");
-    
+
     if (isLiked) {
       api
         .deleteMovies(newMovie, jwt)
         .then((data) => {
-           console.log('dataRemoving:', data);
+          console.log("dataRemoving:", data);
         })
         .catch((error) => {
           console.log(error);
@@ -211,13 +251,15 @@ function App() {
         .addingMovies(newMovie, jwt)
         .then((newCard) => {
           // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-          const newListOfMovies = moviesAfterSearch.map((card) => (card.movieId === newCard.movieId ? newCard : card));
-        
+          const newListOfMovies = moviesAfterSearch.map((card) =>
+            card.movieId === newCard.movieId ? newCard : card
+          );
+
           // Обновляем стейт
           setMoviesAfterSearch(newListOfMovies);
-            
+
           getSavedMovies();
-          
+
           // setListOfSavedMovies(newCard);
           // console.log('listOfSavedMovies',listOfSavedMovies);
         })
@@ -233,7 +275,9 @@ function App() {
     api
       .deleteMovies(movie, jwt)
       .then(() => {
-        const newListOfMovies = listOfSavedMovies.filter((r)=>(r._id === movie._id ? '' : r));
+        const newListOfMovies = listOfSavedMovies.filter((r) =>
+          r._id === movie._id ? "" : r
+        );
         setListOfSavedMovies(newListOfMovies);
       })
       .catch((error) => {
@@ -244,47 +288,63 @@ function App() {
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
-      <CurrentSavedMoviesContext.Provider value={listOfSavedMovies}>
-      <div className="page">
-        <Switch>
-          <Route path="/sign-in">
-            <Login onLogin={handleAuth}/>
-          </Route>
-          <Route path="/sign-up">
-            <Register onRegister={handleRegisterUser} />
-          </Route>
-          <Route path="/movies">
-            <Header loggedIn={false} />
-            <Movies
-              handleSearchMovies={handleSearchMovies}
-              // addMoviesYet={addMoviesYet}
-              onBookmarkClick={handleBookmarkClick}/>
-             <Preloader/> 
-             {(didYouDoSearch && moviesAfterSearch.length === 0 ? <p className='searches__error searches__error-empty'>Ничего не найдено</p> : '')}
-           { addMoviesYet ? <button type='button' className='moviesCardList__add_button'><p className='moviesCardList__container'>Ещё</p></button> : '' }
-            <Footer />
-          </Route>
-          <Route path="/saved-movies">
-            <Header loggedIn={false} />
-            <SavedMovies 
-            onDeleteMovieClick={handleDeleteMovieClick}/>
-            <Footer />
-          </Route>
-          <Route path="/profile">
-            <Header loggedIn={false} />
-            <Profile />
-          </Route>
-          <Route path="/error">
-            <PageNotFound></PageNotFound>
-          </Route>
-          <Route path="/">
-            <Header login="Войти" signup="Регистрация" loggedIn={true} />
-            <Main />
-            <Footer />
-          </Route>
-        </Switch>
-      </div>
-      </CurrentSavedMoviesContext.Provider>
+        <CurrentSavedMoviesContext.Provider value={listOfSavedMovies}>
+        <CurrentUserContext.Provider value={currentUser}>
+          <div className="page">
+            <Switch>
+              <Route path="/sign-in">
+                <Login onLogin={handleAuth} />
+              </Route>
+              <Route path="/sign-up">
+                <Register onRegister={handleRegisterUser} />
+              </Route>
+              <Route path="/movies">
+                <Header loggedIn={false} />
+                <Movies
+                  handleSearchMovies={handleSearchMovies}
+                  // addMoviesYet={addMoviesYet}
+                  onBookmarkClick={handleBookmarkClick}
+                />
+                <Preloader />
+                {didYouDoSearch && moviesAfterSearch.length === 0 ? (
+                  <p className="searches__error searches__error-empty">
+                    Ничего не найдено
+                  </p>
+                ) : (
+                  ""
+                )}
+                {addMoviesYet ? (
+                  <button type="button" className="moviesCardList__add_button">
+                    <p className="moviesCardList__container">Ещё</p>
+                  </button>
+                ) : (
+                  ""
+                )}
+                <Footer />
+              </Route>
+              <Route path="/saved-movies">
+                <Header loggedIn={false} />
+                <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
+                <Footer />
+              </Route>
+              <Route path="/profile">
+                <Header loggedIn={false} />
+                <Profile 
+                 onUpdateUser={handleUpdateUser}
+                />
+              </Route>
+              <Route path="/error">
+                <PageNotFound></PageNotFound>
+              </Route>
+              <Route path="/">
+                <Header login="Войти" signup="Регистрация" loggedIn={true} />
+                <Main />
+                <Footer />
+              </Route>
+            </Switch>
+          </div>
+          </CurrentUserContext.Provider>
+        </CurrentSavedMoviesContext.Provider>
       </CurrentPreloaderContext.Provider>
     </CurrentMoviesContext.Provider>
   );
