@@ -30,7 +30,7 @@ function Profile(props) {
 
   return (
     <>
-    {/* <Header /> */}
+    <Header />
     <div className="profile">
       <h3 className="profile__title"> Привет, {currentUser.name}!</h3>
       <Formik

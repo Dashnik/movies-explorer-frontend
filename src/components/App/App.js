@@ -177,39 +177,6 @@ function App() {
       handleDataFromLocalStorage();
   }, []);
 
-  // function handleAddButton() {
-  //   //получаю ширину экрана
-  //   const width = document.body.getBoundingClientRect().width;
-
-  //   // получаю число карточек из moviesAfterSearch
-  //   let countOfCards;
-
-  //   if (moviesAfterSearch.length === 0) {
-  //     countOfCards = 0;
-  //   } else {
-  //     countOfCards = moviesAfterSearch.length;
-  //   }
-
-  //   if (width > 769 && width < 1280) {
-  //     if (countOfCards > 12) {
-
-  //       setAddMoviesYet(true);
-  //     }
-  //   }
-
-  //   if (width <= 768 && width > 480) {
-  //     if (countOfCards > 9) {
-  //       setAddMoviesYet(true);
-  //     }
-  //   }
-
-  //   if (width < 479) {
-  //     if (countOfCards > 5) {
-  //       setAddMoviesYet(true);
-  //     }
-  //   }
-  // }
-
   const handleAuth = (email, password) => {
     api
       .authorize(email, password)
@@ -331,6 +298,10 @@ function App() {
       });
   }
 
+  function handleAddMoviesButton(){
+    console.log('Hi');
+  }
+
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
@@ -349,7 +320,59 @@ function App() {
                 <Route path="/sign-up">
                   <Register onRegister={handleRegisterUser} />
                 </Route>
-                <Route path="/movies">
+                <ProtectedRoute 
+                loggedIn={loggedIn}
+                path="/movies"
+                component={Movies}
+                handleSearchMovies={handleSearchMovies}
+                onBookmarkClick={handleBookmarkClick}
+                didYouDoSearch={didYouDoSearch}
+                moviesAfterSearch={moviesAfterSearch}
+                nextButtonVisible={nextButtonVisible}
+                handleAddMoviesButton={handleAddMoviesButton}
+                >
+                </ProtectedRoute>
+                {/* <Route path="/saved-movies">
+                  <Header />
+                  <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
+                  <Footer />
+                </Route> */}
+                   <ProtectedRoute 
+                loggedIn={loggedIn} 
+                 path="/saved-movies"
+                 component={SavedMovies}
+                 onDeleteMovieClick={handleDeleteMovieClick}
+                 >            
+                </ProtectedRoute>
+                <ProtectedRoute 
+                loggedIn={loggedIn} 
+                path="/profile"
+                component={Profile}
+                onUpdateUser={handleUpdateUser}
+                onSignOut={handleSignOut}
+                >
+                </ProtectedRoute> 
+                {/* <Route path="/profile">
+                  <Header /> 
+                  <Profile 
+                  onUpdateUser={handleUpdateUser}
+                  onSignOut={handleSignOut} />
+                </Route>  */}
+                <Route path="*">
+                  <PageNotFound />
+                </Route>
+              </Switch>
+            </div>
+          </CurrentUserContext.Provider>
+        </CurrentSavedMoviesContext.Provider>
+      </CurrentPreloaderContext.Provider>
+    </CurrentMoviesContext.Provider>
+  );
+}
+
+export default App;
+
+            {/* <Route path="/movies">
                   <Header />
                   <Movies
                     handleSearchMovies={handleSearchMovies}
@@ -368,6 +391,7 @@ function App() {
                     <button
                       type="button"
                       className="moviesCardList__add_button"
+                      onClick={handleAddMoviesButton}
                     >
                       <p className="moviesCardList__container">Ещё</p>
                     </button>
@@ -375,35 +399,4 @@ function App() {
                     ""
                   )}
                   <Footer />
-                </Route>
-                <Route path="/saved-movies">
-                  <Header />
-                  <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
-                  <Footer />
-                </Route>
-                {/* <ProtectedRoute path="/profile"
-                component={Profile}
-                onUpdateUser={handleUpdateUser}
-                onSignOut={handleSignOut}
-                >
-                </ProtectedRoute>  */}
-                <Route path="/profile">
-                  <Header /> 
-                  <Profile 
-                  onUpdateUser={handleUpdateUser}
-                  onSignOut={handleSignOut} />
-                </Route> 
-                <Route path="*">
-                  <PageNotFound />
-                </Route>
-              </Switch>
-            </div>
-          </CurrentUserContext.Provider>
-        </CurrentSavedMoviesContext.Provider>
-      </CurrentPreloaderContext.Provider>
-    </CurrentMoviesContext.Provider>
-  );
-}
-
-export default App;
-
+                </Route> */}
