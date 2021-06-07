@@ -22,7 +22,7 @@ import Preloader from "../Movies/Preloader.js";
 import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
 
 function App() {
-  const [addMoviesYet, setAddMoviesYet] = React.useState(false);
+ // const [addMoviesYet, setAddMoviesYet] = React.useState(false);
   const [allMovies, setAllMovies] = React.useState([]);
   const [moviesAfterSearch, setMoviesAfterSearch] = React.useState([]);
   const [isPreloaderWork, setIsPreloaderWork] = React.useState(false);
@@ -30,6 +30,8 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState("");
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
+  const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
+  
 
   const history = useHistory();
 
@@ -44,8 +46,10 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    getSavedMovies();
-  }, []);
+    if(loggedIn){
+      getSavedMovies();
+    }
+  }, [loggedIn]);
 
   function getSavedMovies() {
     const jwt = localStorage.getItem("token");
@@ -53,16 +57,19 @@ function App() {
     api
       .getSavedMovies(jwt)
       .then((savedMovies) => {
-        setListOfSavedMovies(savedMovies);
+        const ListOfSavedMoviesForUser = savedMovies.filter((movie) =>
+        movie.owner === currentUser._id ? movie : '' 
+         );
+        setListOfSavedMovies(ListOfSavedMoviesForUser);
       })
       .catch((error) => {
         console.log(error);
-      });
+      });   
   }
 
-  React.useEffect(() => {
-    handleAddButton();
-  }, [moviesAfterSearch]);
+  // React.useEffect(() => {
+  //   handleAddButton();
+  // }, [moviesAfterSearch]);
 
   const handleSearchMovies = (name, isItShort) => {
     setIsPreloaderWork(true);
@@ -77,7 +84,20 @@ function App() {
           stringDividedOnWord.includes(valueFromInput) === true &&
           movie.duration <= 40
         ) {
-          currentMovies.push(movie);
+          const newMovie = {
+            country: String(movie.country),
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: `https://api.nomoreparties.co${movie.image.url}`,
+            trailer: movie.trailerLink,
+            thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+            movieId: movie.id,
+            nameRU: movie.nameRU,
+            nameEN: movie.nameEN,
+          };
+          currentMovies.push(newMovie);
         }
       });
     } else {
@@ -104,72 +124,91 @@ function App() {
         }
       });
     }
-    setIsPreloaderWork(false);
-    setMoviesAfterSearch(currentMovies);
-    setDidYouDoSearch(true);
 
-    localStorage.setItem("moviesAfterSearch", JSON.stringify(currentMovies));
+     //получаю ширину экрана
+     const width = document.body.getBoundingClientRect().width;
+
+    // получаю число карточек из currentMovies
+     const countOfCards = currentMovies.length;
+     let firstCardsCount = 0;
+     let nextCardsCount = 0;
+     let shownCardsCount = 0;
+
+    //ищу нужный мне интервал
+    if (width > 769) {
+      firstCardsCount = 16;
+      nextCardsCount = 4;
+    }else if (width > 480) {
+      firstCardsCount = 8;
+      nextCardsCount = 2;
+    }else{
+      firstCardsCount = 5;
+      nextCardsCount = 1;
+    }
+
+    shownCardsCount = firstCardsCount;
+
+    setNextButtonVisible(countOfCards > shownCardsCount);
+    const cardsShownByDefault = currentMovies.slice(currentMovies, firstCardsCount); 
+    const cardsToBeShown = currentMovies.slice(shownCardsCount, shownCardsCount + nextCardsCount);
+
+    setIsPreloaderWork(false);
+    setDidYouDoSearch(true);
+    setMoviesAfterSearch(cardsShownByDefault);
+    
+
+    localStorage.setItem("moviesAfterSearch", JSON.stringify(cardsToBeShown));
   };
 
   function handleDataFromLocalStorage() {
-    const moviesAfterSearchInLS = JSON.parse(
+
+    const isUserLogin = localStorage.getItem("moviesAfterSearch");
+
+    if(isUserLogin){
+      const moviesAfterSearchInLS = JSON.parse(
       localStorage.getItem("moviesAfterSearch")
     );
     setMoviesAfterSearch(moviesAfterSearchInLS);
   }
-
-  // React.useEffect(() => {
-  //   const moviesAfterSearchInLS = JSON.parse(
-  //     localStorage.getItem("moviesAfterSearch")
-  //   );
-  //   console.log('moviesAfterSearchInLS',moviesAfterSearchInLS.length);
-  //   if (loggedIn &&  ) {
-  //     handleDataFromLocalStorage();
-  //   }
-  // }, [moviesAfterSearch]);
-
-  function handleAddButton() {
-    //получаю ширину экрана
-    /** магия */
-    const width = document.body.getBoundingClientRect().width;
-    //   console.log('width',width);
-
-    //  console.log('moviesAfterSearch', moviesAfterSearch);
-
-    // получаю число карточек из moviesAfterSearch
-    let countOfCards;
-
-    if (moviesAfterSearch.length === 0) {
-      countOfCards = 0;
-    } else {
-      countOfCards = moviesAfterSearch.length;
-    }
-
-    // console.log('countOfCards',countOfCards);
-
-    if (width > 769 && width < 1280) {
-      console.log("1 iteration");
-      if (countOfCards > 2) {
-        //   console.log('I am in');
-        setAddMoviesYet(true);
-      }
-      //  console.log('I am out');
-    }
-
-    if (width <= 768 && width > 480) {
-      console.log("2 iteration");
-      if (countOfCards > 9) {
-        setAddMoviesYet(true);
-      }
-    }
-
-    if (width < 479) {
-      console.log("3 iteration");
-      if (countOfCards > 5) {
-        setAddMoviesYet(true);
-      }
-    }
   }
+
+  
+  React.useEffect(() => {
+      handleDataFromLocalStorage();
+  }, []);
+
+  // function handleAddButton() {
+  //   //получаю ширину экрана
+  //   const width = document.body.getBoundingClientRect().width;
+
+  //   // получаю число карточек из moviesAfterSearch
+  //   let countOfCards;
+
+  //   if (moviesAfterSearch.length === 0) {
+  //     countOfCards = 0;
+  //   } else {
+  //     countOfCards = moviesAfterSearch.length;
+  //   }
+
+  //   if (width > 769 && width < 1280) {
+  //     if (countOfCards > 12) {
+
+  //       setAddMoviesYet(true);
+  //     }
+  //   }
+
+  //   if (width <= 768 && width > 480) {
+  //     if (countOfCards > 9) {
+  //       setAddMoviesYet(true);
+  //     }
+  //   }
+
+  //   if (width < 479) {
+  //     if (countOfCards > 5) {
+  //       setAddMoviesYet(true);
+  //     }
+  //   }
+  // }
 
   const handleAuth = (email, password) => {
     api
@@ -177,9 +216,10 @@ function App() {
       .then((data) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("email", email);
-
+        
         tokenCheck();
         localStorage.setItem("moviesAfterSearch", "");
+        localStorage.setItem("loggedIn", loggedIn);
       })
       .catch((error) => console.log(error));
   };
@@ -231,6 +271,15 @@ function App() {
       });
   };
 
+  const handleSignOut = () =>{
+    history.push("/");
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("moviesAfterSearch");
+    localStorage.removeItem("loggedIn");
+    setLoggedIn(false);
+  }
+ 
   function handleBookmarkClick(newMovie, isLiked) {
     const jwt = localStorage.getItem("token");
 
@@ -290,7 +339,7 @@ function App() {
             <div className="page">
               <Switch>
                  <Route exact path="/">
-                   <Header login="Войти" signup="Регистрация" loggedIn={true} />
+                   <Header loggedIn={loggedIn} />
                   <Main />
                   <Footer />
                 </Route>
@@ -304,7 +353,7 @@ function App() {
                   <Header />
                   <Movies
                     handleSearchMovies={handleSearchMovies}
-                    addMoviesYet={addMoviesYet}
+                  //  addMoviesYet={addMoviesYet}
                     onBookmarkClick={handleBookmarkClick}
                   />
                   <Preloader />
@@ -315,7 +364,7 @@ function App() {
                   ) : (
                     ""
                   )}
-                  {addMoviesYet ? (
+                  {nextButtonVisible ? (
                     <button
                       type="button"
                       className="moviesCardList__add_button"
@@ -332,9 +381,17 @@ function App() {
                   <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
                   <Footer />
                 </Route>
+                {/* <ProtectedRoute path="/profile"
+                component={Profile}
+                onUpdateUser={handleUpdateUser}
+                onSignOut={handleSignOut}
+                >
+                </ProtectedRoute>  */}
                 <Route path="/profile">
-                  <Header />
-                  <Profile onUpdateUser={handleUpdateUser} />
+                  <Header /> 
+                  <Profile 
+                  onUpdateUser={handleUpdateUser}
+                  onSignOut={handleSignOut} />
                 </Route> 
                 <Route path="*">
                   <PageNotFound />

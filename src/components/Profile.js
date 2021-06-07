@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "./contexts/CurrentContext";
 import { Formik } from "formik";
 import * as yup from "yup";
+import Header from "./Header/Header";
 
 function Profile(props) {
   const history = useHistory();
@@ -23,14 +24,13 @@ function Profile(props) {
     setEmail(currentUser.email);
   }, [currentUser]);
 
-  const signOut = () => {
-    history.push("/");
-    localStorage.removeItem("email");
-    localStorage.removeItem("token");
-    localStorage.removeItem("moviesAfterSearch");
+  function handleSignOut() {
+    props.onSignOut();
   };
 
   return (
+    <>
+    {/* <Header /> */}
     <div className="profile">
       <h3 className="profile__title"> Привет, {currentUser.name}!</h3>
       <Formik
@@ -73,7 +73,8 @@ function Profile(props) {
             type={'submit'}
             >Редактировать</button>
             <Link to="/" className="profile__logout">
-              <button className="profile__logout" onClick={signOut}>
+              {/* <button className="profile__logout" onClick={signOut}> */}
+              <button className="profile__logout" onClick={handleSignOut}>
                 Выйти из аккаунта
               </button>
             </Link>
@@ -82,6 +83,7 @@ function Profile(props) {
           
           </Formik>
     </div>
+    </>
   );
 }
 
