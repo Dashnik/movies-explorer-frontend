@@ -16,8 +16,8 @@ function Header(props) {
   function closeSideBar(){
     setSideBar(false);
   }
-
-  if (props.isLogin) {
+  
+  if (props.loggedIn) {
     return (
       <header className="header">
         <img

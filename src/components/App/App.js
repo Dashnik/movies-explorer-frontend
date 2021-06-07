@@ -107,7 +107,6 @@ function App() {
     setIsPreloaderWork(false);
     setMoviesAfterSearch(currentMovies);
     setDidYouDoSearch(true);
-    
 
     localStorage.setItem("moviesAfterSearch", JSON.stringify(currentMovies));
   };
@@ -116,7 +115,7 @@ function App() {
     const moviesAfterSearchInLS = JSON.parse(
       localStorage.getItem("moviesAfterSearch")
     );
-     setMoviesAfterSearch(moviesAfterSearchInLS);
+    setMoviesAfterSearch(moviesAfterSearchInLS);
   }
 
   // React.useEffect(() => {
@@ -177,7 +176,6 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         localStorage.setItem("token", data.token);
-
         localStorage.setItem("email", email);
 
         tokenCheck();
@@ -196,7 +194,6 @@ function App() {
         .getUser(jwt)
         .then((res) => {
           if (res) {
-
             setLoggedIn(true);
             history.push("/movies");
             setCurrentUser(res);
@@ -206,7 +203,6 @@ function App() {
     }
   };
 
-
   React.useEffect(() => {
     tokenCheck();
   }, []);
@@ -215,19 +211,18 @@ function App() {
     api
       .register(name, email, password)
       .then(() => {
-        console.log('email:', email, 'password:',password);
-        handleAuth(email, password); 
+        console.log("email:", email, "password:", password);
+        handleAuth(email, password);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-    const handleUpdateUser = (values) => {
-    
+  const handleUpdateUser = (values) => {
     const jwt = localStorage.getItem("token");
     api
-     .setNewProfile(values.name, values.email, jwt)
+      .setNewProfile(values.name, values.email, jwt)
       .then((newUserData) => {
         setCurrentUser(newUserData);
       })
@@ -286,65 +281,66 @@ function App() {
         console.log(error);
       });
   }
-  
+
   return (
     <CurrentMoviesContext.Provider value={moviesAfterSearch}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
         <CurrentSavedMoviesContext.Provider value={listOfSavedMovies}>
-        <CurrentUserContext.Provider value={currentUser}>
-          <div className="page">
-            <Switch>
-              <Route path="/sign-in">
-                <Login onLogin={handleAuth} />
-              </Route>
-              <Route path="/sign-up">
-                <Register onRegister={handleRegisterUser} />
-              </Route>
-              <Route path="/movies">
-                <Header loggedIn={false} />
-                <Movies
-                  handleSearchMovies={handleSearchMovies}
-                  // addMoviesYet={addMoviesYet}
-                  onBookmarkClick={handleBookmarkClick}
-                />
-                <Preloader />
-                {didYouDoSearch && moviesAfterSearch.length === 0 ? (
-                  <p className="searches__error searches__error-empty">
-                    Ничего не найдено
-                  </p>
-                ) : (
-                  ""
-                )}
-                {addMoviesYet ? (
-                  <button type="button" className="moviesCardList__add_button">
-                    <p className="moviesCardList__container">Ещё</p>
-                  </button>
-                ) : (
-                  ""
-                )}
-                <Footer />
-              </Route>
-              <Route path="/saved-movies">
-                <Header loggedIn={false} />
-                <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
-                <Footer />
-              </Route>
-              <Route path="/profile">
-                <Header loggedIn={false} />
-                <Profile 
-                 onUpdateUser={handleUpdateUser}
-                />
-              </Route>
-              <Route path="/error">
-                <PageNotFound></PageNotFound>
-              </Route>
-              <Route path="/">
-                <Header login="Войти" signup="Регистрация" loggedIn={true} />
-                <Main />
-                <Footer />
-              </Route>
-            </Switch>
-          </div>
+          <CurrentUserContext.Provider value={currentUser}>
+            <div className="page">
+              <Switch>
+                 <Route exact path="/">
+                   <Header login="Войти" signup="Регистрация" loggedIn={true} />
+                  <Main />
+                  <Footer />
+                </Route>
+                <Route path="/sign-in">
+                  <Login onLogin={handleAuth} />
+                </Route>
+                <Route path="/sign-up">
+                  <Register onRegister={handleRegisterUser} />
+                </Route>
+                <Route path="/movies">
+                  <Header />
+                  <Movies
+                    handleSearchMovies={handleSearchMovies}
+                    addMoviesYet={addMoviesYet}
+                    onBookmarkClick={handleBookmarkClick}
+                  />
+                  <Preloader />
+                  {didYouDoSearch && moviesAfterSearch.length === 0 ? (
+                    <p className="searches__error searches__error-empty">
+                      Ничего не найдено
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                  {addMoviesYet ? (
+                    <button
+                      type="button"
+                      className="moviesCardList__add_button"
+                    >
+                      <p className="moviesCardList__container">Ещё</p>
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                  <Footer />
+                </Route>
+                <Route path="/saved-movies">
+                  <Header />
+                  <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
+                  <Footer />
+                </Route>
+                <Route path="/profile">
+                  <Header />
+                  <Profile onUpdateUser={handleUpdateUser} />
+                </Route> 
+                <Route path="*">
+                  <PageNotFound />
+                </Route>
+              </Switch>
+            </div>
           </CurrentUserContext.Provider>
         </CurrentSavedMoviesContext.Provider>
       </CurrentPreloaderContext.Provider>
@@ -353,3 +349,4 @@ function App() {
 }
 
 export default App;
+
