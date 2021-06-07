@@ -14,23 +14,6 @@ function Register(props) {
     password:yup.string().min(6, 'Пароль должен быть больше 6 символов').required('Обязательное поле')
   })
 
-
-  // function handlesubmit(e) {
-  //   // Запрещаем браузеру переходить по адресу формы
-  //   e.preventDefault();
-
-  //   // Передаём значения управляемых компонентов во внешний обработчик
-  //  props.onRegister(values.register__name, values.register__email, values.register__pwd);
-  // }
-
-  // const handleChange = (e) => {
-  //   const target = e.target;
-  //   const name = target.name;
-  //   const value = target.value;
-
-  //   setValues({ ...values, [name]: value });
-  // };
-
   return (
     <>
       <div className="register">
@@ -93,7 +76,9 @@ function Register(props) {
             value={values.password}
           />
            { touched.password && errors.password && <p className="register__error register__error-password">{errors.password}</p>} 
-          <button type="submit" className="register__submit" onClick={handleSubmit}>
+          <button type="submit" 
+          className={`register__submit ${isValid && dirty  ? '' : 'register__submit-disabled'}`}
+           onClick={handleSubmit}>
             Зарегистрироваться
           </button>
         </form>

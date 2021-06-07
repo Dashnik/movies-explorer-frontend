@@ -35,7 +35,7 @@ function Login(props) {
       validationSchema={validationSchema}
       >
         {({values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) =>(
-
+  
         <form className="login__form">
           <p className="login__subtitle">E-mail</p>
           <input
@@ -59,7 +59,7 @@ function Login(props) {
           { touched.password && errors.password && <p className="login__error">{errors.password}</p>} 
           <button 
           type="submit"
-           className="login__submit"
+          className={`login__submit ${isValid && dirty  ? '' : 'login__submit-disabled'}`} 
            onClick={handleSubmit}
            >
             Войти

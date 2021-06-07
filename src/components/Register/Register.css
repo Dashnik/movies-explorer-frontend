@@ -118,6 +118,10 @@
   opacity: 0.6;
 }
 
+.register__submit-disabled{
+  background-color:#afaaaa;
+}
+
 .link {
   grid-row: 16;
   grid-column: 2/3;

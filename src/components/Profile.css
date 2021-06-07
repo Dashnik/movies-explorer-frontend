@@ -135,6 +135,10 @@ border: none;
   justify-self: right;
 }
 
+.profile__edit-disabled{
+  color:#afaaaa;
+}
+
 
 @media screen and (max-width: 500px) {
   .profile__form {

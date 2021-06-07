@@ -67,8 +67,8 @@ function Profile(props) {
               onChange={handleChange}
             ></input>
              { touched.email && errors.email && <p className="profile__error">{errors.email}</p>} 
-            <button className="profile__edit"
-            disabled={!isValid && !dirty}
+            <button 
+            className={`profile__edit ${isValid && dirty  ? '' : 'profile__edit-disabled'}`}
             onClick={handleSubmit}
             type={'submit'}
             >Редактировать</button>
