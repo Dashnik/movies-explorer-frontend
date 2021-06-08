@@ -40,8 +40,6 @@ function Profile(props) {
       }}
       validateOnBlur
       onSubmit={(values)=>{
-      
-        // props.onUpdateUser(values.name, values.email);
         props.onUpdateUser(values);
       }}
       validationSchema={validationSchema}
@@ -73,7 +71,6 @@ function Profile(props) {
             type={'submit'}
             >Редактировать</button>
             <Link to="/" className="profile__logout">
-              {/* <button className="profile__logout" onClick={signOut}> */}
               <button className="profile__logout" onClick={handleSignOut}>
                 Выйти из аккаунта
               </button>

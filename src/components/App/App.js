@@ -18,11 +18,10 @@ import {
   CurrentSavedMoviesContext,
   CurrentUserContext,
 } from "../contexts/CurrentContext";
-import Preloader from "../Movies/Preloader.js";
 import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
 
 function App() {
- // const [addMoviesYet, setAddMoviesYet] = React.useState(false);
+  // const [addMoviesYet, setAddMoviesYet] = React.useState(false);
   const [allMovies, setAllMovies] = React.useState([]);
   const [moviesAfterSearch, setMoviesAfterSearch] = React.useState([]);
   const [isPreloaderWork, setIsPreloaderWork] = React.useState(false);
@@ -31,7 +30,7 @@ function App() {
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
   const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
-  
+  const [cardsToBeShown, setCardsToBeShown] = React.useState([]);
 
   const history = useHistory();
 
@@ -46,7 +45,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    if(loggedIn){
+    if (loggedIn) {
       getSavedMovies();
     }
   }, [loggedIn]);
@@ -58,25 +57,20 @@ function App() {
       .getSavedMovies(jwt)
       .then((savedMovies) => {
         const ListOfSavedMoviesForUser = savedMovies.filter((movie) =>
-        movie.owner === currentUser._id ? movie : '' 
-         );
+          movie.owner === currentUser._id ? movie : ""
+        );
         setListOfSavedMovies(ListOfSavedMoviesForUser);
       })
       .catch((error) => {
         console.log(error);
-      });   
+      });
   }
-
-  // React.useEffect(() => {
-  //   handleAddButton();
-  // }, [moviesAfterSearch]);
 
   const handleSearchMovies = (name, isItShort) => {
     setIsPreloaderWork(true);
     const valueFromInput = name.name.toLowerCase().split(" ").join("");
     const currentMovies = [];
 
-    // console.log(allMovies);
     if (isItShort) {
       allMovies.forEach((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
@@ -125,23 +119,23 @@ function App() {
       });
     }
 
-     //получаю ширину экрана
-     const width = document.body.getBoundingClientRect().width;
+    //получаю ширину экрана
+    const width = document.body.getBoundingClientRect().width;
 
     // получаю число карточек из currentMovies
-     const countOfCards = currentMovies.length;
-     let firstCardsCount = 0;
-     let nextCardsCount = 0;
-     let shownCardsCount = 0;
+    const countOfCards = currentMovies.length;
+    let firstCardsCount = 0;
+    let nextCardsCount = 0;
+    let shownCardsCount = 0;
 
     //ищу нужный мне интервал
     if (width > 769) {
       firstCardsCount = 16;
       nextCardsCount = 4;
-    }else if (width > 480) {
+    } else if (width > 480) {
       firstCardsCount = 8;
       nextCardsCount = 2;
-    }else{
+    } else {
       firstCardsCount = 5;
       nextCardsCount = 1;
     }
@@ -149,32 +143,37 @@ function App() {
     shownCardsCount = firstCardsCount;
 
     setNextButtonVisible(countOfCards > shownCardsCount);
-    const cardsShownByDefault = currentMovies.slice(currentMovies, firstCardsCount); 
-    const cardsToBeShown = currentMovies.slice(shownCardsCount, shownCardsCount + nextCardsCount);
+
+    const cardsShownByDefault = currentMovies.slice(
+      0,
+      firstCardsCount
+    );
+
+    const cardsToBeShown = currentMovies.slice(
+      shownCardsCount,
+      shownCardsCount + nextCardsCount
+    );
 
     setIsPreloaderWork(false);
     setDidYouDoSearch(true);
     setMoviesAfterSearch(cardsShownByDefault);
-    
 
     localStorage.setItem("moviesAfterSearch", JSON.stringify(cardsToBeShown));
   };
 
   function handleDataFromLocalStorage() {
-
     const isUserLogin = localStorage.getItem("moviesAfterSearch");
 
-    if(isUserLogin){
+    if (isUserLogin) {
       const moviesAfterSearchInLS = JSON.parse(
-      localStorage.getItem("moviesAfterSearch")
-    );
-    setMoviesAfterSearch(moviesAfterSearchInLS);
-  }
+        localStorage.getItem("moviesAfterSearch")
+      );
+      setMoviesAfterSearch(moviesAfterSearchInLS);
+    }
   }
 
-  
   React.useEffect(() => {
-      handleDataFromLocalStorage();
+    handleDataFromLocalStorage();
   }, []);
 
   const handleAuth = (email, password) => {
@@ -183,7 +182,7 @@ function App() {
       .then((data) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("email", email);
-        
+
         tokenCheck();
         localStorage.setItem("moviesAfterSearch", "");
         localStorage.setItem("loggedIn", loggedIn);
@@ -238,15 +237,15 @@ function App() {
       });
   };
 
-  const handleSignOut = () =>{
+  const handleSignOut = () => {
     history.push("/");
     localStorage.removeItem("email");
     localStorage.removeItem("token");
     localStorage.removeItem("moviesAfterSearch");
     localStorage.removeItem("loggedIn");
     setLoggedIn(false);
-  }
- 
+  };
+
   function handleBookmarkClick(newMovie, isLiked) {
     const jwt = localStorage.getItem("token");
 
@@ -298,8 +297,8 @@ function App() {
       });
   }
 
-  function handleAddMoviesButton(){
-    console.log('Hi');
+  function handleAddMoviesButton() {
+    moviesAfterSearch.push(cardsToBeShown);
   }
 
   return (
@@ -309,8 +308,8 @@ function App() {
           <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
               <Switch>
-                 <Route exact path="/">
-                   <Header loggedIn={loggedIn} />
+                <Route exact path="/">
+                  <Header loggedIn={loggedIn} />
                   <Main />
                   <Footer />
                 </Route>
@@ -320,44 +319,30 @@ function App() {
                 <Route path="/sign-up">
                   <Register onRegister={handleRegisterUser} />
                 </Route>
-                <ProtectedRoute 
-                loggedIn={loggedIn}
-                path="/movies"
-                component={Movies}
-                handleSearchMovies={handleSearchMovies}
-                onBookmarkClick={handleBookmarkClick}
-                didYouDoSearch={didYouDoSearch}
-                moviesAfterSearch={moviesAfterSearch}
-                nextButtonVisible={nextButtonVisible}
-                handleAddMoviesButton={handleAddMoviesButton}
-                >
-                </ProtectedRoute>
-                {/* <Route path="/saved-movies">
-                  <Header />
-                  <SavedMovies onDeleteMovieClick={handleDeleteMovieClick} />
-                  <Footer />
-                </Route> */}
-                   <ProtectedRoute 
-                loggedIn={loggedIn} 
-                 path="/saved-movies"
-                 component={SavedMovies}
-                 onDeleteMovieClick={handleDeleteMovieClick}
-                 >            
-                </ProtectedRoute>
-                <ProtectedRoute 
-                loggedIn={loggedIn} 
-                path="/profile"
-                component={Profile}
-                onUpdateUser={handleUpdateUser}
-                onSignOut={handleSignOut}
-                >
-                </ProtectedRoute> 
-                {/* <Route path="/profile">
-                  <Header /> 
-                  <Profile 
+                <ProtectedRoute
+                  loggedIn={loggedIn}
+                  path="/movies"
+                  component={Movies}
+                  handleSearchMovies={handleSearchMovies}
+                  onBookmarkClick={handleBookmarkClick}
+                  didYouDoSearch={didYouDoSearch}
+                  moviesAfterSearch={moviesAfterSearch}
+                  nextButtonVisible={nextButtonVisible}
+                  handleAddMoviesButton={handleAddMoviesButton}
+                ></ProtectedRoute>
+                <ProtectedRoute
+                  loggedIn={loggedIn}
+                  path="/saved-movies"
+                  component={SavedMovies}
+                  onDeleteMovieClick={handleDeleteMovieClick}
+                ></ProtectedRoute>
+                <ProtectedRoute
+                  loggedIn={loggedIn}
+                  path="/profile"
+                  component={Profile}
                   onUpdateUser={handleUpdateUser}
-                  onSignOut={handleSignOut} />
-                </Route>  */}
+                  onSignOut={handleSignOut}
+                ></ProtectedRoute>
                 <Route path="*">
                   <PageNotFound />
                 </Route>
@@ -371,32 +356,3 @@ function App() {
 }
 
 export default App;
-
-            {/* <Route path="/movies">
-                  <Header />
-                  <Movies
-                    handleSearchMovies={handleSearchMovies}
-                  //  addMoviesYet={addMoviesYet}
-                    onBookmarkClick={handleBookmarkClick}
-                  />
-                  <Preloader />
-                  {didYouDoSearch && moviesAfterSearch.length === 0 ? (
-                    <p className="searches__error searches__error-empty">
-                      Ничего не найдено
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                  {nextButtonVisible ? (
-                    <button
-                      type="button"
-                      className="moviesCardList__add_button"
-                      onClick={handleAddMoviesButton}
-                    >
-                      <p className="moviesCardList__container">Ещё</p>
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                  <Footer />
-                </Route> */}
