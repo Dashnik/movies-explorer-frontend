@@ -31,6 +31,8 @@ function App() {
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
   const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
   const [cardsToBeShown, setCardsToBeShown] = React.useState([]);
+  const [isProfileUpdated, setIsProfileUpdated] = React.useState(false);
+  
 
   const history = useHistory();
 
@@ -231,6 +233,7 @@ function App() {
       .setNewProfile(values.name, values.email, jwt)
       .then((newUserData) => {
         setCurrentUser(newUserData);
+        setIsProfileUpdated(true);
       })
       .catch((error) => {
         console.log(error);
@@ -342,6 +345,7 @@ function App() {
                   component={Profile}
                   onUpdateUser={handleUpdateUser}
                   onSignOut={handleSignOut}
+                  isProfileUpdated={isProfileUpdated}
                 ></ProtectedRoute>
                 <Route path="*">
                   <PageNotFound />

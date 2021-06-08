@@ -29,6 +29,16 @@
   grid-area: 4/2/5/3;
 }
 
+.profile__success-label{
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 0;
+  color:greenyellow;
+  grid-area: 4/2/5/3;
+  align-self: flex-end;
+}
+
 .profile__form {
   grid-area: 3/2/4/3;
   display: grid;

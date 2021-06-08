@@ -64,7 +64,8 @@ function Profile(props) {
               onBlur={handleBlur}
               onChange={handleChange}
             ></input>
-             { touched.email && errors.email && <p className="profile__error">{errors.email}</p>} 
+             { touched.email && errors.email && <p className="profile__error">{errors.email}</p>}
+             { props.isProfileUpdated ? <p className="profile__success-label">Данные успешно обновлены</p> : ''} 
             <button 
             className={`profile__edit ${isValid && dirty  ? '' : 'profile__edit-disabled'}`}
             onClick={handleSubmit}
