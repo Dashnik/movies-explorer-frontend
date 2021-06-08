@@ -77,9 +77,10 @@ function App() {
     if (isItShort) {
       allMovies.forEach((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
+        let result = stringDividedOnWord.filter((el) =>  el.indexOf(valueFromInput) >-1)
+ 
         if (
-          stringDividedOnWord.includes(valueFromInput) === true &&
-          movie.duration <= 40
+          result.length > 0 && movie.duration <= 40
         ) {
           const newMovie = {
             country: String(movie.country),
@@ -87,9 +88,9 @@ function App() {
             duration: movie.duration,
             year: movie.year,
             description: movie.description,
-            image: `https://api.nomoreparties.co${movie.image.url}`,
+            image: movie.image ? `https://api.nomoreparties.co${movie.image.url}` : "",
             trailer: movie.trailerLink,
-            thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+            thumbnail: movie.image ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`: "",
             movieId: movie.id,
             nameRU: movie.nameRU,
             nameEN: movie.nameEN,
@@ -100,19 +101,21 @@ function App() {
     } else {
       allMovies.forEach((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
+        
+        let result = stringDividedOnWord.filter((el) =>  el.indexOf(valueFromInput) >-1)
+ 
         if (
-          stringDividedOnWord.includes(valueFromInput) === true &&
-          movie.duration > 41
+          result.length > 0 && movie.duration > 41
         ) {
           const newMovie = {
-            country: String(movie.country),
+             country: String(movie.country),
             director: movie.director,
             duration: movie.duration,
             year: movie.year,
             description: movie.description,
-            image: `https://api.nomoreparties.co${movie.image.url}`,
+            image: movie.image ? `https://api.nomoreparties.co${movie.image.url}` : "",
             trailer: movie.trailerLink,
-            thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+            thumbnail: movie.image ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`: "",
             movieId: movie.id,
             nameRU: movie.nameRU,
             nameEN: movie.nameEN,
@@ -145,7 +148,8 @@ function App() {
 
     shownCardsCount = firstCardsCount;
 
-    setNextButtonVisible(countOfCards > shownCardsCount);
+    let isAddButtonShowed = countOfCards > shownCardsCount
+    setNextButtonVisible(isAddButtonShowed);
 
     const cardsShownByDefault = currentMovies.slice(
       0,
