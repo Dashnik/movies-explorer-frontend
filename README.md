@@ -16,3 +16,5 @@ Find Movie это проект который позволяет пользов�
 HTML, CSS(Flex,Grid,BEM), Javascript, react, node, mongodb, Formik, Yup.
 
 Для того чтобы установить все зависимости используйте npm install. Для запуска используйте npm start
+
+[ссылке]: <http://findmovie.nomoredomains.icu/> 
