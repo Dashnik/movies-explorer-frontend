@@ -6,6 +6,7 @@ import Header from "../Header/Header";
 import Preloader from "../Movies/Preloader.js";
 import Footer from "../Footer/Footer";
 
+
 function Movies(props) {
   
   return (

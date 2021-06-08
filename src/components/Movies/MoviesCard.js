@@ -2,7 +2,7 @@ import React from "react";
 import "./MoviesCard.css";
 
 function MoviesCard({ onAddMovieToBookmark, movie }) {
-  
+
   const [isLiked, setIsLiked] = React.useState(false);
 
   function handleBookMarkClick() {

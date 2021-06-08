@@ -17,6 +17,7 @@ import {
   CurrentPreloaderContext,
   CurrentSavedMoviesContext,
   CurrentUserContext,
+  CurrentMovieLikeContext,
 } from "../contexts/CurrentContext";
 import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
 
@@ -249,14 +250,14 @@ function App() {
     setLoggedIn(false);
   };
 
-  function handleBookmarkClick(newMovie, isLiked) {
+   function handleBookmarkClick(newMovie, isLiked) {
     const jwt = localStorage.getItem("token");
 
     if (isLiked) {
       api
         .deleteMovies(newMovie, jwt)
         .then((data) => {
-          console.log("dataRemoving:", data);
+         // console.log("dataRemoving:", data);
         })
         .catch((error) => {
           console.log(error);
@@ -274,9 +275,6 @@ function App() {
           setMoviesAfterSearch(newListOfMovies);
 
           getSavedMovies();
-
-          // setListOfSavedMovies(newCard);
-          // console.log('listOfSavedMovies',listOfSavedMovies);
         })
         .catch((error) => {
           console.log(error);
