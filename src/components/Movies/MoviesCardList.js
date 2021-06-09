@@ -6,8 +6,8 @@ import { CurrentMoviesContext } from "../contexts/CurrentContext";
 function MoviesCardList(props) {
   const currentCardsAfterSearch = React.useContext(CurrentMoviesContext);
  
-console.log('currentCardsAfterSearch:',currentCardsAfterSearch);
-console.log('props.moviesAfterSearch:',props.moviesAfterSearch);
+ // console.log('currentCardsAfterSearch:',currentCardsAfterSearch);
+ // console.log('props.moviesAfterSearch:',props.moviesAfterSearch);
   return (
     <div className="moviesCardList">
       {/* {currentCardsAfterSearch.map((movie) => ( */}

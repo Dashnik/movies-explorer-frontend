@@ -59,6 +59,8 @@ function App() {
 
   }, [moviesProduction]);
 
+
+
   React.useEffect(() => {
     if (loggedIn) {
       getSavedMovies();
@@ -162,7 +164,7 @@ function App() {
     const width = document.body.getBoundingClientRect().width;
 
     // получаю число карточек из currentMovies
-    const countOfCards = allCardsAfterSearch.length;
+    // const countOfCards = allCardsAfterSearch.length;
   
     //ищу нужный мне интервал
     if (width > 769) {
@@ -178,8 +180,8 @@ function App() {
     setShownCardsCount(firstCardsCount);
 
 
-    let isAddButtonShowed = countOfCards > shownCardsCount;
-    setNextButtonVisible(isAddButtonShowed);
+    // let isAddButtonShowed = countOfCards > shownCardsCount;
+    // setNextButtonVisible(isAddButtonShowed);
 
     //устанавливаю нужное число карточек с фильмами
     const cardsShown = allCardsAfterSearch.slice(0, firstCardsCount);
@@ -193,7 +195,17 @@ function App() {
     );
   }
 
+  React.useEffect(() => {
+    const countOfCards = allCardsAfterSearch.length;
+ let isAddButtonShowed = countOfCards > shownCardsCount;
+    setNextButtonVisible(isAddButtonShowed);
+
+     isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
+    setNextButtonVisible(isAddButtonShowed);
+  }, [shownCardsCount,cardsShownByDefault]);
+
   function handleAddMoviesButton() {
+
 
     const cardsToBeShown = allCardsAfterSearch.slice(
       cardsShownByDefault.length,
@@ -202,8 +214,8 @@ function App() {
     setCardsShownByDefault([...cardsShownByDefault, ...cardsToBeShown]);
     setMoviesProduction([...moviesProduction, ...cardsToBeShown])
 
-    let isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
-    setNextButtonVisible(isAddButtonShowed);
+    // let isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
+    // setNextButtonVisible(isAddButtonShowed);
   }
 
   function handleDataFromLocalStorage() {
