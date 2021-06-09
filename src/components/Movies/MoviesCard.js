@@ -36,6 +36,7 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
     <>
       <div className="card" id={movie.id}>
         <div className="card__container">
+          <h2 className="card__title">{movie.nameRU}</h2>
           <p className="card__time">{duration}</p>
           <button
             type="button"
