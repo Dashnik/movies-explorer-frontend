@@ -276,6 +276,11 @@ function App() {
       api
         .deleteMovies(newMovie, jwt)
         .then((data) => {
+         const deletedCard = listOfSavedMovies.find((movie) => movie._id === newMovie._id)
+
+         delete deletedCard._id;
+         delete deletedCard.owner;
+         delete deletedCard.__v;
          //здесь должен быть код который удаляет эту удаленную карточку из списка сохранненных фильмов
          const newListSavedMovies = listOfSavedMovies.filter((r) =>{
           return r._id === newMovie._id ? "" : r
