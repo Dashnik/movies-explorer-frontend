@@ -13,7 +13,6 @@ function SavedMoviesCardList (props) {
           key={savedMovie.movieId}
           movie={savedMovie}
           onDeleteMovie={props.onDeleteMovieClick}
-       //   onAddMovieToBookmark={props.onBookmarkClick}
        />
         ))}
     </div>

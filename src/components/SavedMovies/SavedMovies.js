@@ -12,7 +12,7 @@ function SavedMovies (props) {
     <div className="savedMovies">
       <SearchesForm></SearchesForm>
       <SavedMoviesCardList
-      onDeleteMovieClick={props.onDeleteMovieClick}/>  
+      onDeleteMovieClick={props.onDeleteMovieClick}/>
     </div>
     <Footer />
     </>

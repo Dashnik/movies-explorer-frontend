@@ -3,8 +3,11 @@ import "./SavedMoviesCard.css";
 import closeIcon from "../../images/icon_close.svg";
 
 function SavedMoviesCard({ onDeleteMovie, movie }) {
-  function handleDeleteMovie() {
-    onDeleteMovie(movie);
+
+  const isLiked = true;
+
+  function handleBookMarkClick() {
+    onDeleteMovie(movie,isLiked);
   }
 
   return (
@@ -18,7 +21,7 @@ function SavedMoviesCard({ onDeleteMovie, movie }) {
           <button
             type="button"
             className="savedCard__submit"
-            onClick={handleDeleteMovie}
+             onClick={handleBookMarkClick}
           >
             <img
               className="savedCard__close"

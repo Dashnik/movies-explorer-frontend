@@ -275,7 +275,7 @@ function App() {
     if (isLiked) {
       api
         .deleteMovies(newMovie, jwt)
-        .then((data) => {
+        .then(() => {
          const deletedCard = listOfSavedMovies.find((movie) => movie._id === newMovie._id)
 
          delete deletedCard._id;
@@ -313,22 +313,6 @@ function App() {
           console.log(error);
         });
     }
-  }
-
-  function handleDeleteMovieClick(movie) {
-    const jwt = localStorage.getItem("token");
-
-    api
-      .deleteMovies(movie, jwt)
-      .then(() => {
-        const newListOfMovies = listOfSavedMovies.filter((r) =>
-          r._id === movie._id ? "" : r
-        );
-        setListOfSavedMovies(newListOfMovies);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   React.useEffect(() => {
@@ -387,7 +371,7 @@ function App() {
                   loggedIn={loggedIn}
                   path="/saved-movies"
                   component={SavedMovies}
-                  onDeleteMovieClick={handleDeleteMovieClick}
+                  onDeleteMovieClick={handleBookmarkClick}
                 ></ProtectedRoute>
                 <ProtectedRoute
                   loggedIn={loggedIn}
