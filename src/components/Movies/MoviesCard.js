@@ -2,20 +2,23 @@ import React from "react";
 import "./MoviesCard.css";
 
 function MoviesCard({ onAddMovieToBookmark, movie }) {
+   const [isLiked, setIsLiked] = React.useState(false);
 
-  const [isLiked, setIsLiked] = React.useState(false);
+  // function handleBookMarkClick() {
+  //   if (!isLiked) {
+  //     onAddMovieToBookmark(movie, isLiked);
+  //     setIsLiked(!isLiked);
+  //   } else {
+  //     onAddMovieToBookmark(movie, isLiked);
+  //     setIsLiked(!isLiked);
+  //   }
+  // }
 
   function handleBookMarkClick() {
-    if (!isLiked) {
-      onAddMovieToBookmark(movie, isLiked);
-      setIsLiked(!isLiked);
-    } else {
-      onAddMovieToBookmark(movie, isLiked);
-      setIsLiked(!isLiked);
-    }
+    onAddMovieToBookmark(movie, isLiked);
+    setIsLiked(!isLiked);
   }
 
-  
   function handleImageClick() {
     window.open(movie.trailer, "_blank");
   }

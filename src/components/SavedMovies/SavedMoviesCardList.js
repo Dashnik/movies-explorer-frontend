@@ -6,8 +6,6 @@ import { CurrentSavedMoviesContext } from "../contexts/CurrentContext";
 function SavedMoviesCardList (props) {
 
   const currentSavedCards = React.useContext(CurrentSavedMoviesContext);
-
-//  console.log('currentSavedCards',currentSavedCards);
   return (
     <div className="savedMoviesCardList">
         {currentSavedCards.map((savedMovie) => (

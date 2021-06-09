@@ -40,9 +40,6 @@ function App() {
   const [shownCardsCount, setShownCardsCount] = React.useState(0);
   const [cardsShownByDefault, setCardsShownByDefault] = React.useState([]);
 
-  
-
-
   const history = useHistory();
 
   React.useEffect(() => {
@@ -57,31 +54,7 @@ function App() {
 
   React.useEffect(() => {
 
-  }, [moviesProduction]);
-
-
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      getSavedMovies();
-    }
-  }, [loggedIn]);
-
-  function getSavedMovies() {
-    const jwt = localStorage.getItem("token");
-
-    api
-      .getSavedMovies(jwt)
-      .then((savedMovies) => {
-        const ListOfSavedMoviesForUser = savedMovies.filter((movie) =>
-          movie.owner === currentUser._id ? movie : ""
-        );
-        setListOfSavedMovies(ListOfSavedMoviesForUser);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  }, [moviesProduction]);  
 
   const handleSearchMovies = (name, isItShort) => {
     setIsPreloaderWork(true);
@@ -147,13 +120,11 @@ function App() {
       });
     }
 
- 
     setAllCardsAfterSearch(currentMovies);
-
     setIsPreloaderWork(false);
     setDidYouDoSearch(true);
-
   };
+
 
   React.useEffect(() => {
     handledMoviesFilter()
@@ -179,10 +150,6 @@ function App() {
      }
     setShownCardsCount(firstCardsCount);
 
-
-    // let isAddButtonShowed = countOfCards > shownCardsCount;
-    // setNextButtonVisible(isAddButtonShowed);
-
     //устанавливаю нужное число карточек с фильмами
     const cardsShown = allCardsAfterSearch.slice(0, firstCardsCount);
     //записываю их в MoviesAfterSearch и передаю на рендеринг
@@ -195,6 +162,7 @@ function App() {
     );
   }
 
+
   React.useEffect(() => {
     const countOfCards = allCardsAfterSearch.length;
  let isAddButtonShowed = countOfCards > shownCardsCount;
@@ -206,20 +174,17 @@ function App() {
 
   function handleAddMoviesButton() {
 
-
     const cardsToBeShown = allCardsAfterSearch.slice(
       cardsShownByDefault.length,
       cardsShownByDefault.length + nextCardsCount
     );
     setCardsShownByDefault([...cardsShownByDefault, ...cardsToBeShown]);
     setMoviesProduction([...moviesProduction, ...cardsToBeShown])
-
-    // let isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
-    // setNextButtonVisible(isAddButtonShowed);
   }
 
   function handleDataFromLocalStorage() {
-    const isUserLogin = localStorage.getItem("moviesAfterSearch");
+    // const isUserLogin = localStorage.getItem("moviesAfterSearch");
+    const isUserLogin = localStorage.getItem("");
 
     if (isUserLogin) {
       const moviesAfterSearchInLS = JSON.parse(
@@ -328,7 +293,7 @@ function App() {
           // Обновляем стейт
           setMoviesProduction(newListOfMovies);
 
-          getSavedMovies();
+          setListOfSavedMovies([...listOfSavedMovies,newCard]);
         })
         .catch((error) => {
           console.log(error);
@@ -346,6 +311,28 @@ function App() {
           r._id === movie._id ? "" : r
         );
         setListOfSavedMovies(newListOfMovies);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      getSavedMovies();
+    }
+  }, [loggedIn,currentUser]);
+
+  function getSavedMovies() {
+    const jwt = localStorage.getItem("token");
+
+    api
+      .getSavedMovies(jwt)
+      .then((savedMovies) => {
+
+        const listOfSavedMoviesForUser = savedMovies.filter((movie) => movie.owner === currentUser._id ? movie : ""
+          );
+        setListOfSavedMovies(listOfSavedMoviesForUser);
       })
       .catch((error) => {
         console.log(error);
