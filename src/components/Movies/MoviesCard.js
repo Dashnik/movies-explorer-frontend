@@ -15,8 +15,9 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
     }
   }
 
+  
   function handleImageClick() {
-    window.open(movie.trailerLink, "_blank");
+    window.open(movie.trailer, "_blank");
   }
 
   return (

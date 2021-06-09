@@ -6,10 +6,12 @@ import { CurrentMoviesContext } from "../contexts/CurrentContext";
 function MoviesCardList(props) {
   const currentCardsAfterSearch = React.useContext(CurrentMoviesContext);
  
-
+console.log('currentCardsAfterSearch:',currentCardsAfterSearch);
+console.log('props.moviesAfterSearch:',props.moviesAfterSearch);
   return (
     <div className="moviesCardList">
-      {currentCardsAfterSearch.map((movie) => (
+      {/* {currentCardsAfterSearch.map((movie) => ( */}
+        { props.moviesAfterSearch.map((movie) => (
         <MoviesCard
           key={movie.movieId}
           movie={movie}

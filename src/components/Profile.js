@@ -1,14 +1,14 @@
 import React from "react";
 import "./Profile.css";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "./contexts/CurrentContext";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Header from "./Header/Header";
 
 function Profile(props) {
-  const history = useHistory();
+ // const history = useHistory();
   const currentUser = React.useContext(CurrentUserContext);
 
   const validationSchema = yup.object().shape({
@@ -16,13 +16,13 @@ function Profile(props) {
     email:yup.string().email('Введен невалидный email').required('Поле не может быть пустым')
   })
 
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
+  // const [name, setName] = React.useState('');
+  // const [email, setEmail] = React.useState('');
 
-  React.useEffect(() => {
-    setName(currentUser.name);
-    setEmail(currentUser.email);
-  }, [currentUser]);
+  // React.useEffect(() => {
+  //   setName(currentUser.name);
+  //   setEmail(currentUser.email);
+  // }, [currentUser]);
 
   function handleSignOut() {
     props.onSignOut();

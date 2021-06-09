@@ -16,6 +16,7 @@ function Movies(props) {
       <SearchesForm onSearchMovie={props.handleSearchMovies}></SearchesForm>
       <MovedCardList
        onBookmarkClick={props.onBookmarkClick}
+       moviesAfterSearch={props.moviesAfterSearch}
         />
     </div>
     <Preloader />

@@ -24,7 +24,8 @@ import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
 function App() {
   // const [addMoviesYet, setAddMoviesYet] = React.useState(false);
   const [allMovies, setAllMovies] = React.useState([]);
-  const [moviesAfterSearch, setMoviesAfterSearch] = React.useState([]);
+  const [moviesProduction, setMoviesProduction] = React.useState([]);
+  const [allCardsAfterSearch, setAllCardsAfterSearch] = React.useState([]);
   const [isPreloaderWork, setIsPreloaderWork] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState("");
@@ -33,7 +34,14 @@ function App() {
   const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
   const [cardsToBeShown, setCardsToBeShown] = React.useState([]);
   const [isProfileUpdated, setIsProfileUpdated] = React.useState(false);
+  const [addSomeCards, setAddSomeCards] = React.useState([]);
+  const [firstCardsCount, setFirstCardsCount] = React.useState(0);
+  const [nextCardsCount, setNextCardsCount] = React.useState(0);
+  const [shownCardsCount, setShownCardsCount] = React.useState(0);
+  const [cardsShownByDefault, setCardsShownByDefault] = React.useState([]);
+
   
+
 
   const history = useHistory();
 
@@ -46,6 +54,10 @@ function App() {
         console.log(error);
       });
   }, []);
+
+  React.useEffect(() => {
+
+  }, [moviesProduction]);
 
   React.useEffect(() => {
     if (loggedIn) {
@@ -77,20 +89,24 @@ function App() {
     if (isItShort) {
       allMovies.forEach((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-        let result = stringDividedOnWord.filter((el) =>  el.indexOf(valueFromInput) >-1)
- 
-        if (
-          result.length > 0 && movie.duration <= 40
-        ) {
+        let result = stringDividedOnWord.filter(
+          (el) => el.indexOf(valueFromInput) > -1
+        );
+
+        if (result.length > 0 && movie.duration <= 40) {
           const newMovie = {
             country: String(movie.country),
-            director: movie.director,
+            director: String(movie.director),
             duration: movie.duration,
             year: movie.year,
             description: movie.description,
-            image: movie.image ? `https://api.nomoreparties.co${movie.image.url}` : "",
+            image: movie.image
+              ? `https://api.nomoreparties.co${movie.image.url}`
+              : "",
             trailer: movie.trailerLink,
-            thumbnail: movie.image ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`: "",
+            thumbnail: movie.image
+              ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
+              : "",
             movieId: movie.id,
             nameRU: movie.nameRU,
             nameEN: movie.nameEN,
@@ -101,21 +117,25 @@ function App() {
     } else {
       allMovies.forEach((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-        
-        let result = stringDividedOnWord.filter((el) =>  el.indexOf(valueFromInput) >-1)
- 
-        if (
-          result.length > 0 && movie.duration > 41
-        ) {
+
+        let result = stringDividedOnWord.filter(
+          (el) => el.indexOf(valueFromInput) > -1
+        );
+
+        if (result.length > 0 && movie.duration > 41) {
           const newMovie = {
-             country: String(movie.country),
-            director: movie.director,
+            country: String(movie.country),
+            director: String(movie.director),
             duration: movie.duration,
             year: movie.year,
             description: movie.description,
-            image: movie.image ? `https://api.nomoreparties.co${movie.image.url}` : "",
+            image: movie.image
+              ? `https://api.nomoreparties.co${movie.image.url}`
+              : "",
             trailer: movie.trailerLink,
-            thumbnail: movie.image ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`: "",
+            thumbnail: movie.image
+              ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
+              : "",
             movieId: movie.id,
             nameRU: movie.nameRU,
             nameEN: movie.nameEN,
@@ -125,48 +145,66 @@ function App() {
       });
     }
 
+ 
+    setAllCardsAfterSearch(currentMovies);
+
+    setIsPreloaderWork(false);
+    setDidYouDoSearch(true);
+
+  };
+
+  React.useEffect(() => {
+    handledMoviesFilter()
+  }, [allCardsAfterSearch]);
+  
+  function handledMoviesFilter() {
     //получаю ширину экрана
     const width = document.body.getBoundingClientRect().width;
 
     // получаю число карточек из currentMovies
-    const countOfCards = currentMovies.length;
-    let firstCardsCount = 0;
-    let nextCardsCount = 0;
-    let shownCardsCount = 0;
-
+    const countOfCards = allCardsAfterSearch.length;
+  
     //ищу нужный мне интервал
     if (width > 769) {
-      firstCardsCount = 16;
-      nextCardsCount = 4;
+      setFirstCardsCount(16);
+      setNextCardsCount(4);
     } else if (width > 480) {
-      firstCardsCount = 8;
-      nextCardsCount = 2;
+      setFirstCardsCount(8);
+      setNextCardsCount(2);
     } else {
-      firstCardsCount = 5;
-      nextCardsCount = 1;
-    }
+      setFirstCardsCount(5);
+      setNextCardsCount(1);
+     }
+    setShownCardsCount(firstCardsCount);
 
-    shownCardsCount = firstCardsCount;
 
-    let isAddButtonShowed = countOfCards > shownCardsCount
+    let isAddButtonShowed = countOfCards > shownCardsCount;
     setNextButtonVisible(isAddButtonShowed);
 
-    const cardsShownByDefault = currentMovies.slice(
-      0,
-      firstCardsCount
+    //устанавливаю нужное число карточек с фильмами
+    const cardsShown = allCardsAfterSearch.slice(0, firstCardsCount);
+    //записываю их в MoviesAfterSearch и передаю на рендеринг
+    setMoviesProduction(cardsShown);
+    setCardsShownByDefault(cardsShown);
+
+    localStorage.setItem(
+      "moviesAfterSearch",
+      JSON.stringify(cardsShownByDefault)
     );
+  }
 
-    const cardsToBeShown = currentMovies.slice(
-      shownCardsCount,
-      shownCardsCount + nextCardsCount
+  function handleAddMoviesButton() {
+
+    const cardsToBeShown = allCardsAfterSearch.slice(
+      cardsShownByDefault.length,
+      cardsShownByDefault.length + nextCardsCount
     );
+    setCardsShownByDefault([...cardsShownByDefault, ...cardsToBeShown]);
+    setMoviesProduction([...moviesProduction, ...cardsToBeShown])
 
-    setIsPreloaderWork(false);
-    setDidYouDoSearch(true);
-    setMoviesAfterSearch(cardsShownByDefault);
-
-    localStorage.setItem("moviesAfterSearch", JSON.stringify(cardsToBeShown));
-  };
+    let isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
+    setNextButtonVisible(isAddButtonShowed);
+  }
 
   function handleDataFromLocalStorage() {
     const isUserLogin = localStorage.getItem("moviesAfterSearch");
@@ -175,7 +213,7 @@ function App() {
       const moviesAfterSearchInLS = JSON.parse(
         localStorage.getItem("moviesAfterSearch")
       );
-      setMoviesAfterSearch(moviesAfterSearchInLS);
+      setMoviesProduction(moviesAfterSearchInLS);
     }
   }
 
@@ -271,12 +309,12 @@ function App() {
         .addingMovies(newMovie, jwt)
         .then((newCard) => {
           // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-          const newListOfMovies = moviesAfterSearch.map((card) =>
+          const newListOfMovies = moviesProduction.map((card) =>
             card.movieId === newCard.movieId ? newCard : card
           );
 
           // Обновляем стейт
-          setMoviesAfterSearch(newListOfMovies);
+          setMoviesProduction(newListOfMovies);
 
           getSavedMovies();
         })
@@ -302,12 +340,9 @@ function App() {
       });
   }
 
-  function handleAddMoviesButton() {
-    moviesAfterSearch.push(cardsToBeShown);
-  }
 
   return (
-    <CurrentMoviesContext.Provider value={moviesAfterSearch}>
+    <CurrentMoviesContext.Provider value={moviesProduction}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
         <CurrentSavedMoviesContext.Provider value={listOfSavedMovies}>
           <CurrentUserContext.Provider value={currentUser}>
@@ -331,7 +366,7 @@ function App() {
                   handleSearchMovies={handleSearchMovies}
                   onBookmarkClick={handleBookmarkClick}
                   didYouDoSearch={didYouDoSearch}
-                  moviesAfterSearch={moviesAfterSearch}
+                  moviesAfterSearch={moviesProduction}
                   nextButtonVisible={nextButtonVisible}
                   handleAddMoviesButton={handleAddMoviesButton}
                 ></ProtectedRoute>
