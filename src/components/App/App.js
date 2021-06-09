@@ -276,7 +276,12 @@ function App() {
       api
         .deleteMovies(newMovie, jwt)
         .then((data) => {
-         // console.log("dataRemoving:", data);
+         //здесь должен быть код который удаляет эту удаленную карточку из списка сохранненных фильмов
+         const newListSavedMovies = listOfSavedMovies.filter((r) =>{
+          return r._id === newMovie._id ? "" : r
+         }
+        );
+        setListOfSavedMovies(newListSavedMovies);
         })
         .catch((error) => {
           console.log(error);
@@ -285,6 +290,7 @@ function App() {
       api
         .addingMovies(newMovie, jwt)
         .then((newCard) => {
+          console.log(newCard);
           // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
           const newListOfMovies = moviesProduction.map((card) =>
             card.movieId === newCard.movieId ? newCard : card
@@ -294,6 +300,9 @@ function App() {
           setMoviesProduction(newListOfMovies);
 
           setListOfSavedMovies([...listOfSavedMovies,newCard]);
+
+          console.log('listOfSavedMovies:',listOfSavedMovies);
+         // console.log('cardsShownByDefault:',cardsShownByDefault);
         })
         .catch((error) => {
           console.log(error);

@@ -2,7 +2,7 @@ import React from "react";
 import "./MoviesCard.css";
 
 function MoviesCard({ onAddMovieToBookmark, movie }) {
-   const [isLiked, setIsLiked] = React.useState(false);
+  const [isLiked, setIsLiked] = React.useState(false);
 
   // function handleBookMarkClick() {
   //   if (!isLiked) {
@@ -23,14 +23,20 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
     window.open(movie.trailer, "_blank");
   }
 
+  function getReadableDuration() {
+    if (movie.duration > 40) {
+      return `${Math.trunc(movie.duration / 60)}ч ${movie.duration % 60}м `;
+    } else {
+      return ` ${movie.duration % 60}м `;
+    }
+  }
+  const duration = getReadableDuration();
+
   return (
     <>
       <div className="card" id={movie.id}>
         <div className="card__container">
-          <h2 className="card__title">{movie.nameRU}</h2>
-          <p className="card__time">{`${Math.trunc(movie.duration / 60)}ч ${
-            movie.duration % 60
-          }м`}</p>
+          <p className="card__time">{duration}</p>
           <button
             type="button"
             className={`card__bookmark ${

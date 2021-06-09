@@ -29,8 +29,10 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
-
   color: #ffffff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card__time {
