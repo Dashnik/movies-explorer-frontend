@@ -62,6 +62,7 @@ function SearchesForm(props) {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.name}
+              // id="queryField"
             />
             <p className="searches__error">{errors.name}</p>
             <p className="search__movies">Короткометражки</p>

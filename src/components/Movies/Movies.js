@@ -11,7 +11,7 @@ function Movies(props) {
   
   return (
     <>
-    <Header/>
+    <Header handleTabClick={props.handleTabClick}/>
     <div className="movies">
       <SearchesForm onSearchMovie={props.handleSearchMovies}></SearchesForm>
       <MovedCardList

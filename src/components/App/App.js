@@ -17,12 +17,10 @@ import {
   CurrentPreloaderContext,
   CurrentSavedMoviesContext,
   CurrentUserContext,
-  CurrentMovieLikeContext,
 } from "../contexts/CurrentContext";
 import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
 
 function App() {
-  // const [addMoviesYet, setAddMoviesYet] = React.useState(false);
   const [allMovies, setAllMovies] = React.useState([]);
   const [moviesProduction, setMoviesProduction] = React.useState([]);
   const [allCardsAfterSearch, setAllCardsAfterSearch] = React.useState([]);
@@ -32,122 +30,80 @@ function App() {
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
   const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
-  const [cardsToBeShown, setCardsToBeShown] = React.useState([]);
+  // const [cardsToBeShown, setCardsToBeShown] = React.useState([]);
   const [isProfileUpdated, setIsProfileUpdated] = React.useState(false);
-  const [addSomeCards, setAddSomeCards] = React.useState([]);
+  // const [addSomeCards, setAddSomeCards] = React.useState([]);
   const [firstCardsCount, setFirstCardsCount] = React.useState(0);
-  const [nextCardsCount, setNextCardsCount] = React.useState(0);
+  // const [nextCardsCount, setNextCardsCount] = React.useState(0);
   const [shownCardsCount, setShownCardsCount] = React.useState(0);
   const [cardsShownByDefault, setCardsShownByDefault] = React.useState([]);
 
   const history = useHistory();
 
-  React.useEffect(() => {
-    BeatfilmMoviesApi.getAllMovies()
-      .then((data) => {
-        setAllMovies(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  React.useEffect(() => {
-
-  }, [moviesProduction]);  
+  React.useEffect(() => {}, [moviesProduction]);
 
   const handleSearchMovies = (name, isItShort) => {
     setIsPreloaderWork(true);
     const valueFromInput = name.name.toLowerCase().split(" ").join("");
-    const currentMovies = [];
 
-    if (isItShort) {
-      allMovies.forEach((movie) => {
+    const currentMovies = allMovies
+      .filter((movie) =>
+        isItShort ? movie.duration <= 40 : movie.duration > 40
+      )
+      .filter((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-        let result = stringDividedOnWord.filter(
+        return stringDividedOnWord.some(
           (el) => el.indexOf(valueFromInput) > -1
         );
-
-        if (result.length > 0 && movie.duration <= 40) {
-          const newMovie = {
-            country: String(movie.country),
-            director: String(movie.director),
-            duration: movie.duration,
-            year: movie.year,
-            description: movie.description,
-            image: movie.image
-              ? `https://api.nomoreparties.co${movie.image.url}`
-              : "",
-            trailer: movie.trailerLink,
-            thumbnail: movie.image
-              ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
-              : "",
-            movieId: movie.id,
-            nameRU: movie.nameRU,
-            nameEN: movie.nameEN,
-          };
-          currentMovies.push(newMovie);
-        }
+      })
+      .map((movie) => {
+        const savedMovie = listOfSavedMovies.find((savedItem) => {
+          return savedItem.nameRU === movie.nameRU;
+        });
+        return {
+          country: String(movie.country),
+          director: String(movie.director),
+          duration: movie.duration,
+          year: movie.year,
+          description: movie.description,
+          image: movie.image
+            ? `https://api.nomoreparties.co${movie.image.url}`
+            : "",
+          trailer: String(movie.trailerLink),
+          thumbnail: movie.image
+            ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
+            : "",
+          movieId: movie.id,
+          nameRU: movie.nameRU,
+          nameEN: movie.nameEN,
+          owner: savedMovie?.owner,
+          _id: savedMovie?._id,
+        };
       });
-    } else {
-      allMovies.forEach((movie) => {
-        const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
-
-        let result = stringDividedOnWord.filter(
-          (el) => el.indexOf(valueFromInput) > -1
-        );
-
-        if (result.length > 0 && movie.duration > 41) {
-          const newMovie = {
-            country: String(movie.country),
-            director: String(movie.director),
-            duration: movie.duration,
-            year: movie.year,
-            description: movie.description,
-            image: movie.image
-              ? `https://api.nomoreparties.co${movie.image.url}`
-              : "",
-            trailer: movie.trailerLink,
-            thumbnail: movie.image
-              ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
-              : "",
-            movieId: movie.id,
-            nameRU: movie.nameRU,
-            nameEN: movie.nameEN,
-          };
-          currentMovies.push(newMovie);
-        }
-      });
-    }
 
     setAllCardsAfterSearch(currentMovies);
     setIsPreloaderWork(false);
     setDidYouDoSearch(true);
+
+    localStorage.setItem("moviesAfterSearch", JSON.stringify(currentMovies));
   };
 
-
   React.useEffect(() => {
-    handledMoviesFilter()
+    handledMoviesFilter();
   }, [allCardsAfterSearch]);
-  
+
   function handledMoviesFilter() {
     //получаю ширину экрана
     const width = document.body.getBoundingClientRect().width;
 
-    // получаю число карточек из currentMovies
-    // const countOfCards = allCardsAfterSearch.length;
-  
     //ищу нужный мне интервал
     if (width > 769) {
       setFirstCardsCount(16);
-      setNextCardsCount(4);
     } else if (width > 480) {
       setFirstCardsCount(8);
-      setNextCardsCount(2);
     } else {
       setFirstCardsCount(5);
-      setNextCardsCount(1);
-     }
+    }
     setShownCardsCount(firstCardsCount);
 
     //устанавливаю нужное число карточек с фильмами
@@ -155,41 +111,63 @@ function App() {
     //записываю их в MoviesAfterSearch и передаю на рендеринг
     setMoviesProduction(cardsShown);
     setCardsShownByDefault(cardsShown);
-
-    localStorage.setItem(
-      "moviesAfterSearch",
-      JSON.stringify(cardsShownByDefault)
-    );
   }
-
 
   React.useEffect(() => {
     const countOfCards = allCardsAfterSearch.length;
- let isAddButtonShowed = countOfCards > shownCardsCount;
+    let isAddButtonShowed = countOfCards > shownCardsCount;
     setNextButtonVisible(isAddButtonShowed);
 
-     isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
+    isAddButtonShowed = allCardsAfterSearch.length > cardsShownByDefault.length;
     setNextButtonVisible(isAddButtonShowed);
-  }, [shownCardsCount,cardsShownByDefault]);
+  }, [shownCardsCount, cardsShownByDefault]);
 
   function handleAddMoviesButton() {
+    const width = document.body.getBoundingClientRect().width;
+    let nextCardsCount;
+
+    //ищу нужный мне интервал
+    if (width > 769) {
+      nextCardsCount = 4;
+    } else if (width > 480) {
+      nextCardsCount = 2;
+    } else {
+      nextCardsCount = 1;
+    }
+
+    setShownCardsCount(firstCardsCount);
 
     const cardsToBeShown = allCardsAfterSearch.slice(
       cardsShownByDefault.length,
       cardsShownByDefault.length + nextCardsCount
     );
     setCardsShownByDefault([...cardsShownByDefault, ...cardsToBeShown]);
-    setMoviesProduction([...moviesProduction, ...cardsToBeShown])
+    setMoviesProduction([...moviesProduction, ...cardsToBeShown]);
   }
 
+  React.useEffect(() => {
+    console.log("hia");
+    handleDataFromLocalStorage();
+  }, []);
+
   function handleDataFromLocalStorage() {
-    // const isUserLogin = localStorage.getItem("moviesAfterSearch");
-    const isUserLogin = localStorage.getItem("");
+    const isUserLogin = localStorage.getItem("moviesAfterSearch");
 
     if (isUserLogin) {
       const moviesAfterSearchInLS = JSON.parse(
         localStorage.getItem("moviesAfterSearch")
       );
+
+      moviesAfterSearchInLS.forEach((element) => {
+        const savedMovie = listOfSavedMovies.find((savedItem) => {
+          return savedItem.nameRU === element.nameRU;
+        });
+        if (savedMovie) {
+          element._id = savedMovie._id;
+          element.owner = savedMovie.owner;
+        }
+      });
+
       setMoviesProduction(moviesAfterSearchInLS);
     }
   }
@@ -269,24 +247,39 @@ function App() {
     setLoggedIn(false);
   };
 
-   function handleBookmarkClick(newMovie, isLiked) {
+  function handleBookmarkClick(newMovie, isLiked) {
     const jwt = localStorage.getItem("token");
 
     if (isLiked) {
       api
         .deleteMovies(newMovie, jwt)
         .then(() => {
-         const deletedCard = listOfSavedMovies.find((movie) => movie._id === newMovie._id)
+          const deletedCard = listOfSavedMovies.find(
+            (movie) => movie._id === newMovie._id
+          );
 
-         delete deletedCard._id;
-         delete deletedCard.owner;
-         delete deletedCard.__v;
-         //здесь должен быть код который удаляет эту удаленную карточку из списка сохранненных фильмов
-         const newListSavedMovies = listOfSavedMovies.filter((r) =>{
-          return r._id === newMovie._id ? "" : r
-         }
-        );
-        setListOfSavedMovies(newListSavedMovies);
+          const newListSavedMovies = listOfSavedMovies.filter((r) => {
+            return r._id === newMovie._id ? "" : r;
+          });
+
+          delete deletedCard._id;
+          delete deletedCard.owner;
+          delete deletedCard.__v;
+
+          const moviesAfterSearchInLS = JSON.parse(
+            localStorage.getItem("moviesAfterSearch")
+          );
+          const originalCard = moviesAfterSearchInLS.find(
+            (item) => item.nameRU === newMovie.nameRU
+          );
+          delete originalCard._id;
+          delete originalCard.owner;
+          localStorage.setItem(
+            "moviesAfterSearch",
+            JSON.stringify(moviesAfterSearchInLS)
+          );
+
+          setListOfSavedMovies(newListSavedMovies);
         })
         .catch((error) => {
           console.log(error);
@@ -295,19 +288,30 @@ function App() {
       api
         .addingMovies(newMovie, jwt)
         .then((newCard) => {
-          console.log(newCard);
           // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
           const newListOfMovies = moviesProduction.map((card) =>
             card.movieId === newCard.movieId ? newCard : card
+          );
+          const moviesAfterSearchInLS = JSON.parse(
+            localStorage.getItem("moviesAfterSearch")
+          );
+          const originalCard = moviesAfterSearchInLS.find(
+            (item) => item.nameRU === newCard.nameRU
+          );
+          originalCard._id = newCard._id;
+          originalCard.owner = newCard.owner;
+          localStorage.setItem(
+            "moviesAfterSearch",
+            JSON.stringify(moviesAfterSearchInLS)
           );
 
           // Обновляем стейт
           setMoviesProduction(newListOfMovies);
 
-          setListOfSavedMovies([...listOfSavedMovies,newCard]);
+          setListOfSavedMovies([...listOfSavedMovies, newCard]);
 
-          console.log('listOfSavedMovies:',listOfSavedMovies);
-         // console.log('cardsShownByDefault:',cardsShownByDefault);
+          // console.log('listOfSavedMovies:',listOfSavedMovies);
+          // console.log('cardsShownByDefault:',cardsShownByDefault);
         })
         .catch((error) => {
           console.log(error);
@@ -316,10 +320,20 @@ function App() {
   }
 
   React.useEffect(() => {
+    BeatfilmMoviesApi.getAllMovies()
+      .then((data) => {
+        setAllMovies(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  React.useEffect(() => {
     if (loggedIn) {
       getSavedMovies();
     }
-  }, [loggedIn,currentUser]);
+  }, [loggedIn, currentUser]);
 
   function getSavedMovies() {
     const jwt = localStorage.getItem("token");
@@ -327,16 +341,15 @@ function App() {
     api
       .getSavedMovies(jwt)
       .then((savedMovies) => {
-
-        const listOfSavedMoviesForUser = savedMovies.filter((movie) => movie.owner === currentUser._id ? movie : ""
-          );
+        const listOfSavedMoviesForUser = savedMovies.filter((movie) =>
+          movie.owner === currentUser._id ? movie : ""
+        );
         setListOfSavedMovies(listOfSavedMoviesForUser);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
-
 
   return (
     <CurrentMoviesContext.Provider value={moviesProduction}>
