@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import Login from "../Login/Login";
@@ -19,6 +19,7 @@ import {
   CurrentUserContext,
 } from "../contexts/CurrentContext";
 import ProtectedRoute from "../ProtectedRoute"; // импортируем HOC
+import {config} from "../../utils/config";
 
 function App() {
   const [allMovies, setAllMovies] = React.useState([]);
@@ -30,16 +31,16 @@ function App() {
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
   const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
-  // const [cardsToBeShown, setCardsToBeShown] = React.useState([]);
   const [isProfileUpdated, setIsProfileUpdated] = React.useState(false);
-  // const [addSomeCards, setAddSomeCards] = React.useState([]);
   const [firstCardsCount, setFirstCardsCount] = React.useState(0);
-  // const [nextCardsCount, setNextCardsCount] = React.useState(0);
   const [shownCardsCount, setShownCardsCount] = React.useState(0);
   const [cardsShownByDefault, setCardsShownByDefault] = React.useState([]);
-
+  const [authError, setAuthError] = React.useState(false);
+  const [regError, setRegError] = React.useState(false);
+  const currentPath = useLocation();
+  const [disabledForm, setDisabledForm] = React.useState(false);
+  
   const history = useHistory();
-
   React.useEffect(() => {}, [moviesProduction]);
 
   const handleSearchMovies = (name, isItShort) => {
@@ -48,7 +49,7 @@ function App() {
 
     const currentMovies = allMovies
       .filter((movie) =>
-        isItShort ? movie.duration <= 40 : movie.duration > 40
+        isItShort ? movie.duration <= config.MAX_SHORT_MOVIE_DURATION : movie.duration > config.MAX_SHORT_MOVIE_DURATION
       )
       .filter((movie) => {
         const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
@@ -97,12 +98,12 @@ function App() {
     const width = document.body.getBoundingClientRect().width;
 
     //ищу нужный мне интервал
-    if (width > 769) {
-      setFirstCardsCount(16);
-    } else if (width > 480) {
-      setFirstCardsCount(8);
+    if (width > config.DESKTOP_WIDTH) {
+      setFirstCardsCount(config.DESKTOP_START_CARDS_COUNT);
+    } else if (width >config.TABLET_WIDTH) {
+      setFirstCardsCount(config.TABLET_START_CARDS_COUNT);
     } else {
-      setFirstCardsCount(5);
+      setFirstCardsCount(config.MOBILE_START_CARDS_COUNT);
     }
     setShownCardsCount(firstCardsCount);
 
@@ -127,12 +128,12 @@ function App() {
     let nextCardsCount;
 
     //ищу нужный мне интервал
-    if (width > 769) {
-      nextCardsCount = 4;
-    } else if (width > 480) {
-      nextCardsCount = 2;
+    if (width > config.DESKTOP_WIDTH) {
+      nextCardsCount = config.DESKTOP_NEXT_CARDS_COUNT;
+    } else if (width > config.TABLET_WIDTH) {
+      nextCardsCount = config.TABLET_NEXT_CARDS_COUNT;
     } else {
-      nextCardsCount = 1;
+      nextCardsCount = config.MOBILE_NEXT_CARDS_COUNT;
     }
 
     setShownCardsCount(firstCardsCount);
@@ -146,7 +147,6 @@ function App() {
   }
 
   React.useEffect(() => {
-    console.log("hia");
     handleDataFromLocalStorage();
   }, []);
 
@@ -177,6 +177,7 @@ function App() {
   }, []);
 
   const handleAuth = (email, password) => {
+    setDisabledForm(true);
     api
       .authorize(email, password)
       .then((data) => {
@@ -187,13 +188,19 @@ function App() {
         localStorage.setItem("moviesAfterSearch", "");
         localStorage.setItem("loggedIn", loggedIn);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setAuthError(true);
+      })
+      .finally(()=>  setDisabledForm(false))
   };
+  
 
   const tokenCheck = () => {
     // если у пользователя есть токен в localStorage,
     // эта функция проверит валидность токена
     const jwt = localStorage.getItem("token");
+    // const path = window.location.pathname;
     // проверим токен
     if (jwt) {
       api
@@ -201,7 +208,15 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
+
             history.push("/movies");
+            if (currentPath.pathname === "/saved-movies") {
+              history.push("/saved-movies");
+            } else if (currentPath.pathname === "/profile") {
+              history.push("/profile");
+            } else if (currentPath.pathname === "/") {
+              history.push("/");
+            }
             setCurrentUser(res);
           }
         })
@@ -214,18 +229,24 @@ function App() {
   }, []);
 
   const handleRegisterUser = (name, email, password) => {
+    setDisabledForm(true);
     api
       .register(name, email, password)
       .then(() => {
-        console.log("email:", email, "password:", password);
         handleAuth(email, password);
+        setAuthError(false);
       })
       .catch((error) => {
         console.log(error);
-      });
+        setRegError(true);
+      })
+     .finally(()=>  setDisabledForm(false))
   };
 
   const handleUpdateUser = (values) => {
+
+    setDisabledForm(true);
+
     const jwt = localStorage.getItem("token");
     api
       .setNewProfile(values.name, values.email, jwt)
@@ -235,7 +256,8 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(()=>  setDisabledForm(false))
   };
 
   const handleSignOut = () => {
@@ -309,9 +331,6 @@ function App() {
           setMoviesProduction(newListOfMovies);
 
           setListOfSavedMovies([...listOfSavedMovies, newCard]);
-
-          // console.log('listOfSavedMovies:',listOfSavedMovies);
-          // console.log('cardsShownByDefault:',cardsShownByDefault);
         })
         .catch((error) => {
           console.log(error);
@@ -364,10 +383,17 @@ function App() {
                   <Footer />
                 </Route>
                 <Route path="/sign-in">
-                  <Login onLogin={handleAuth} />
+                  <Login onLogin={handleAuth} 
+                   authError={authError}
+                   disabledForm={disabledForm}
+                   />
                 </Route>
-                <Route path="/sign-up">
-                  <Register onRegister={handleRegisterUser} />
+                <Route path="/sign-up" >
+                  <Register 
+                  onRegister={handleRegisterUser}
+                  regError={regError}
+                  disabledForm={disabledForm}
+                  />
                 </Route>
                 <ProtectedRoute
                   loggedIn={loggedIn}
@@ -393,6 +419,7 @@ function App() {
                   onUpdateUser={handleUpdateUser}
                   onSignOut={handleSignOut}
                   isProfileUpdated={isProfileUpdated}
+                  disabledForm={disabledForm}
                 ></ProtectedRoute>
                 <Route path="*">
                   <PageNotFound />

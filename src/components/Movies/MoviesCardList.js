@@ -1,10 +1,10 @@
 import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "./MoviesCard";
-import { CurrentMoviesContext } from "../contexts/CurrentContext";
+// import { CurrentMoviesContext } from "../contexts/CurrentContext";
 
 function MoviesCardList(props) {
-  const currentCardsAfterSearch = React.useContext(CurrentMoviesContext);
+ // const currentCardsAfterSearch = React.useContext(CurrentMoviesContext);
  
  // console.log('currentCardsAfterSearch:',currentCardsAfterSearch);
  // console.log('props.moviesAfterSearch:',props.moviesAfterSearch);

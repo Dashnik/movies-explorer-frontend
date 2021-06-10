@@ -11,7 +11,7 @@ function SavedMoviesCard({ onDeleteMovie, movie }) {
   }
 
   return (
-    <>
+   // <>
       <div className="savedCard" id={movie.id}>
         <div className="savedCard__container">
           <h2 className="savedCard__title">{movie.nameRU}</h2>
@@ -36,7 +36,7 @@ function SavedMoviesCard({ onDeleteMovie, movie }) {
           alt={movie.nameRU}
         />
       </div>
-    </>
+  //  </>
   );
 }
 

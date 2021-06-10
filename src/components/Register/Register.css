@@ -45,6 +45,16 @@
   grid-area: 6/1/7/2;
   align-self: center;
 }
+.register__error-answer{
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 0;
+  color: #EE3465;
+  grid-area: 6/1/7/2;
+  align-self: flex-end;
+  text-align: center;
+}
 
 .register__title {
   grid-row: 2;

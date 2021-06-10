@@ -1,9 +1,10 @@
 import React from "react";
 import "./MoviesCard.css";
+// import { getReadableDuration } from '../../utils/constant'; 
 
 function MoviesCard({ onAddMovieToBookmark, movie }) {
   const [isLiked, setIsLiked] = React.useState(!!movie.owner);
-  
+
   function handleBookMarkClick() {
     onAddMovieToBookmark(movie, isLiked);
     setIsLiked(!isLiked);
@@ -20,11 +21,11 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
       return ` ${movie.duration % 60}м `;
     }
   }
+
   const duration = getReadableDuration();
 
-
   return (
-    <>
+    // <>
       <div className="card" id={movie.id}>
         <div className="card__container">
           <h2 className="card__title">{movie.nameRU}</h2>
@@ -44,7 +45,7 @@ function MoviesCard({ onAddMovieToBookmark, movie }) {
           onClick={handleImageClick}
         />
       </div>
-    </>
+    // </>
   );
 }
 

@@ -77,6 +77,17 @@
    grid-area: 4/1/5/2; 
 }
 
+.login__error-answer{
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 0;
+  color: #EE3465;
+  grid-area: 4/1/5/2;
+  align-self: flex-end;
+  text-align: center;
+}
+
 .login__input-pwd {
   grid-area: 4/1/5/2;
 }
