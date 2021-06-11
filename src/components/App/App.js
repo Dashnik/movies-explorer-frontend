@@ -29,6 +29,8 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState("");
   const [listOfSavedMovies, setListOfSavedMovies] = React.useState([]);
+  const [savedMoviesShownByDefault, setSavedMoviesShownByDefault] = React.useState([]);
+
   const [didYouDoSearch, setDidYouDoSearch] = React.useState(false);
   const [nextButtonVisible, setNextButtonVisible] = React.useState(false);
   const [isProfileUpdated, setIsProfileUpdated] = React.useState(false);
@@ -39,11 +41,29 @@ function App() {
   const [regError, setRegError] = React.useState(false);
   const currentPath = useLocation();
   const [disabledForm, setDisabledForm] = React.useState(false);
+  // const [listSavedCardsAfterSearch, setListSavedCardsAfterSearch] = React.useState([]);
+  // const [isSavedCardSearchCompleted, IsSavedCardSearchCompleted] = React.useState(false);
+
+  
   
   const history = useHistory();
   React.useEffect(() => {}, [moviesProduction]);
 
-  const handleSearchMovies = (name, isItShort) => {
+function handleSearchMovies (name, isItShort) {
+if (currentPath.pathname  === '/movies')
+{
+filterAllMovies(name, isItShort);
+} else {
+ filterSavedMovies(name, isItShort);
+}
+}
+
+// React.useEffect(() => {
+//   if(loggedIn){
+//   getSavedMovies()
+// }}, [listOfSavedMovies]);
+
+  const filterAllMovies = (name, isItShort) => {
     setIsPreloaderWork(true);
     const valueFromInput = name.name.toLowerCase().split(" ").join("");
 
@@ -88,6 +108,29 @@ function App() {
 
     localStorage.setItem("moviesAfterSearch", JSON.stringify(currentMovies));
   };
+
+///////////////////////////////////////////
+const filterSavedMovies = (name, isItShort) =>{
+
+  setIsPreloaderWork(true);
+  const valueFromInput = name.name.toLowerCase().split(" ").join("");
+  
+  const currentMovies = listOfSavedMovies
+  .filter((movie) =>
+  isItShort ? movie.duration <= 40 : movie.duration > 40
+  )
+  .filter((movie) => {
+  const stringDividedOnWord = movie.nameRU.toLowerCase().split(" ");
+  return stringDividedOnWord.some(
+  (el) => el.indexOf(valueFromInput) > -1
+  );
+  })
+  setSavedMoviesShownByDefault(currentMovies);
+
+  setIsPreloaderWork(false);
+  
+  }
+///////////////////////////////////////////
 
   React.useEffect(() => {
     handledMoviesFilter();
@@ -288,23 +331,26 @@ function App() {
           delete deletedCard.owner;
           delete deletedCard.__v;
 
-          const moviesAfterSearchInLS = JSON.parse(
-            localStorage.getItem("moviesAfterSearch")
+          
+          const moviesAfterSearchInLS =  JSON.parse(
+            localStorage.getItem("moviesAfterSearch") || '[]'
           );
+
           const originalCard = moviesAfterSearchInLS.find(
             (item) => item.nameRU === newMovie.nameRU
           );
-          delete originalCard._id;
-          delete originalCard.owner;
+          delete originalCard?._id;
+          delete originalCard?.owner;
           localStorage.setItem(
             "moviesAfterSearch",
             JSON.stringify(moviesAfterSearchInLS)
           );
 
           setListOfSavedMovies(newListSavedMovies);
+          setSavedMoviesShownByDefault(newListSavedMovies);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     } else {
       api
@@ -331,6 +377,7 @@ function App() {
           setMoviesProduction(newListOfMovies);
 
           setListOfSavedMovies([...listOfSavedMovies, newCard]);
+          setSavedMoviesShownByDefault([...listOfSavedMovies, newCard]);
         })
         .catch((error) => {
           console.log(error);
@@ -356,7 +403,7 @@ function App() {
 
   function getSavedMovies() {
     const jwt = localStorage.getItem("token");
-
+    
     api
       .getSavedMovies(jwt)
       .then((savedMovies) => {
@@ -364,6 +411,7 @@ function App() {
           movie.owner === currentUser._id ? movie : ""
         );
         setListOfSavedMovies(listOfSavedMoviesForUser);
+        setSavedMoviesShownByDefault(listOfSavedMoviesForUser);
       })
       .catch((error) => {
         console.error(error);
@@ -373,7 +421,7 @@ function App() {
   return (
     <CurrentMoviesContext.Provider value={moviesProduction}>
       <CurrentPreloaderContext.Provider value={isPreloaderWork}>
-        <CurrentSavedMoviesContext.Provider value={listOfSavedMovies}>
+        <CurrentSavedMoviesContext.Provider value={savedMoviesShownByDefault}>
           <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
               <Switch>
@@ -411,6 +459,9 @@ function App() {
                   path="/saved-movies"
                   component={SavedMovies}
                   onDeleteMovieClick={handleBookmarkClick}
+                  handleSearchMovies={handleSearchMovies}
+                  // isSavedCardSearchCompleted={isSavedCardSearchCompleted}
+                  // listSavedCardsAfterSearch={listSavedCardsAfterSearch}
                 ></ProtectedRoute>
                 <ProtectedRoute
                   loggedIn={loggedIn}

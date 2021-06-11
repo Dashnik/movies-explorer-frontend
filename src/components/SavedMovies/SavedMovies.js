@@ -10,9 +10,14 @@ function SavedMovies (props) {
     <>
     <Header />
     <div className="savedMovies">
-      <SearchesForm></SearchesForm>
+      <SearchesForm 
+      onSearchMovie={props.handleSearchMovies}
+      ></SearchesForm>
       <SavedMoviesCardList
-      onDeleteMovieClick={props.onDeleteMovieClick}/>
+      onDeleteMovieClick={props.onDeleteMovieClick}
+      // isSavedCardSearchCompleted={props.isSavedCardSearchCompleted}
+      // listSavedCardsAfterSearch={props.listSavedCardsAfterSearch}
+      />
     </div>
     <Footer />
     </>
