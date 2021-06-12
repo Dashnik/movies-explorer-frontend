@@ -23,6 +23,9 @@ width: 100%;
 
   color: #ffffff;
   align-self: flex-end;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .savedCard__time {
@@ -62,6 +65,7 @@ width: 100%;
 .savedCard__close {
   width: 10px;
   height: 10px;
+  /* background-image: url('../../images/closeLink.svg'); */
 }
 
 @media screen and (max-width: 780px) {

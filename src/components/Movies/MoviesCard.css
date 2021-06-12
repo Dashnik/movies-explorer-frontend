@@ -2,12 +2,22 @@
   object-fit: contain;
   position: relative;
   background: #222222;
-  max-width: 364px;
+  /* max-width: 364px; */
+}
+
+.card__link{
+  z-index: 100;
+  cursor: pointer;
+  border: 1px red solid;
+  width: 100%;
+}
+
+.card__link:hover{
+  opacity: 0.6;
 }
 
 .card__container {
   display: grid;
-  /* grid-template-columns: 14px 294px 56px; */
   grid-template-columns: 14px 1fr 56px;
   grid-template-rows: 14px 18px 9px 13px 14px;
 }
@@ -19,8 +29,10 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
-
   color: #ffffff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card__time {
@@ -36,7 +48,7 @@
   color: #8b8b8b;
 }
 
-.card__submit {
+.card__bookmark {
   grid-row: 2;
   grid-column: 3/4;
   margin: 0;
@@ -48,22 +60,24 @@
   height: 30px;
   background: #313131;
   border-radius: 36px;
+  background-image: url('../../images/bookmarkUnselected.svg');
 }
 
-.card__submit:hover {
+.card__bookmark:hover {
   opacity: 0.6;
 }
 
-.card__bookmark {
-  grid-row: 2;
-  grid-column: 3/4;
-  margin: 0;
-  width: 30px;
-  height: 30px;
+.card__bookmark-active{
+  background-image: url('../../images/bookmarkSelected.svg');
 }
 
 .card__image{
  width: 100%;
+ cursor: pointer;
+}
+
+.card__image:hover{
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 500px) {
@@ -71,9 +85,9 @@
     grid-template-columns: 14px 210px;
   }
 
-  .card {
+  /* .card {
    max-width: 300px;
-  }
+  } */
 
   .card__image{
     max-width: 300px;

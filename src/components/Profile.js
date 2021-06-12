@@ -1,26 +1,82 @@
-import React from 'react';
-import './Profile.css';
+import React from "react";
+import "./Profile.css";
 import { Link } from "react-router-dom";
+import { CurrentUserContext } from "./contexts/CurrentContext";
+import { Formik } from "formik";
+import * as yup from "yup";
+import Header from "./Header/Header";
 
-function Profile () {
+function Profile(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+
+  const validationSchema = yup.object().shape({
+    name:yup.string().required('Обязательное поле'),
+    email:yup.string().email('Введен невалидный email').required('Поле не может быть пустым')
+  })
+
+  function handleSignOut() {
+    props.onSignOut();
+  };
+
   return (
+    <>
+    <Header />
     <div className="profile">
-      <h3 className='profile__title'> Привет, Виталий!</h3>
-      <form className="profile__form">      
-        <input type="text" 
-        className='profile__input'
-        value={'Виталий'}
-        ></input>
-        <p className='profile__name'>Имя</p>
-        <p className='profile__email'>E-mail</p>
-        <button className='profile__edit'>Редактировать</button>
-        <Link to="/" className='profile__logout'>
-        <button className='profile__logout'>Выйти из аккаунта</button>
-          </Link>
-        <p className='profile__email email-address'>mail@mail.com</p>
-        </form>
+      <h3 className="profile__title"> Привет, {currentUser.name}!</h3>
+      <Formik
+      initialValues={{
+        name:currentUser.name,
+        email:currentUser.email,
+      }}
+      validateOnBlur
+      onSubmit={(values)=>{
+        props.onUpdateUser(values);
+      }}
+      validationSchema={validationSchema}
+      >
+        {({values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) =>(
+          <form className="profile__form"  >
+            <input
+              type="text"
+              className="profile__input"
+              name='name'
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.name}
+              disabled={props.disabledForm}
+            ></input>
+            <p className="profile__name">Имя</p>
+            { touched.name && errors.name && <p className="profile__error">{errors.name}</p>} 
+            <p className="profile__email">E-mail</p>
+            <input className="profile__input profile__email email-address"
+            type={'email'}
+              value={values.email}
+              name={'email'}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              disabled={props.disabledForm}
+            ></input>
+             { touched.email && errors.email && <p className="profile__error">{errors.email}</p>}
+             { props.isProfileUpdated ? <p className="profile__success-label">Данные успешно обновлены</p> : ''} 
+            <button 
+            className={`profile__edit ${isValid && dirty  ? '' : 'profile__edit-disabled'}`}
+            onClick={handleSubmit}
+            type={'submit'}
+            disabled={!(isValid && dirty)}
+            disabled={props.disabledForm}
+            >Редактировать</button>
+            <Link to="/" className="profile__logout">
+              <button className="profile__logout" onClick={handleSignOut}>
+                Выйти из аккаунта
+              </button>
+            </Link>
+          </form>
+        )}
+          
+          </Formik>
     </div>
-  )
+    </>
+  );
 }
 
 export default Profile;

@@ -17,8 +17,8 @@ function Header(props) {
     setSideBar(false);
   }
 
-  if (props.isLogin) {
-    return (
+  if (props.loggedIn === false) {
+       return (
       <header className="header">
         <img
           className="header__logo"
@@ -28,12 +28,12 @@ function Header(props) {
         <ul className="header__links">
           <li className="header__link">
             <Link to="/sign-up" className="header__signup">
-              {props.signup}
+            Регистрация
             </Link>
           </li>
           <li>
             <Link to="/sign-in" className="header__signin">
-              {props.login}
+              Войти
             </Link>
           </li>
         </ul>
@@ -76,6 +76,7 @@ function Header(props) {
         </header>
       </>
     );
+   
   }
 }
 

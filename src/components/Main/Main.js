@@ -9,7 +9,7 @@ import Portfolio from "./Portfolio";
 function Main(props) {
 
   return (
-    <>
+    // <>
       <main className="main">
         <NavTab/>
         <AboutProject/>
@@ -17,7 +17,7 @@ function Main(props) {
         <AboutMe/>
         <Portfolio/>
       </main>
-    </>
+    // </>
   );
 }
 

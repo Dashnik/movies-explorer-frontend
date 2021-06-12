@@ -2,11 +2,24 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
 import logo from "../../images/header__logo.svg";
+import { Formik } from "formik";
+import * as yup from "yup";
 
 function Login(props) {
+  const validationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Введен невалидный email")
+      .required("Введите верный email"),
+    password: yup
+      .string()
+      .min(6, "Пароль должен быть больше 6 символов")
+      .required("Обязательное поле"),
+  });
 
+ 
   return (
-    <>
+    // <>
       <div className="login">
         <Link to="/" className="login__logo">
           <img
@@ -16,20 +29,72 @@ function Login(props) {
           />
         </Link>
         <h2 className="login__title">Рады видеть!</h2>
-        <form className="login__form">
-          <p className="login__subtitle">E-mail</p>
-          <input type='text' className="login__input login__input-email" required/>
-          <p className="login__subtitle">Пароль</p>
-          <input
-            type="password"
-            className="login__input login__input-pwd"
-            name="login__password"
-            required
-          />
-          <button type="submit" className="login__submit">
-            Войти
-          </button>
-        </form>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validateOnBlur
+          onSubmit={(values) => {
+            // отправить все поля в disabled
+            //
+            props.onLogin(values.email, values.password);
+            // вытащить все поля из disabled
+          }}
+          validationSchema={validationSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            isValid,
+            handleSubmit,
+            dirty,
+          }) => (
+            <form className="login__form"  >
+              <p className="login__subtitle">E-mail</p>
+              <input
+                type="email"
+                className="login__input login__input-email"
+                name="email"
+                onChange={handleChange}
+                value={values.email}
+                onBlur={handleBlur}
+                disabled={props.disabledForm}
+              />
+              {touched.email && errors.email && (
+                <p className="login__error">{errors.email}</p>
+              )}
+              <p className="login__subtitle">Пароль</p>
+              <input
+                type="password"
+                className="login__input login__input-pwd"
+                name="password"
+                value={values.password}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                disabled={props.disabledForm}
+              />
+              {touched.password && errors.password && (
+                <p className="login__error">{errors.password}</p>
+              )}
+                 { (props.authError ?  <p className="login__error-answer">Что-то пошло не так! Попробуйте ещё раз.</p> : ''
+              )}
+              <button
+                type="submit"
+                className={`login__submit ${
+                  isValid && dirty ? "" : "login__submit-disabled"
+                }`}
+                onClick={handleSubmit}
+                disabled={props.disabledForm}
+              >
+                Войти
+              </button>
+            </form>
+          )}
+        </Formik>
         <div className="login__container">
           <span className="login__text">Ещё не зарегистрированы?</span>
           <Link to="/sign-up" className="link">
@@ -37,7 +102,7 @@ function Login(props) {
           </Link>
         </div>
       </div>
-    </>
+    // </>
   );
 }
 

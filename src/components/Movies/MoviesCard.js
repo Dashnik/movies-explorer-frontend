@@ -1,44 +1,51 @@
 import React from "react";
 import "./MoviesCard.css";
-import image from "../../images/pic.png";
-import bookmarkUnselected from "../../images/bookmarkUnselected.svg";
-import bookmarkSelected from "../../images/bookmarkSelected.svg";
+// import { getReadableDuration } from '../../utils/constant'; 
 
-function MoviesCard() {
-  const isBookmarkSelected = false;
+function MoviesCard({ onAddMovieToBookmark, movie }) {
+  const [isLiked, setIsLiked] = React.useState(!!movie.owner);
+
+  function handleBookMarkClick() {
+    onAddMovieToBookmark(movie, isLiked);
+    setIsLiked(!isLiked);
+  }
+
+  function handleImageClick() {
+    window.open(movie.trailer, "_blank");
+  }
+
+  function getReadableDuration() {
+    if (movie.duration > 40) {
+      return `${Math.trunc(movie.duration / 60)}ч ${movie.duration % 60}м `;
+    } else {
+      return ` ${movie.duration % 60}м `;
+    }
+  }
+
+  const duration = getReadableDuration();
 
   return (
-    <>
-      <div className="card">
+    // <>
+      <div className="card" id={movie.id}>
         <div className="card__container">
-          <h2 className="card__title">33 слова о дизайне</h2>
-          <p className="card__time">1ч 47м</p>
-          <button type="button" className="card__submit">
-            <img
-              className="card__bookmark"
-              src={isBookmarkSelected ? bookmarkSelected : bookmarkUnselected}
-              alt="закладка для фильма"
-            />
-          </button>
+          <h2 className="card__title">{movie.nameRU}</h2>
+          <p className="card__time">{duration}</p>
+          <button
+            type="button"
+            className={`card__bookmark ${
+              isLiked ? "card__bookmark-active" : ""
+            }`}
+            onClick={handleBookMarkClick}
+          ></button>
         </div>
-        <img className="card__image" src={image} alt='alt'/>
+        <img
+          className="card__image"
+          src={movie.image}
+          alt={movie.nameRU}
+          onClick={handleImageClick}
+        />
       </div>
-       <div className="card">
-       <div className="card__container">
-         <h2 className="card__title">33 слова о дизайне</h2>
-         <p className="card__time">1ч 47м</p>
-         <button type="button" className="card__submit">
-           <img
-             className="card__bookmark"
-             src={isBookmarkSelected ? bookmarkSelected : bookmarkUnselected}
-             alt="закладка для фильма"
-           />
-         </button>
-       </div>
-       <img className="card__image" src={image} alt='alt'/>
-     </div>
- 
-     </>
+    // </>
   );
 }
 
